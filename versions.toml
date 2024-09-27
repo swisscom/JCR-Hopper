@@ -7,58 +7,25 @@ spotbugs = "4.8.6"
 node = "20.11.0"
 npm = "10.2.3"
 junit = "5.4.1"
-slf4j = "1.7.25"
+jackrabbit = "2.18.3"
 
 [libraries]
 osgi-cmpn = { group = "org.osgi", name = "osgi.cmpn", version.ref = "osgi" }
-osgi-annotation = { group = "org.osgi", name = "osgi.annotation", version.ref = "osgi" }
 
 # Java & AEM dependencies
 lombok = "org.projectlombok:lombok:1.18.30"
-junit-api = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit" }
-junit-impl = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit" }
-junit-platform = "org.junit.platform:junit-platform-launcher:1.11.0"
+junit = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit" }
 aemMock = "io.wcm:io.wcm.testing.aem-mock.junit5:4.1.4"
-slf4j-simple = { group = "org.slf4j", name = "slf4j-simple", version.ref = "slf4j" }
-slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
-commonsIo = "commons-io:commons-io:2.13.0"
-jsoup = "org.jsoup:jsoup:1.13.1"
-# FIXME: Why 6.0.0 and not 7.0.0 like cmpn and annotation
-osgi-core = "org.osgi:org.osgi.core:6.0.0"
-osgi-serviceComponent = "org.osgi:org.osgi.service.component:1.4.0"
-osgi-annotationVersioning = "org.osgi:org.osgi.annotation.versioning:1.1.0"
-osgi-serviceMetatypeAnnotations = "org.osgi:org.osgi.service.metatype.annotations:1.4.0"
-osgi-annotationBundle = "org.osgi:org.osgi.annotation.bundle:1.0.0"
+spiCommons = { group = "org.apache.jackrabbit", name = "jackrabbit-spi-commons", version.ref = "jackrabbit" }
 servlet = "javax.servlet:javax.servlet-api:3.1.0"
-jsp = "javax.servlet.jsp:jsp-api:2.0"
 jcr = "javax.jcr:jcr:2.0"
-geronimo = "org.apache.geronimo.specs:geronimo-atinject_1.0_spec:1.0"
 sling-api = "org.apache.sling:org.apache.sling.api:2.16.4"
-sling-jcr = "org.apache.sling:org.apache.sling.jcr.api:2.4.0"
-sling-junit-core = "org.apache.sling:org.apache.sling.junit.core:1.0.8"
-sling-junit-scriptable = "org.apache.sling:org.apache.sling.junit.scriptable:1.0.12"
-sling-junit-remote = "org.apache.sling:org.apache.sling.junit.remote:1.0.8"
-sling-testingTools = "org.apache.sling:org.apache.sling.testing.tools:1.0.8"
-sling-servletsPost = "org.apache.sling:org.apache.sling.servlets.post:2.3.4"
-sling-models = "org.apache.sling:org.apache.sling.models.api:1.3.6"
-sling-settings = "org.apache.sling:org.apache.sling.settings:1.3.8"
 sling-annotations = "org.apache.sling:org.apache.sling.servlets.annotations:1.2.6"
-sling-mock = "org.apache.sling:org.apache.sling.testing.sling-mock-oak:3.1.2-1.40.0"
-sling-json = "org.apache.sling:org.apache.sling.commons.json:2.0.6"
-sling-launchpad = "org.apache.sling:org.apache.sling.launchpad:6"
-aemCoreComponents-lib = { group = "com.adobe.cq", name = "core.wcm.components.core", version.ref = "aemCoreComponents" }
-guava = "com.google.guava:guava:15.0"
-jodaTime = "joda-time:joda-time:2.9.1"
-brightcove-api = "com.coresecure.brightcove.cq5:brightcove-services:4.1.1-SNAPSHOT"
-acsCommons-lib = { group = "com.adobe.acs", name = "acs-aem-commons-bundle", version.ref = "acsCommons" }
-aemUberJar = "com.adobe.aem:uber-jar:6.5.21"
-integrationClient = "ch.swisscom.integration:client:2024.9.1"
-wiremock = "org.wiremock:wiremock-standalone:3.9.1"
-mockito = "org.mockito:mockito-junit-jupiter:3.3.3"
-swagger = "io.swagger.core.v3:swagger-annotations:2.1.13"
+apacheCommons-lang3 = "org.apache.commons:commons-lang3:3.6"
+gson = "com.google.code.gson:gson:2.8.9"
 
 # Bundled dependencies
-jexl = "org.apache.commons:commons-jexl3:3.4.0"
+apacheCommons-jexl = "org.apache.commons:commons-jexl3:3.1"
 
 # Quality plugin dependencies
 findsecbugs = "com.h3xstream.findsecbugs:findsecbugs-plugin:1.13.0"

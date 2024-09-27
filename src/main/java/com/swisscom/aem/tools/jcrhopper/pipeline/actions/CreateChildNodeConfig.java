@@ -8,7 +8,8 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
 
-import com.day.cq.commons.jcr.JcrConstants;
+import org.apache.jackrabbit.JcrConstants;
+
 import com.swisscom.aem.tools.jcrhopper.pipeline.Action;
 import com.swisscom.aem.tools.jcrhopper.pipeline.ConflictResolution;
 

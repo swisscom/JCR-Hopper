@@ -2,9 +2,6 @@ package com.swisscom.aem.tools.jcrhopper.impl;
 
 import java.io.PrintWriter;
 
-import com.swisscom.aem.tools.jcrhopper.api.PortalScriptContext;
-import com.swisscom.aem.tools.jcrhopper.api.PortalScriptOutputWriter;
-
 import lombok.Getter;
 
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -12,11 +9,11 @@ import org.apache.sling.api.request.RequestParameter;
 import org.apache.sling.api.request.RequestParameterMap;
 import org.apache.sling.api.resource.ResourceResolver;
 
-import com.day.cq.wcm.api.PageManager;
+import com.swisscom.aem.tools.jcrhopper.api.PortalScriptContext;
+import com.swisscom.aem.tools.jcrhopper.api.PortalScriptOutputWriter;
 
 /**
  * Default portal script context configuration.
- *
  */
 public class DefaultPortalScriptContext implements PortalScriptContext {
 
@@ -24,9 +21,6 @@ public class DefaultPortalScriptContext implements PortalScriptContext {
 	private final PortalScriptOutputWriter outputWriter;
 
 	private final SlingHttpServletRequest request;
-
-	@Getter
-	private final PageManager pageManager;
 
 	/**
 	 * Creates a new portal script context with a servlet request as input and a writer for the output.
@@ -38,7 +32,6 @@ public class DefaultPortalScriptContext implements PortalScriptContext {
 		this.request = request;
 		final LogLevel logLevel = LogLevel.fromString(request.getParameter("log"));
 		this.outputWriter = new DefaultPortalScriptOutput(writer, logLevel);
-		pageManager = getResourceResolver().adaptTo(PageManager.class);
 	}
 
 	@SuppressWarnings("unchecked")

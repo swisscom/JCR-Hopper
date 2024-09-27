@@ -43,7 +43,8 @@ public class PortalScriptServlet extends SlingAllMethodsServlet {
 
 		if (isAbort(request)) {
 			handleAbort(context);
-		} else {
+		}
+		else {
 			executeOnetimerScript(response, context);
 		}
 	}
@@ -75,7 +76,8 @@ public class PortalScriptServlet extends SlingAllMethodsServlet {
 			final long duration = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
 			context.getOutputWriter().info("Successfully finished %s in %sms", SCRIPT_NAME, duration);
 
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			logException(context, e);
 		}
 	}

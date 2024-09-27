@@ -6,4 +6,4 @@ dependencyResolutionManagement {
 	}
 }
 
-rootProject.name = "JCR Hopper"
+rootProject.name = "jcr-hopper"

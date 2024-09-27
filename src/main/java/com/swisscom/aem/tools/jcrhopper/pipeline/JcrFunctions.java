@@ -1,9 +1,11 @@
 package com.swisscom.aem.tools.jcrhopper.pipeline;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -20,7 +22,6 @@ import javax.jcr.ValueFactory;
 
 import lombok.RequiredArgsConstructor;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 @RequiredArgsConstructor
@@ -40,27 +41,27 @@ public class JcrFunctions {
 		final Object result;
 
 		switch (type) {
-		case PropertyType.BOOLEAN:
-			result = val.getBoolean();
-			break;
-		case PropertyType.DATE:
-			result = val.getDate();
-			break;
-		case PropertyType.DECIMAL:
-			result = val.getDecimal();
-			break;
-		case PropertyType.DOUBLE:
-			result = val.getDouble();
-			break;
-		case PropertyType.LONG:
-			result = val.getLong();
-			break;
-		case PropertyType.BINARY:
-			result = val.getBinary();
-			break;
-		default:
-			result = val.getString();
-			break;
+			case PropertyType.BOOLEAN:
+				result = val.getBoolean();
+				break;
+			case PropertyType.DATE:
+				result = val.getDate();
+				break;
+			case PropertyType.DECIMAL:
+				result = val.getDecimal();
+				break;
+			case PropertyType.DOUBLE:
+				result = val.getDouble();
+				break;
+			case PropertyType.LONG:
+				result = val.getLong();
+				break;
+			case PropertyType.BINARY:
+				result = val.getBinary();
+				break;
+			default:
+				result = val.getString();
+				break;
 		}
 
 		return result;
@@ -243,7 +244,9 @@ public class JcrFunctions {
 	 * @throws IOException         If the encoding is invalid
 	 */
 	public Binary toBinary(String data, String encoding) throws RepositoryException, IOException {
-		return session.getValueFactory().createBinary(IOUtils.toInputStream(data, encoding));
+		return session.getValueFactory().createBinary(
+			new ByteArrayInputStream(data.getBytes(Charset.forName(encoding)))
+		);
 	}
 
 	/**
@@ -283,29 +286,41 @@ public class JcrFunctions {
 	private Value convertToValue(ValueFactory fac, Object value) throws RepositoryException {
 		if (value instanceof String) {
 			return fac.createValue((String) value);
-		} else if (value instanceof Integer) {
+		}
+		else if (value instanceof Integer) {
 			return fac.createValue((Integer) value);
-		} else if (value instanceof Float) {
+		}
+		else if (value instanceof Float) {
 			return fac.createValue((Float) value);
-		} else if (value instanceof Byte) {
+		}
+		else if (value instanceof Byte) {
 			return fac.createValue((Byte) value);
-		} else if (value instanceof BigDecimal) {
+		}
+		else if (value instanceof BigDecimal) {
 			return fac.createValue((BigDecimal) value);
-		} else if (value instanceof Node) {
+		}
+		else if (value instanceof Node) {
 			return fac.createValue((Node) value);
-		} else if (value instanceof Calendar) {
+		}
+		else if (value instanceof Calendar) {
 			return fac.createValue((Calendar) value);
-		} else if (value instanceof Boolean) {
+		}
+		else if (value instanceof Boolean) {
 			return fac.createValue((Boolean) value);
-		} else if (value instanceof Double) {
+		}
+		else if (value instanceof Double) {
 			return fac.createValue((Double) value);
-		} else if (value instanceof Long) {
+		}
+		else if (value instanceof Long) {
 			return fac.createValue((Long) value);
-		} else if (value instanceof Binary) {
+		}
+		else if (value instanceof Binary) {
 			return fac.createValue((Binary) value);
-		} else if (value instanceof InputStream) {
+		}
+		else if (value instanceof InputStream) {
 			return fac.createValue(fac.createBinary((InputStream) value));
-		} else {
+		}
+		else {
 			return fac.createValue(value.toString());
 		}
 	}
@@ -392,17 +407,23 @@ public class JcrFunctions {
 
 		if (value instanceof Value) {
 			result = value;
-		} else if (value instanceof Value[]) {
+		}
+		else if (value instanceof Value[]) {
 			result = value;
-		} else if (value instanceof Property && ((Property) value).isMultiple()) {
+		}
+		else if (value instanceof Property && ((Property) value).isMultiple()) {
 			result = ((Property) value).getValues();
-		} else if (value instanceof Property) {
+		}
+		else if (value instanceof Property) {
 			result = ((Property) value).getValue();
-		} else if (value instanceof List) {
+		}
+		else if (value instanceof List) {
 			result = valuesFromList((List<?>) value);
-		} else if (value.getClass().isArray()) {
+		}
+		else if (value.getClass().isArray()) {
 			result = valuesFromArray(value);
-		} else {
+		}
+		else {
 			result = valueFromObject(value);
 		}
 

@@ -11,7 +11,6 @@ import javax.jcr.Session;
 
 import lombok.Getter;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.jexl3.JexlBuilder;
 import org.apache.commons.jexl3.JexlEngine;
 import org.apache.commons.jexl3.JxltEngine;
@@ -69,7 +68,6 @@ public class PipelineContext implements Logger {
 		executor = new ElExecutorImpl(engine, templateEngine);
 		executor.registerFunctions("jcr", jcrFunctions);
 		executor.registerFunctions("req", requestParams);
-		executor.registerFunctions("io", IOUtils.class);
 		executor.registerFunctions("str", StringUtils.class);
 		executor.registerFunctions("arr", ArrayUtils.class);
 		executor.registerFunctions("arrays", Arrays.class);

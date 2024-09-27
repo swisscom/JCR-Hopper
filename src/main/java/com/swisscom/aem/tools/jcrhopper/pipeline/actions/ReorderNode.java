@@ -40,14 +40,14 @@ public class ReorderNode implements ConfigurableAction {
 			context.info("Moving {} before {} in list of child nodes of {}", node.getName(), beforeNodeName, parent.getPath());
 		} else {
 			switch (config.conflict()) {
-			case ConflictResolution.IGNORE:
+			case IGNORE:
 				context.warn(
 					"Could not find child node {} of {}. Set conflict to “force” to get rid of this warning.",
 					beforeNodeName,
 					parent.getPath()
 				);
 				return;
-			case ConflictResolution.THROW:
+			case THROW:
 				throw new PipelineException(String.format(
 					"Could not find child node %s of %s",
 					beforeNodeName,

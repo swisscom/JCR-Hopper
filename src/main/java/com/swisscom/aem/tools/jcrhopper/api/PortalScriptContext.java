@@ -4,8 +4,6 @@ import org.apache.sling.api.request.RequestParameter;
 import org.apache.sling.api.request.RequestParameterMap;
 import org.apache.sling.api.resource.ResourceResolver;
 
-import com.day.cq.wcm.api.PageManager;
-
 /**
  * The context for all portal scripts.
  *
@@ -66,11 +64,4 @@ public interface PortalScriptContext {
 	 * @return Resource Resolver
 	 */
 	ResourceResolver getResourceResolver();
-
-	/**
-	 * Returns the page manager which is attached with the current session.
-	 *
-	 * @return PageManager
-	 */
-	PageManager getPageManager();
 }

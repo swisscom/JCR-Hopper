@@ -60,7 +60,7 @@ public class RenameProperty implements ConfigurableAction {
 		if (node.hasProperty(newName)) {
 			final Property existing = node.getProperty(newName);
 			switch (config.conflict()) {
-			case ConflictResolution.THROW:
+			case THROW:
 				throw new PipelineException(
 					String.format(
 						"Property %s could not be renamed to %s because it already exists on %s",
@@ -69,10 +69,10 @@ public class RenameProperty implements ConfigurableAction {
 						node.getPath()
 					)
 				);
-			case ConflictResolution.IGNORE:
+			case IGNORE:
 				context.info("Not replacing existing property {} on {} with value from {}", newName, node.getPath(), propertyName);
 				return true;
-			case ConflictResolution.FORCE:
+			case FORCE:
 				context.info("Replacing existing property {} on {} with value from {}", newName, node.getPath(), propertyName);
 				existing.remove();
 				return true;
@@ -87,7 +87,7 @@ public class RenameProperty implements ConfigurableAction {
 		Node node, PipelineContext context, String propertyName, String newName) throws RepositoryException, PipelineException {
 		if (!node.hasProperty(propertyName)) {
 			switch (config.doesNotExist()) {
-			case ConflictResolution.THROW:
+			case THROW:
 				throw new PipelineException(
 					String.format(
 						"Property %s on %s could not be found",
@@ -95,7 +95,7 @@ public class RenameProperty implements ConfigurableAction {
 						newName
 					)
 				);
-			case ConflictResolution.IGNORE:
+			case IGNORE:
 				context.warn("Property {} on {} does not exist. Set doesNotExist to “force” to avoid this warning",
 					propertyName, node.getPath());
 				return true;

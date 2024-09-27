@@ -3,14 +3,13 @@ package com.swisscom.aem.tools.jcrhopper.pipeline;
 import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-
-import com.google.common.collect.Sets;
 
 @RequiredArgsConstructor
 public class DerivedMap<K, V> implements Map<K, V> {
@@ -78,7 +77,10 @@ public class DerivedMap<K, V> implements Map<K, V> {
 
 	@Override
 	public Set<K> keySet() {
-		return Sets.union(backing.keySet(), local.keySet());
+		final Set<K> result = new HashSet<>();
+		result.addAll(backing.keySet());
+		result.addAll(local.keySet());
+		return result;
 	}
 
 	@Override

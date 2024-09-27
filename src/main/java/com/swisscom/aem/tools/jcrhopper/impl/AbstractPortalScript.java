@@ -2,6 +2,7 @@ package com.swisscom.aem.tools.jcrhopper.impl;
 
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -13,7 +14,6 @@ import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.ResourceResolver;
 
-import com.google.common.collect.Sets;
 import com.swisscom.aem.tools.jcrhopper.MyTask;
 import com.swisscom.aem.tools.jcrhopper.api.PortalScript;
 import com.swisscom.aem.tools.jcrhopper.api.PortalScriptContext;
@@ -26,7 +26,8 @@ public abstract class AbstractPortalScript implements PortalScript, PortalScript
 
 	public static final String PARAMETER_DRY_RUN = "dryRun";
 	private static final int DEFAULT_MAX_DURATION_IN_SECONDS = 60;
-	private static final Set<String> VALID_DRY_RUN_VALUES = Sets.newHashSet("true", "false", "on", "off");
+	private static final Set<String> VALID_DRY_RUN_VALUES = new HashSet<>(Arrays.asList("true", "false", "on", "off"));
+	private static final Set<String> IGNORED_SYSTEM_QUERY_PARAMS = new HashSet<>(Arrays.asList("run", "submit", ":cq_csrf_token"));
 
 	@Getter(AccessLevel.PROTECTED)
 	private final PortalScriptContext context;
@@ -86,7 +87,8 @@ public abstract class AbstractPortalScript implements PortalScript, PortalScript
 			logParameters();
 			checkDryRunValue();
 			doProcess();
-		} finally {
+		}
+		finally {
 			MyTask.unregisterTaskName();
 			// Note: Risky function (MyTask.resetCancellation()) as a second task with the same class name may exist,
 			// instead of the intended task. But we accept that, as we assume that only one
@@ -100,10 +102,9 @@ public abstract class AbstractPortalScript implements PortalScript, PortalScript
 	}
 
 	private void logParameters() {
-		final Set<String> ignoreParameters = Sets.newHashSet("run", "submit", ":cq_csrf_token");
 		context.getParameters().entrySet()
 			.stream()
-			.filter(e -> !ignoreParameters.contains(e.getKey()))
+			.filter(e -> !IGNORED_SYSTEM_QUERY_PARAMS.contains(e.getKey()))
 			.forEach(e -> info("Parameter %s: %s", e.getKey(), Arrays.toString(e.getValue())));
 	}
 
