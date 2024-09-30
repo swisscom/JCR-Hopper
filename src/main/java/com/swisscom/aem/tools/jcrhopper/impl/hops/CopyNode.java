@@ -13,7 +13,9 @@ import javax.jcr.nodetype.ConstraintViolationException;
 import javax.jcr.nodetype.NodeType;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.With;
 import lombok.extern.slf4j.Slf4j;
 
@@ -91,6 +93,8 @@ public class CopyNode implements Hop<CopyNode.Config> {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	@With
+	@ToString
+	@EqualsAndHashCode
 	public static class Config implements HopConfig {
 		private String newName;
 		@Nonnull

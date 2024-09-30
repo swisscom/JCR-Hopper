@@ -11,7 +11,9 @@ import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.With;
 
 import org.apache.commons.lang3.StringUtils;
@@ -67,6 +69,8 @@ public class ChildNodes implements Hop<ChildNodes.Config> {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	@With
+	@ToString
+	@EqualsAndHashCode
 	public static class Config implements HopConfig {
 		private String namePattern;
 		@Nonnull

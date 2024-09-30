@@ -18,8 +18,10 @@ import javax.script.ScriptException;
 import javax.script.SimpleScriptContext;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.With;
 
 import org.apache.commons.jexl3.MapContext;
@@ -101,6 +103,8 @@ public class RunScript implements Hop<RunScript.Config> {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	@With
+	@ToString
+	@EqualsAndHashCode
 	public static class Config implements HopConfig {
 		@Nonnull
 		private String code = "";

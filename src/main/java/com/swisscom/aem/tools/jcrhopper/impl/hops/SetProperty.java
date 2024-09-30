@@ -11,7 +11,9 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Value;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.With;
 
 import com.swisscom.aem.tools.jcrhopper.ConflictResolution;
@@ -124,6 +126,8 @@ public class SetProperty implements Hop<SetProperty.Config> {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	@With
+	@ToString
+	@EqualsAndHashCode
 	public static class Config implements HopConfig {
 		private String propertyName;
 		private String value;

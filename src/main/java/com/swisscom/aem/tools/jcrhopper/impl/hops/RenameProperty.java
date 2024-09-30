@@ -7,7 +7,9 @@ import javax.jcr.Property;
 import javax.jcr.RepositoryException;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.With;
 
 import org.apache.commons.lang3.StringUtils;
@@ -128,6 +130,8 @@ public class RenameProperty implements Hop<RenameProperty.Config> {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	@With
+	@ToString
+	@EqualsAndHashCode
 	public static class Config implements HopConfig {
 		private String propertyName;
 		private String newName;

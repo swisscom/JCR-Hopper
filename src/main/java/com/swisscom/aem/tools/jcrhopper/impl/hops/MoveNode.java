@@ -11,9 +11,11 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.With;
 
 import org.apache.commons.lang3.StringUtils;
@@ -150,6 +152,8 @@ public class MoveNode implements Hop<MoveNode.Config> {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	@With
+	@ToString
+	@EqualsAndHashCode
 	public static class Config implements HopConfig {
 		private String newName;
 		@Nonnull

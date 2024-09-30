@@ -8,8 +8,10 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.With;
 
 import com.swisscom.aem.tools.jcrhopper.Hop;
@@ -57,6 +59,8 @@ public class Declare implements Hop<Declare.Config> {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	@With
+	@ToString
+	@EqualsAndHashCode
 	public static class Config implements HopConfig {
 		@Nonnull
 		private Map<String, String> declarations = Collections.emptyMap();

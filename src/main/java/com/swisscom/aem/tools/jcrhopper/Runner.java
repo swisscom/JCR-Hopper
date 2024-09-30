@@ -12,7 +12,6 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.jexl3.JexlBuilder;
 import org.apache.commons.jexl3.JexlEngine;
@@ -23,32 +22,36 @@ import org.apache.commons.lang3.StringUtils;
 import com.swisscom.aem.tools.jcrhopper.impl.HopContext;
 import com.swisscom.aem.tools.jcrhopper.impl.JcrFunctions;
 
-@RequiredArgsConstructor
 @Getter
 public class Runner {
 	private final RunHandler runHandler;
+	private final Set<Hop<?>> hops;
 	private final Script script;
 
-	@Getter
-	private final boolean isDryRun;
-
-	@Getter
-	private final Set<Hop<?>> hops;
-
-	public void run(Session session) throws HopperException, RepositoryException {
-		run(session.getRootNode());
+	public Runner(RunHandler runHandler, Set<Hop<?>> hops, Script script) {
+		this.runHandler = runHandler;
+		this.hops = hops;
+		this.script = script;
 	}
 
-	public void run(Node node) throws HopperException, RepositoryException {
-		run(node, new HashMap<>());
+	public Runner(RunHandler runHandler, Set<Hop<?>> hops, String scriptJson) {
+		this(runHandler, hops, Script.fromJson(hops, scriptJson));
 	}
 
-	public void run(Node node, Map<String, Object> variables) throws HopperException, RepositoryException {
+	public void run(Session session, boolean isDryRun) throws HopperException, RepositoryException {
+		run(session.getRootNode(), isDryRun);
+	}
+
+	public void run(Node node, boolean isDryRun) throws HopperException, RepositoryException {
+		run(node, new HashMap<>(), isDryRun);
+	}
+
+	public void run(Node node, Map<String, Object> variables, boolean isDryRun) throws HopperException, RepositoryException {
 		final JexlBuilder jexlBuilder = new JexlBuilder();
 		final Session session = node.getSession();
 
 		final JcrFunctions jcrFunctions = new JcrFunctions(session);
-		final Map<String, Object> utils = getUtils(session, jcrFunctions);
+		final Map<String, Object> utils = getUtils(jcrFunctions);
 		jexlBuilder.antish(false);
 		jexlBuilder.permissions(JexlPermissions.UNRESTRICTED);
 		jexlBuilder.namespaces(utils);
@@ -74,7 +77,7 @@ public class Runner {
 		}
 	}
 
-	private Map<String, Object> getUtils(Session session, JcrFunctions jcrFunctions) {
+	private Map<String, Object> getUtils(JcrFunctions jcrFunctions) {
 		HashMap<String, Object> result = new HashMap<>();
 		result.put("jcr", jcrFunctions);
 		result.put("str", StringUtils.class);

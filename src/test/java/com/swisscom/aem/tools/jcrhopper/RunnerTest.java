@@ -67,6 +67,7 @@ class RunnerTest {
 	public void simple() throws RepositoryException, HopperException {
 		final Runner runner = new Runner(
 			runHandler,
+			ALL_HOPS,
 			new Script(
 				Arrays.asList(
 					new SetProperty.Config().withPropertyName("test").withValue("true"),
@@ -75,14 +76,12 @@ class RunnerTest {
 					))
 				),
 				LogLevel.TRACE
-			),
-			false,
-			ALL_HOPS
+			)
 		);
 
 		final Resource root = context.resourceResolver().getResource("/");
 		final Node rootNode = root.adaptTo(Node.class);
-		runner.run(rootNode);
+		runner.run(rootNode, false);
 
 		assertTrue(root.getValueMap().get("test", false));
 		assertEquals("true", root.getValueMap().get("test", String.class));
@@ -102,6 +101,7 @@ class RunnerTest {
 
 		final Runner runner = new Runner(
 			runHandler,
+			ALL_HOPS,
 			new Script(
 				Arrays.asList(
 					new SetProperty.Config().withPropertyName("prop1").withValue("33"),
@@ -132,34 +132,30 @@ class RunnerTest {
 					))
 				),
 				LogLevel.TRACE
-			),
-			false,
-			ALL_HOPS
+			)
 		);
 
-		runner.run(root.adaptTo(Node.class));
+		runner.run(root.adaptTo(Node.class), false);
 		verifyManipulation(root);
 
 		new Runner(
 			runHandler,
+			ALL_HOPS,
 			new Script(
 				Collections.singletonList(new CopyNode.Config().withNewName("/root-2")),
 				LogLevel.TRACE
-			),
-			false,
-			ALL_HOPS
-		).run(root.adaptTo(Node.class));
+			)
+		).run(root.adaptTo(Node.class), false);
 		verifyManipulation(context.resourceResolver().getResource("/root-2"));
 
 		new Runner(
 			runHandler,
+			ALL_HOPS,
 			new Script(
 				Collections.singletonList(new CopyNode.Config().withNewName("/root-3")),
 				LogLevel.TRACE
-			),
-			true,
-			ALL_HOPS
-		).run(root.adaptTo(Node.class));
+			)
+		).run(root.adaptTo(Node.class), true);
 		verifyManipulation(context.resourceResolver().getResource("/root-3"));
 	}
 
@@ -215,6 +211,7 @@ class RunnerTest {
 
 		final Runner runner = new Runner(
 			runHandler,
+			ALL_HOPS,
 			new Script(
 				Arrays.asList(
 					new NodeQuery.Config()
@@ -228,13 +225,11 @@ class RunnerTest {
 						))
 				),
 				LogLevel.TRACE
-			),
-			false,
-			ALL_HOPS
+			)
 		);
 
 		final Node rootNode = root.adaptTo(Node.class);
-		runner.run(rootNode);
+		runner.run(rootNode, false);
 
 		Resource changedItem;
 

@@ -9,7 +9,9 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.With;
 
 import com.swisscom.aem.tools.jcrhopper.Hop;
@@ -83,6 +85,8 @@ public class Each implements Hop<Each.Config> {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	@With
+	@ToString
+	@EqualsAndHashCode
 	public static class Config implements HopConfig {
 		private String expression;
 		@Nonnull
