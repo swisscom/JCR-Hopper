@@ -81,6 +81,9 @@ java {
 		// Test framework
 		testImplementation(libs.junit)
 		testImplementation(libs.aemMock)
+		testImplementation(libs.oakMock)
+		testImplementation(libs.mockito)
+		testImplementation(libs.aemUberJar)
 	}
 }
 
