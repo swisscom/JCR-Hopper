@@ -11,6 +11,7 @@ import javax.jcr.Session;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.With;
 
 import org.apache.commons.jexl3.JexlBuilder;
 import org.apache.commons.jexl3.JexlEngine;
@@ -20,6 +21,7 @@ import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.impl.JcrFunctions;
 
 @Getter
+@With
 @RequiredArgsConstructor
 public class Runner {
 	private final Script script;
@@ -58,7 +60,10 @@ public class Runner {
 			jcrFunctions,
 			variables
 		);
+		final long ts = System.currentTimeMillis();
+		context.trace("Starting JCR Hopper script on node {}", node.getPath());
 		context.runHops(node, script.getHops());
+		context.info("JCR Hopper script finished after {}ms", System.currentTimeMillis() - ts);
 		if (isDryRun) {
 			context.warn("Not saving changes as dry run is enabled");
 		}

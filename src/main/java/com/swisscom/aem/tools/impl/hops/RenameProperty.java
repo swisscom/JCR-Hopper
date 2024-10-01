@@ -14,6 +14,7 @@ import lombok.With;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.spi.commons.conversion.IllegalNameException;
+import org.osgi.service.component.annotations.Component;
 
 import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.jcrhopper.ConflictResolution;
@@ -22,6 +23,7 @@ import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
 
 @AllArgsConstructor
+@Component(service = Hop.class)
 public class RenameProperty implements Hop<RenameProperty.Config> {
 	@Override
 	public void run(Config config, Node node, HopContext context) throws RepositoryException, HopperException {

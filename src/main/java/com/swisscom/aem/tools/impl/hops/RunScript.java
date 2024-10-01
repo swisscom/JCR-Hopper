@@ -26,6 +26,7 @@ import lombok.With;
 
 import org.apache.commons.jexl3.MapContext;
 import org.apache.commons.lang3.StringUtils;
+import org.osgi.service.component.annotations.Component;
 
 import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.jcrhopper.Hop;
@@ -33,6 +34,7 @@ import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
 
 @RequiredArgsConstructor
+@Component(service = Hop.class)
 public class RunScript implements Hop<RunScript.Config> {
 	@Override
 	public void run(Config config, Node node, HopContext context) throws RepositoryException, HopperException {

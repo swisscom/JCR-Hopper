@@ -19,6 +19,7 @@ import lombok.ToString;
 import lombok.With;
 
 import org.apache.commons.lang3.StringUtils;
+import org.osgi.service.component.annotations.Component;
 
 import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.jcrhopper.ConflictResolution;
@@ -27,6 +28,7 @@ import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
 
 @AllArgsConstructor
+@Component(service = Hop.class)
 public class MoveNode implements Hop<MoveNode.Config> {
 	/**
 	 * Resolve the path to a new node, creating the parent nodes if necessary.

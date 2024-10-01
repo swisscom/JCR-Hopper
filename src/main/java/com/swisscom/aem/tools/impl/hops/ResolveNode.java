@@ -13,12 +13,15 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.With;
 
+import org.osgi.service.component.annotations.Component;
+
 import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.jcrhopper.ConflictResolution;
 import com.swisscom.aem.tools.jcrhopper.Hop;
 import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
 
+@Component(service = Hop.class)
 public class ResolveNode implements Hop<ResolveNode.Config> {
 	@Override
 	public void run(Config config, Node node, HopContext context) throws RepositoryException, HopperException {

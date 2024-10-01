@@ -18,7 +18,11 @@ import com.swisscom.aem.tools.impl.hops.SetProperty;
 
 import org.skyscreamer.jsonassert.JSONAssert;
 
+import io.wcm.testing.mock.aem.junit5.AemContext;
+import io.wcm.testing.mock.aem.junit5.JcrOakAemContext;
+
 class ScriptTest {
+	public final AemContext context = new JcrOakAemContext();
 	@Test
 	public void fromJson() throws IOException {
 		final String json = IOUtils.resourceToString("/json/pipeline-config.json", StandardCharsets.UTF_8);
