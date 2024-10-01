@@ -1,4 +1,4 @@
-package com.swisscom.aem.tools.jcrhopper.impl.hops;
+package com.swisscom.aem.tools.impl.hops;
 
 import java.io.Writer;
 import java.util.ArrayList;
@@ -27,10 +27,10 @@ import lombok.With;
 import org.apache.commons.jexl3.MapContext;
 import org.apache.commons.lang3.StringUtils;
 
+import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.jcrhopper.Hop;
 import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.impl.HopContext;
 
 @RequiredArgsConstructor
 public class RunScript implements Hop<RunScript.Config> {

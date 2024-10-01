@@ -1,4 +1,4 @@
-package com.swisscom.aem.tools.jcrhopper.impl.hops;
+package com.swisscom.aem.tools.impl.hops;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.With;
 
+import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.jcrhopper.Hop;
 import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.impl.HopContext;
 
 public class FilterNode implements Hop<FilterNode.Config> {
 	@Override

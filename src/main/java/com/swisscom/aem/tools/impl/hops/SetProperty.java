@@ -1,4 +1,4 @@
-package com.swisscom.aem.tools.jcrhopper.impl.hops;
+package com.swisscom.aem.tools.impl.hops;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -16,11 +16,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.With;
 
+import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.jcrhopper.ConflictResolution;
 import com.swisscom.aem.tools.jcrhopper.Hop;
 import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.impl.HopContext;
 
 @AllArgsConstructor
 public class SetProperty implements Hop<SetProperty.Config> {

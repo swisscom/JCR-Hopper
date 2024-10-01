@@ -1,4 +1,4 @@
-package com.swisscom.aem.tools.jcrhopper.impl.hops;
+package com.swisscom.aem.tools.impl.hops;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,11 +19,11 @@ import lombok.ToString;
 import lombok.With;
 import lombok.extern.slf4j.Slf4j;
 
+import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.jcrhopper.ConflictResolution;
 import com.swisscom.aem.tools.jcrhopper.Hop;
 import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.impl.HopContext;
 
 @Slf4j
 public class CopyNode implements Hop<CopyNode.Config> {

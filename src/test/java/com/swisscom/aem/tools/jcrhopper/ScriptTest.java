@@ -3,24 +3,26 @@ package com.swisscom.aem.tools.jcrhopper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 
-import com.swisscom.aem.tools.jcrhopper.impl.hops.ChildNodes;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.CreateChildNode;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.ResolveNode;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.SetProperty;
+import com.swisscom.aem.tools.impl.hops.ChildNodes;
+import com.swisscom.aem.tools.impl.hops.CreateChildNode;
+import com.swisscom.aem.tools.impl.hops.ResolveNode;
+import com.swisscom.aem.tools.impl.hops.SetProperty;
 
+import org.skyscreamer.jsonassert.JSONAssert;
 
 class ScriptTest {
 	@Test
-	public void fromJson() {
-		final InputStream jsonStream = getClass().getResourceAsStream("/json/pipeline-config.json");
-		final Script script = Script.fromJson(RunnerTest.ALL_HOPS, new InputStreamReader(jsonStream, StandardCharsets.UTF_8));
+	public void fromJson() throws IOException {
+		final String json = IOUtils.resourceToString("/json/pipeline-config.json", StandardCharsets.UTF_8);
+		final Script script = RunnerTest.RUNNER_BUILDER.scriptFromJson(json);
 
 		assertEquals(LogLevel.TRACE, script.getLogLevel());
 		final List<HopConfig> hops = script.getHops();
@@ -39,20 +41,22 @@ class ScriptTest {
 					+ "SetProperty.Config(propertyName=sling:resourceType, value='swisscom/sdx/components/responsivegrid', conflict=FORCE)"
 				+ "])"
 			+ "]), "
-			+ "ResolveNode.Config(name=angularApp, conflict=IGNORE, hops=["
-				+ "MoveNode.Config(newName=./contents/shared/angularapppicker, conflict=IGNORE)]), "
-				+ "ChildNodes.Config(namePattern=tabpar*, counterName=item, hops=[MoveNode.Config(newName=./contents/${item}, conflict=IGNORE)]), "
-				+ "ResolveNode.Config(name=tabNames, conflict=IGNORE, hops=["
-					+ "MoveNode.Config(newName=tabs, conflict=IGNORE), "
-					+ "ChildNodes.Config(namePattern=null, counterName=tab, hops=["
-						+ "SetProperty.Config(propertyName=tabContentId, value=tab, conflict=IGNORE), "
-						+ "RenameProperty.Config(propertyName=tabname, newName=tabTitle, doesNotExist=IGNORE, conflict=IGNORE), "
-						+ "SetProperty.Config(propertyName=hideSharedContent, value=!jcr:val(node, 'isEnabledAngularApp'), conflict=IGNORE), "
-						+ "RenameProperty.Config(propertyName=isEnabledAngularApp, newName=/dev/null, doesNotExist=IGNORE, conflict=IGNORE), "
-						+ "RenameProperty.Config(propertyName=trackApp, newName=appRouteValue, doesNotExist=IGNORE, conflict=IGNORE), "
-						+ "RenameProperty.Config(propertyName=trackApp, newName=/dev/null, doesNotExist=FORCE, conflict=IGNORE)"
-					+ "])"
+			+ "ResolveNode.Config(name=angularApp, conflict=IGNORE, hops=[MoveNode.Config(newName=./contents/shared/angularapppicker, conflict=IGNORE)]), "
+			+ "ChildNodes.Config(namePattern=tabpar*, counterName=item, hops=[MoveNode.Config(newName=./contents/${item}, conflict=IGNORE)]), "
+			+ "ResolveNode.Config(name=tabNames, conflict=IGNORE, hops=["
+				+ "MoveNode.Config(newName=tabs, conflict=IGNORE), "
+				+ "ChildNodes.Config(namePattern=null, counterName=tab, hops=["
+					+ "SetProperty.Config(propertyName=tabContentId, value=tab, conflict=IGNORE), "
+					+ "RenameProperty.Config(propertyName=tabname, newName=tabTitle, doesNotExist=IGNORE, conflict=IGNORE), "
+					+ "SetProperty.Config(propertyName=hideSharedContent, value=!jcr:val(node, 'isEnabledAngularApp'), conflict=IGNORE), "
+					+ "RenameProperty.Config(propertyName=isEnabledAngularApp, newName=/dev/null, doesNotExist=IGNORE, conflict=IGNORE), "
+					+ "RenameProperty.Config(propertyName=trackApp, newName=appRouteValue, doesNotExist=IGNORE, conflict=IGNORE), "
+					+ "RenameProperty.Config(propertyName=trackApp, newName=/dev/null, doesNotExist=FORCE, conflict=IGNORE)"
 				+ "])"
-			+ "], logLevel=TRACE)", script.toString());
+			+ "])"
+		+ "], logLevel=TRACE)", script.toString());
+
+
+		JSONAssert.assertEquals(json, RunnerTest.RUNNER_BUILDER.scriptToJson(script), true);
 	}
 }

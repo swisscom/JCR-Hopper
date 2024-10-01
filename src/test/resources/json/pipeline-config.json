@@ -56,6 +56,7 @@
     {
       "type": "resolveNode",
       "name": "tabNames",
+      "conflict": "ignore",
       "hops": [
         {
           "type": "moveNode",
@@ -76,7 +77,8 @@
               "type": "renameProperty",
               "propertyName": "tabname",
               "conflict": "ignore",
-              "newName": "tabTitle"
+              "newName": "tabTitle",
+              "doesNotExist": "ignore"
             },
             {
               "type": "setProperty",
@@ -88,7 +90,8 @@
               "type": "renameProperty",
               "propertyName": "isEnabledAngularApp",
               "conflict": "ignore",
-              "newName": "/dev/null"
+              "newName": "/dev/null",
+              "doesNotExist": "ignore"
             },
             {
               "type": "renameProperty",

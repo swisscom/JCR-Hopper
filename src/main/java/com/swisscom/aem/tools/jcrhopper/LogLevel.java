@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Log level which is used in portal scripts. Keep in mind that different levels are for different users.
  * <ul>
@@ -26,6 +28,15 @@ public enum LogLevel {
 		for (LogLevel level : LogLevel.values()) {
 			LEVELS.put(level.name().toLowerCase(), level);
 		}
+	}
+
+	/**
+	 * Gets the name of the conflict resolution.
+	 *
+	 * @return The name of the conflict resolution
+	 */
+	public String toName() {
+		return StringUtils.lowerCase(this.name());
 	}
 
 	/**

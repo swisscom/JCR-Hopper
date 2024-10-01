@@ -1,4 +1,4 @@
-package com.swisscom.aem.tools.jcrhopper.impl.hops;
+package com.swisscom.aem.tools.impl.hops;
 
 import javax.annotation.Nonnull;
 import javax.jcr.Node;
@@ -12,11 +12,11 @@ import lombok.With;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.jcrhopper.ConflictResolution;
 import com.swisscom.aem.tools.jcrhopper.Hop;
 import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.impl.HopContext;
 
 @AllArgsConstructor
 public class ReorderNode implements Hop<ReorderNode.Config> {

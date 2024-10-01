@@ -1,4 +1,4 @@
-package com.swisscom.aem.tools.jcrhopper.impl.hops;
+package com.swisscom.aem.tools.impl.hops;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,10 +18,10 @@ import lombok.With;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.jcrhopper.Hop;
 import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.impl.HopContext;
 
 public class ChildNodes implements Hop<ChildNodes.Config> {
 	@Override

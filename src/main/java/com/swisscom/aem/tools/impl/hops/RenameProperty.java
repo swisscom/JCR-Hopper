@@ -1,4 +1,4 @@
-package com.swisscom.aem.tools.jcrhopper.impl.hops;
+package com.swisscom.aem.tools.impl.hops;
 
 
 import javax.annotation.Nonnull;
@@ -15,11 +15,11 @@ import lombok.With;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.spi.commons.conversion.IllegalNameException;
 
+import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.jcrhopper.ConflictResolution;
 import com.swisscom.aem.tools.jcrhopper.Hop;
 import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.impl.HopContext;
 
 @AllArgsConstructor
 public class RenameProperty implements Hop<RenameProperty.Config> {

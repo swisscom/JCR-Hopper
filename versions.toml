@@ -28,6 +28,7 @@ aemUberJar = "com.adobe.aem:uber-jar:6.5.21"
 oakMock = "org.apache.sling:org.apache.sling.testing.sling-mock-oak:3.1.2-1.40.0"
 aemMock = "io.wcm:io.wcm.testing.aem-mock.junit5:4.1.4"
 mockito = "org.mockito:mockito-junit-jupiter:3.3.3"
+jsonAssert = "org.skyscreamer:jsonassert:1.5.3"
 
 # Bundled dependencies
 apacheCommons-jexl = "org.apache.commons:commons-jexl3:3.4.0"

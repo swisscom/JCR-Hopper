@@ -1,4 +1,4 @@
-package com.swisscom.aem.tools.jcrhopper.impl;
+package com.swisscom.aem.tools.impl;
 
 import java.util.AbstractMap;
 import java.util.Collection;

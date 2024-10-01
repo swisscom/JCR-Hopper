@@ -1,7 +1,7 @@
-package com.swisscom.aem.tools.jcrhopper.impl.hops;
+package com.swisscom.aem.tools.impl.hops;
 
 import java.util.Collections;
-import java.util.Map;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.jcr.Node;
@@ -10,39 +10,44 @@ import javax.jcr.RepositoryException;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.With;
 
+import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.jcrhopper.Hop;
 import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.impl.HopContext;
 
-@RequiredArgsConstructor
-public class Declare implements Hop<Declare.Config> {
+@AllArgsConstructor
+public class Try implements Hop<Try.Config> {
 	@Override
 	public void run(Config config, Node node, HopContext context) throws RepositoryException, HopperException {
-		Map<String, String> declarations = config.declarations;
-		if (declarations == null) {
-			declarations = Collections.emptyMap();
-		}
-		for (Map.Entry<String, String> declaration : declarations.entrySet()) {
+		final boolean catchGeneric = config.catchGeneric;
+		for (HopConfig hopConfig : config.hops) {
 			try {
-				final String key = context.evaluateTemplate(declaration.getKey());
-				final Object value = context.evaluate(declaration.getValue());
-				context.debug("Declaring {}={}", key, value);
-				context.set(
-					key,
-					value
+				context.runHop(node, hopConfig);
+			}
+			catch (HopperException e) {
+				context.info(
+					"Pipeline error {} during action {}, aborting pipeline gracefully",
+					e.getMessage(), hopConfig.getClass().getSimpleName(), e
 				);
+				break;
 			}
 			catch (Exception e) {
-				context.error("Error evaluating expression {}", declaration.getValue(), e);
+				if (catchGeneric) {
+					context.info(
+						"Generic error {} during action {}, aborting pipeline gracefully",
+						e.getMessage(), hopConfig.getClass().getSimpleName(), e
+					);
+					break;
+				}
+				else {
+					throw e;
+				}
 			}
 		}
 	}
-
 
 	@Nonnull
 	@Override
@@ -53,7 +58,7 @@ public class Declare implements Hop<Declare.Config> {
 	@Nonnull
 	@Override
 	public String getConfigTypeName() {
-		return "declare";
+		return "try";
 	}
 
 	@AllArgsConstructor
@@ -62,7 +67,9 @@ public class Declare implements Hop<Declare.Config> {
 	@ToString
 	@EqualsAndHashCode
 	public static class Config implements HopConfig {
+		private boolean catchGeneric;
 		@Nonnull
-		private Map<String, String> declarations = Collections.emptyMap();
+		private final List<HopConfig> hops = Collections.emptyList();
 	}
 }
+

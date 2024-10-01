@@ -1,4 +1,4 @@
-package com.swisscom.aem.tools.jcrhopper.impl.hops;
+package com.swisscom.aem.tools.impl.hops;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,41 +13,34 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.With;
 
+import org.apache.jackrabbit.JcrConstants;
+
+import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.jcrhopper.ConflictResolution;
 import com.swisscom.aem.tools.jcrhopper.Hop;
 import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.impl.HopContext;
 
-public class ResolveNode implements Hop<ResolveNode.Config> {
+public class CreateChildNode implements Hop<CreateChildNode.Config> {
 	@Override
 	public void run(Config config, Node node, HopContext context) throws RepositoryException, HopperException {
 		final String name = context.evaluateTemplate(config.name);
-		final Node childNode = context.getJcrFunctions().resolve(node, name);
+		final String primaryType = context.evaluateTemplate(config.primaryType);
 
-		if (childNode == null) {
-			switch (config.conflict) {
-				case IGNORE:
-					if (name.startsWith("/")) {
-						context.warn("Could not find node {}. Set conflict to “force” to get rid of this warning.", name);
-					}
-					else {
-						context.warn("Could not find child node {} of {}. Set conflict to “force” to get rid of this warning.",
-							name, node.getPath());
-					}
-					return;
-				case THROW:
-					throw new HopperException(
-						name.startsWith("/")
-							? String.format("Could not find node %s", name)
-							: String.format("Could not find child node %s of %s", name, node.getPath())
-					);
-				default:
-					return;
-			}
+		final MoveNode.NewNodeDescriptor descriptor = MoveNode.resolvePathToNewNode(node, name, config.conflict, context);
+
+		final Node childNode;
+		if (descriptor.getParent().hasNode(descriptor.getNewChildName())) {
+			childNode = descriptor.getParent().getNode(descriptor.getNewChildName());
+		}
+		else {
+			context.info(
+				"Creating new node {} (type {}) under {}",
+				descriptor.getNewChildName(), primaryType, descriptor.getParent().getPath()
+			);
+			childNode = descriptor.getParent().addNode(descriptor.getNewChildName(), primaryType);
 		}
 
-		context.debug("Selecting node {}", childNode.getPath());
 		context.runHops(childNode, config.hops);
 	}
 
@@ -60,7 +53,7 @@ public class ResolveNode implements Hop<ResolveNode.Config> {
 	@Nonnull
 	@Override
 	public String getConfigTypeName() {
-		return "resolveNode";
+		return "createChildNode";
 	}
 
 	@AllArgsConstructor
@@ -70,6 +63,8 @@ public class ResolveNode implements Hop<ResolveNode.Config> {
 	@EqualsAndHashCode
 	public static class Config implements HopConfig {
 		private String name;
+		@Nonnull
+		private String primaryType = JcrConstants.NT_UNSTRUCTURED;
 		@Nonnull
 		private ConflictResolution conflict = ConflictResolution.IGNORE;
 		@Nonnull

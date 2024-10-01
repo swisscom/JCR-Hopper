@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -18,25 +17,26 @@ import java.util.stream.StreamSupport;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 
-import com.swisscom.aem.tools.jcrhopper.impl.hops.ChildNodes;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.CopyNode;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.CreateChildNode;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.Declare;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.Each;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.FilterNode;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.MoveNode;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.NodeQuery;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.RenameProperty;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.ReorderNode;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.ResolveNode;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.RunScript;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.SetProperty;
-import com.swisscom.aem.tools.jcrhopper.impl.hops.Try;
+import com.swisscom.aem.tools.impl.hops.ChildNodes;
+import com.swisscom.aem.tools.impl.hops.CopyNode;
+import com.swisscom.aem.tools.impl.hops.CreateChildNode;
+import com.swisscom.aem.tools.impl.hops.Declare;
+import com.swisscom.aem.tools.impl.hops.Each;
+import com.swisscom.aem.tools.impl.hops.FilterNode;
+import com.swisscom.aem.tools.impl.hops.MoveNode;
+import com.swisscom.aem.tools.impl.hops.NodeQuery;
+import com.swisscom.aem.tools.impl.hops.RenameProperty;
+import com.swisscom.aem.tools.impl.hops.ReorderNode;
+import com.swisscom.aem.tools.impl.hops.ResolveNode;
+import com.swisscom.aem.tools.impl.hops.RunScript;
+import com.swisscom.aem.tools.impl.hops.SetProperty;
+import com.swisscom.aem.tools.impl.hops.Try;
 
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
@@ -44,30 +44,32 @@ import io.wcm.testing.mock.aem.junit5.JcrOakAemContext;
 
 @ExtendWith(AemContextExtension.class)
 class RunnerTest {
-	public static final HashSet<Hop<?>> ALL_HOPS = new HashSet<>(Arrays.asList(
-		new ChildNodes(),
-		new CopyNode(),
-		new CreateChildNode(),
-		new Declare(),
-		new Each(),
-		new FilterNode(),
-		new MoveNode(),
-		new NodeQuery(),
-		new RenameProperty(),
-		new ReorderNode(),
-		new ResolveNode(),
-		new RunScript(),
-		new SetProperty(),
-		new Try()
-	));
 	public final AemContext context = new JcrOakAemContext();
-	public final RunHandler runHandler = Mockito.mock(RunHandler.class);
+
+	public static final RunnerBuilder RUNNER_BUILDER = Runner.builder()
+		.addHop(
+			new ChildNodes(),
+			new CopyNode(),
+			new CreateChildNode(),
+			new Declare(),
+			new Each(),
+			new FilterNode(),
+			new MoveNode(),
+			new NodeQuery(),
+			new RenameProperty(),
+			new ReorderNode(),
+			new ResolveNode(),
+			new RunScript(),
+			new SetProperty(),
+			new Try()
+		)
+		.addUtil("arr", ArrayUtils.class)
+		.addUtil("str", StringUtils.class)
+		.addDefaultUtils(true);
 
 	@Test
 	public void simple() throws RepositoryException, HopperException {
-		final Runner runner = new Runner(
-			runHandler,
-			ALL_HOPS,
+		final Runner runner = RUNNER_BUILDER.build(
 			new Script(
 				Arrays.asList(
 					new SetProperty.Config().withPropertyName("test").withValue("true"),
@@ -99,9 +101,7 @@ class RunnerTest {
 
 		assertEquals("val1", root.getValueMap().get("prop1", Object.class));
 
-		final Runner runner = new Runner(
-			runHandler,
-			ALL_HOPS,
+		final Runner runner = RUNNER_BUILDER.build(
 			new Script(
 				Arrays.asList(
 					new SetProperty.Config().withPropertyName("prop1").withValue("33"),
@@ -138,9 +138,7 @@ class RunnerTest {
 		runner.run(root.adaptTo(Node.class), false);
 		verifyManipulation(root);
 
-		new Runner(
-			runHandler,
-			ALL_HOPS,
+		RUNNER_BUILDER.build(
 			new Script(
 				Collections.singletonList(new CopyNode.Config().withNewName("/root-2")),
 				LogLevel.TRACE
@@ -148,9 +146,7 @@ class RunnerTest {
 		).run(root.adaptTo(Node.class), false);
 		verifyManipulation(context.resourceResolver().getResource("/root-2"));
 
-		new Runner(
-			runHandler,
-			ALL_HOPS,
+		RUNNER_BUILDER.build(
 			new Script(
 				Collections.singletonList(new CopyNode.Config().withNewName("/root-3")),
 				LogLevel.TRACE
@@ -209,9 +205,7 @@ class RunnerTest {
 		context.load().json("/jcr/query.json", "/root");
 		Resource root = context.resourceResolver().getResource("/root");
 
-		final Runner runner = new Runner(
-			runHandler,
-			ALL_HOPS,
+		final Runner runner = RUNNER_BUILDER.build(
 			new Script(
 				Arrays.asList(
 					new NodeQuery.Config()

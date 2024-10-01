@@ -1,4 +1,4 @@
-package com.swisscom.aem.tools.jcrhopper.impl;
+package com.swisscom.aem.tools.impl;
 
 import java.io.PrintWriter;
 import java.io.Writer;
