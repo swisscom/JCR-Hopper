@@ -8,15 +8,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import com.swisscom.aem.tools.impl.hops.ChildNodes;
 import com.swisscom.aem.tools.impl.hops.CreateChildNode;
 import com.swisscom.aem.tools.impl.hops.ResolveNode;
 import com.swisscom.aem.tools.impl.hops.SetProperty;
-
-import org.skyscreamer.jsonassert.JSONAssert;
 
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.JcrOakAemContext;
@@ -24,8 +22,9 @@ import io.wcm.testing.mock.aem.junit5.JcrOakAemContext;
 class ScriptTest {
 	public final AemContext context = new JcrOakAemContext();
 	@Test
+
 	public void fromJson() throws IOException {
-		final String json = IOUtils.resourceToString("/json/pipeline-config.json", StandardCharsets.UTF_8);
+		final String json = IOUtils.resourceToString("/json/app-migration-sample.json", StandardCharsets.UTF_8);
 		final Script script = RunnerTest.RUNNER_BUILDER.scriptFromJson(json);
 
 		assertEquals(LogLevel.TRACE, script.getLogLevel());
