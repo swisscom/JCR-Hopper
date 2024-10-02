@@ -27,8 +27,7 @@ public class FilterNode implements Hop<FilterNode.Config> {
 		if (context.expressionMatches(config.expression)) {
 			context.info("Node {} matches filter expression {}", node.getPath(), config.expression);
 			context.runHops(node, config.hops);
-		}
-		else {
+		} else {
 			context.debug("Node {} does not match filter expression {}", node.getPath(), config.expression);
 		}
 	}

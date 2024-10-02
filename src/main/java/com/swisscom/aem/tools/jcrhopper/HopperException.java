@@ -14,7 +14,7 @@ public class HopperException extends Exception {
 
 	/**
 	 * @param message of exception
-	 * @param cause of exception
+	 * @param cause   of exception
 	 */
 	public HopperException(String message, Throwable cause) {
 		super(message, cause);

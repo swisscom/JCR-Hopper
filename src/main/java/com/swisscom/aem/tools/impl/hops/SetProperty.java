@@ -54,8 +54,7 @@ public class SetProperty implements Hop<SetProperty.Config> {
 			.map(val -> {
 				try {
 					return val.getString();
-				}
-				catch (RepositoryException e) {
+				} catch (RepositoryException e) {
 					context.warn(e.getMessage(), e);
 				}
 				return null;
@@ -79,37 +78,35 @@ public class SetProperty implements Hop<SetProperty.Config> {
 			final Property property = node.getProperty(propertyName);
 			final String existing = stringifyProperty(property, context);
 			switch (config.conflict) {
-				case IGNORE:
-					context.info("Not setting new value {} over {} of existing property {} on node {} ",
-						valueDebugRepresentation, existing, propertyName, node.getPath());
-					return;
-				case FORCE:
-					context.info("Setting new value {} over {} of existing property {} on node {} ",
-						valueDebugRepresentation, existing, propertyName, node.getPath());
-					// This is required if we’re converting between single-valued and multi-valued property types
-					node.getSession().removeItem(property.getPath());
-					break;
-				case THROW:
-					throw new HopperException(
-						String.format(
-							"Error setting property %s to %s. Property exists on node %s with value %s.",
-							propertyName,
-							valueDebugRepresentation,
-							node.getPath(),
-							existing
-						)
-					);
-				default:
-					throw new IllegalArgumentException("Unexpected conflict value: " + config.conflict);
+			case IGNORE:
+				context.info("Not setting new value {} over {} of existing property {} on node {} ",
+					valueDebugRepresentation, existing, propertyName, node.getPath());
+				return;
+			case FORCE:
+				context.info("Setting new value {} over {} of existing property {} on node {} ",
+					valueDebugRepresentation, existing, propertyName, node.getPath());
+				// This is required if we’re converting between single-valued and multi-valued property types
+				node.getSession().removeItem(property.getPath());
+				break;
+			case THROW:
+				throw new HopperException(
+					String.format(
+						"Error setting property %s to %s. Property exists on node %s with value %s.",
+						propertyName,
+						valueDebugRepresentation,
+						node.getPath(),
+						existing
+					)
+				);
+			default:
+				throw new IllegalArgumentException("Unexpected conflict value: " + config.conflict);
 			}
-		}
-		else {
+		} else {
 			context.info("Set value of {} on {} to {}", propertyName, node.getPath(), valueDebugRepresentation);
 		}
 		if (wrappedValue instanceof Value[]) {
 			node.setProperty(propertyName, (Value[]) wrappedValue);
-		}
-		else {
+		} else {
 			node.setProperty(propertyName, (Value) wrappedValue);
 		}
 	}

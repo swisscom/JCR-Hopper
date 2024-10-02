@@ -66,8 +66,7 @@ public class Runner {
 		context.info("JCR Hopper script finished after {}ms", System.currentTimeMillis() - ts);
 		if (isDryRun) {
 			context.warn("Not saving changes as dry run is enabled");
-		}
-		else {
+		} else {
 			context.debug("Saving session");
 			session.save();
 			context.info("Successfully saved changes in session");

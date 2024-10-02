@@ -30,23 +30,22 @@ public class ResolveNode implements Hop<ResolveNode.Config> {
 
 		if (childNode == null) {
 			switch (config.conflict) {
-				case IGNORE:
-					if (name.startsWith("/")) {
-						context.warn("Could not find node {}. Set conflict to “force” to get rid of this warning.", name);
-					}
-					else {
-						context.warn("Could not find child node {} of {}. Set conflict to “force” to get rid of this warning.",
-							name, node.getPath());
-					}
-					return;
-				case THROW:
-					throw new HopperException(
-						name.startsWith("/")
-							? String.format("Could not find node %s", name)
-							: String.format("Could not find child node %s of %s", name, node.getPath())
-					);
-				default:
-					return;
+			case IGNORE:
+				if (name.startsWith("/")) {
+					context.warn("Could not find node {}. Set conflict to “force” to get rid of this warning.", name);
+				} else {
+					context.warn("Could not find child node {} of {}. Set conflict to “force” to get rid of this warning.",
+						name, node.getPath());
+				}
+				return;
+			case THROW:
+				throw new HopperException(
+					name.startsWith("/")
+						? String.format("Could not find node %s", name)
+						: String.format("Could not find child node %s of %s", name, node.getPath())
+				);
+			default:
+				return;
 			}
 		}
 

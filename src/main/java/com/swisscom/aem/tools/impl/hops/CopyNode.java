@@ -69,12 +69,10 @@ public class CopyNode implements Hop<CopyNode.Config> {
 			try {
 				if (prop.isMultiple()) {
 					target.setProperty(prop.getName(), prop.getValues(), prop.getType());
-				}
-				else {
+				} else {
 					target.setProperty(prop.getName(), prop.getValue(), prop.getType());
 				}
-			}
-			catch (ConstraintViolationException ex) {
+			} catch (ConstraintViolationException ex) {
 				// Property is protected, assume it’s already covered implicitly by primary or mixin type
 				log.debug("Property {} is protected, skipping", prop.getName());
 			}

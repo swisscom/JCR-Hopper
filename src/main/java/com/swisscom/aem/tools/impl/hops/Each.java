@@ -31,18 +31,15 @@ public class Each implements Hop<Each.Config> {
 			for (Object item : (Iterable<?>) items) {
 				runWith(config, item, node, context);
 			}
-		}
-		else if (items instanceof Iterator) {
+		} else if (items instanceof Iterator) {
 			while (((Iterator<?>) items).hasNext()) {
 				runWith(config, ((Iterator<?>) items).next(), node, context);
 			}
-		}
-		else if (items.getClass().isArray()) {
+		} else if (items.getClass().isArray()) {
 			for (Object item : (Object[]) items) {
 				runWith(config, item, node, context);
 			}
-		}
-		else {
+		} else {
 			runWith(config, items, node, context);
 		}
 	}
@@ -57,8 +54,7 @@ public class Each implements Hop<Each.Config> {
 		if (config.assumeNodes) {
 			if (item instanceof Node) {
 				node = (Node) item;
-			}
-			else if (item instanceof String) {
+			} else if (item instanceof String) {
 				node = context.getJcrFunctions().resolve((String) item);
 			}
 			if (node == null) {
@@ -66,8 +62,7 @@ public class Each implements Hop<Each.Config> {
 				return;
 			}
 			context.debug("Iterating node {}", node.getPath());
-		}
-		else {
+		} else {
 			context.debug("Iterating non-node value {} accessible as {}", item, config.iterator);
 		}
 		context.runHops(node, config.hops, Collections.singletonMap(config.iterator, item));

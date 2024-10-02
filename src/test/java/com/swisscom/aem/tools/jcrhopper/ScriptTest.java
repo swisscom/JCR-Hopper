@@ -21,6 +21,7 @@ import io.wcm.testing.mock.aem.junit5.JcrOakAemContext;
 
 class ScriptTest {
 	public final AemContext context = new JcrOakAemContext();
+
 	@Test
 
 	public void fromJson() throws IOException {
@@ -40,24 +41,24 @@ class ScriptTest {
 		assertEquals("Script(hops=["
 			+ "SetProperty.Config(propertyName=sling:resourceType, value='swisscom/sdx/components/containers/tabs', conflict=FORCE), "
 			+ "CreateChildNode.Config(name=contents, primaryType=nt:unstructured, conflict=IGNORE, hops=["
-				+ "CreateChildNode.Config(name=shared, primaryType=nt:unstructured, conflict=IGNORE, hops=["
-					+ "SetProperty.Config(propertyName=sling:resourceType, value='swisscom/sdx/components/responsivegrid', conflict=FORCE)"
-				+ "])"
+			+ "CreateChildNode.Config(name=shared, primaryType=nt:unstructured, conflict=IGNORE, hops=["
+			+ "SetProperty.Config(propertyName=sling:resourceType, value='swisscom/sdx/components/responsivegrid', conflict=FORCE)"
+			+ "])"
 			+ "]), "
 			+ "ResolveNode.Config(name=angularApp, conflict=IGNORE, hops=[MoveNode.Config(newName=./contents/shared/angularapppicker, conflict=IGNORE)]), "
 			+ "ChildNodes.Config(namePattern=tabpar*, counterName=item, hops=[MoveNode.Config(newName=./contents/${item}, conflict=IGNORE)]), "
 			+ "ResolveNode.Config(name=tabNames, conflict=IGNORE, hops=["
-				+ "MoveNode.Config(newName=tabs, conflict=IGNORE), "
-				+ "ChildNodes.Config(namePattern=null, counterName=tab, hops=["
-					+ "SetProperty.Config(propertyName=tabContentId, value=tab, conflict=IGNORE), "
-					+ "RenameProperty.Config(propertyName=tabname, newName=tabTitle, doesNotExist=IGNORE, conflict=IGNORE), "
-					+ "SetProperty.Config(propertyName=hideSharedContent, value=!jcr:val(node, 'isEnabledAngularApp'), conflict=IGNORE), "
-					+ "RenameProperty.Config(propertyName=isEnabledAngularApp, newName=/dev/null, doesNotExist=IGNORE, conflict=IGNORE), "
-					+ "RenameProperty.Config(propertyName=trackApp, newName=appRouteValue, doesNotExist=IGNORE, conflict=IGNORE), "
-					+ "RenameProperty.Config(propertyName=trackApp, newName=/dev/null, doesNotExist=FORCE, conflict=IGNORE)"
-				+ "])"
+			+ "MoveNode.Config(newName=tabs, conflict=IGNORE), "
+			+ "ChildNodes.Config(namePattern=null, counterName=tab, hops=["
+			+ "SetProperty.Config(propertyName=tabContentId, value=tab, conflict=IGNORE), "
+			+ "RenameProperty.Config(propertyName=tabname, newName=tabTitle, doesNotExist=IGNORE, conflict=IGNORE), "
+			+ "SetProperty.Config(propertyName=hideSharedContent, value=!jcr:val(node, 'isEnabledAngularApp'), conflict=IGNORE), "
+			+ "RenameProperty.Config(propertyName=isEnabledAngularApp, newName=/dev/null, doesNotExist=IGNORE, conflict=IGNORE), "
+			+ "RenameProperty.Config(propertyName=trackApp, newName=appRouteValue, doesNotExist=IGNORE, conflict=IGNORE), "
+			+ "RenameProperty.Config(propertyName=trackApp, newName=/dev/null, doesNotExist=FORCE, conflict=IGNORE)"
 			+ "])"
-		+ "], logLevel=TRACE)", script.toString());
+			+ "])"
+			+ "], logLevel=TRACE)", script.toString());
 
 
 		JSONAssert.assertEquals(json, RunnerTest.RUNNER_BUILDER.scriptToJson(script), true);

@@ -39,8 +39,7 @@ public class Declare implements Hop<Declare.Config> {
 					key,
 					value
 				);
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				context.error("Error evaluating expression {}", declaration.getValue(), e);
 			}
 		}

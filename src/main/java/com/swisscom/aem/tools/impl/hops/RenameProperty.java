@@ -48,8 +48,7 @@ public class RenameProperty implements Hop<RenameProperty.Config> {
 		context.info("Moving property from {} to {}", prop.getPath(), newName);
 		if (prop.isMultiple()) {
 			node.setProperty(newName, prop.getValues());
-		}
-		else {
+		} else {
 			node.setProperty(newName, prop.getValue());
 		}
 		prop.remove();
@@ -65,24 +64,24 @@ public class RenameProperty implements Hop<RenameProperty.Config> {
 		if (node.hasProperty(newName)) {
 			final Property existing = node.getProperty(newName);
 			switch (config.conflict) {
-				case THROW:
-					throw new HopperException(
-						String.format(
-							"Property %s could not be renamed to %s because it already exists on %s",
-							propertyName,
-							newName,
-							node.getPath()
-						)
-					);
-				case IGNORE:
-					context.info("Not replacing existing property {} on {} with value from {}", newName, node.getPath(), propertyName);
-					return true;
-				case FORCE:
-					context.info("Replacing existing property {} on {} with value from {}", newName, node.getPath(), propertyName);
-					existing.remove();
-					return true;
-				default:
-					throw new IllegalNameException("Invalid conflict name: " + config.conflict.name());
+			case THROW:
+				throw new HopperException(
+					String.format(
+						"Property %s could not be renamed to %s because it already exists on %s",
+						propertyName,
+						newName,
+						node.getPath()
+					)
+				);
+			case IGNORE:
+				context.info("Not replacing existing property {} on {} with value from {}", newName, node.getPath(), propertyName);
+				return true;
+			case FORCE:
+				context.info("Replacing existing property {} on {} with value from {}", newName, node.getPath(), propertyName);
+				existing.remove();
+				return true;
+			default:
+				throw new IllegalNameException("Invalid conflict name: " + config.conflict.name());
 			}
 		}
 		return false;
@@ -97,20 +96,20 @@ public class RenameProperty implements Hop<RenameProperty.Config> {
 	) throws HopperException, RepositoryException {
 		if (!node.hasProperty(propertyName)) {
 			switch (config.doesNotExist) {
-				case THROW:
-					throw new HopperException(
-						String.format(
-							"Property %s on %s could not be found",
-							propertyName,
-							newName
-						)
-					);
-				case IGNORE:
-					context.warn("Property {} on {} does not exist. Set doesNotExist to “force” to avoid this warning",
-						propertyName, node.getPath());
-					return true;
-				default:
-					return true;
+			case THROW:
+				throw new HopperException(
+					String.format(
+						"Property %s on %s could not be found",
+						propertyName,
+						newName
+					)
+				);
+			case IGNORE:
+				context.warn("Property {} on {} does not exist. Set doesNotExist to “force” to avoid this warning",
+					propertyName, node.getPath());
+				return true;
+			default:
+				return true;
 			}
 
 		}

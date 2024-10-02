@@ -34,8 +34,7 @@ public class CreateChildNode implements Hop<CreateChildNode.Config> {
 		final Node childNode;
 		if (descriptor.getParent().hasNode(descriptor.getNewChildName())) {
 			childNode = descriptor.getParent().getNode(descriptor.getNewChildName());
-		}
-		else {
+		} else {
 			context.info(
 				"Creating new node {} (type {}) under {}",
 				descriptor.getNewChildName(), primaryType, descriptor.getParent().getPath()

@@ -38,27 +38,25 @@ public class ReorderNode implements Hop<ReorderNode.Config> {
 		if (StringUtils.isBlank(beforeNodeName)) {
 			context.info("Making {} last child of {}", node.getName(), parent.getPath());
 			beforeNodeName = null;
-		}
-		else if (parent.hasNode(beforeNodeName)) {
+		} else if (parent.hasNode(beforeNodeName)) {
 			context.info("Moving {} before {} in list of child nodes of {}", node.getName(), beforeNodeName, parent.getPath());
-		}
-		else {
+		} else {
 			switch (config.conflict) {
-				case IGNORE:
-					context.warn(
-						"Could not find child node {} of {}. Set conflict to “force” to get rid of this warning.",
-						beforeNodeName,
-						parent.getPath()
-					);
-					return;
-				case THROW:
-					throw new HopperException(String.format(
-						"Could not find child node %s of %s",
-						beforeNodeName,
-						parent.getPath()
-					));
-				default:
-					return;
+			case IGNORE:
+				context.warn(
+					"Could not find child node {} of {}. Set conflict to “force” to get rid of this warning.",
+					beforeNodeName,
+					parent.getPath()
+				);
+				return;
+			case THROW:
+				throw new HopperException(String.format(
+					"Could not find child node %s of %s",
+					beforeNodeName,
+					parent.getPath()
+				));
+			default:
+				return;
 			}
 		}
 

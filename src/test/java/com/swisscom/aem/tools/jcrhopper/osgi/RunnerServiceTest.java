@@ -52,10 +52,8 @@ class RunnerServiceTest {
 		final RunHandler runHandler = mock(RunHandler.class);
 		final RunnerBuilder runnerBuilder = runnerService.builder().runHandler(runHandler);
 
-		final Runner runner = runnerBuilder
-			.build(new Script(Collections.singletonList(
-				new ResolveNode.Config().withName("/test").withHops(Collections.singletonList(new ChildNodes.Config()))
-			), LogLevel.DEBUG));
+		final Runner runner = runnerBuilder.build(
+			new Script(Collections.singletonList(new ResolveNode.Config().withName("/test").withHops(Collections.singletonList(new ChildNodes.Config()))), LogLevel.DEBUG));
 
 		runner.run(context.resourceResolver().adaptTo(Session.class), true);
 

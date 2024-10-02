@@ -32,8 +32,7 @@ public class ChildNodes implements Hop<ChildNodes.Config> {
 		if (StringUtils.isNotBlank(config.namePattern)) {
 			final String pattern = context.evaluateTemplate(config.namePattern);
 			childIterator = node.getNodes(pattern);
-		}
-		else {
+		} else {
 			childIterator = node.getNodes();
 		}
 

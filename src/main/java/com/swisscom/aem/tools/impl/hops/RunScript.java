@@ -58,8 +58,7 @@ public class RunScript implements Hop<RunScript.Config> {
 			if (config.putLocalsBackIntoScope) {
 				context.getVariables().putAll(jexlContext);
 			}
-		}
-		else {
+		} else {
 			final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
 			final ScriptEngine engine = scriptEngineManager.getEngineByExtension(extension);
 			if (engine == null) {
@@ -83,8 +82,7 @@ public class RunScript implements Hop<RunScript.Config> {
 					engineScope.keySet().removeAll(context.getVariables().keySet());
 					context.getVariables().putAll(engineScope);
 				}
-			}
-			catch (ScriptException e) {
+			} catch (ScriptException e) {
 				throw new IllegalArgumentException("Error executing script for code: " + config.code, e);
 			}
 		}

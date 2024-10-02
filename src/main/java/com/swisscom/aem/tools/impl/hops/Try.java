@@ -29,23 +29,20 @@ public class Try implements Hop<Try.Config> {
 		for (HopConfig hopConfig : config.hops) {
 			try {
 				context.runHop(node, hopConfig);
-			}
-			catch (HopperException e) {
+			} catch (HopperException e) {
 				context.info(
 					"Pipeline error {} during action {}, aborting pipeline gracefully",
 					e.getMessage(), hopConfig.getClass().getSimpleName(), e
 				);
 				break;
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				if (catchGeneric) {
 					context.info(
 						"Generic error {} during action {}, aborting pipeline gracefully",
 						e.getMessage(), hopConfig.getClass().getSimpleName(), e
 					);
 					break;
-				}
-				else {
+				} else {
 					throw e;
 				}
 			}

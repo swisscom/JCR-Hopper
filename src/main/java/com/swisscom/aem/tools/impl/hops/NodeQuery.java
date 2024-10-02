@@ -90,8 +90,7 @@ public class NodeQuery implements Hop<NodeQuery.Config> {
 		for (String bindVar : query.getBindVariableNames()) {
 			if (context.has(bindVar)) {
 				query.bindValue(bindVar, context.getJcrFunctions().valueFromObject(context.get(bindVar)));
-			}
-			else {
+			} else {
 				context.error("Could not bind placeholder {} as there is no known variable for it", bindVar);
 			}
 		}

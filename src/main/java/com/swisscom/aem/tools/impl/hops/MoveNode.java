@@ -66,17 +66,17 @@ public class MoveNode implements Hop<MoveNode.Config> {
 		if (parent.hasNode(target)) {
 			final Node childNode = parent.getNode(target);
 			switch (conflict) {
-				case IGNORE:
-					context.info("Node {} already exists, won’t replace", childNode.getPath());
-					break;
-				case FORCE:
-					context.info("Replacing existing node {}", childNode.getPath());
-					childNode.remove();
-					break;
-				case THROW:
-					throw new HopperException(String.format("Node %s already exists", childNode.getPath()));
-				default:
-					throw new IllegalArgumentException("Unexpected value: " + conflict);
+			case IGNORE:
+				context.info("Node {} already exists, won’t replace", childNode.getPath());
+				break;
+			case FORCE:
+				context.info("Replacing existing node {}", childNode.getPath());
+				childNode.remove();
+				break;
+			case THROW:
+				throw new HopperException(String.format("Node %s already exists", childNode.getPath()));
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + conflict);
 			}
 		}
 
