@@ -20,9 +20,12 @@ import org.apache.commons.jexl3.introspection.JexlPermissions;
 import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.impl.JcrFunctions;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 @Getter
 @With
 @RequiredArgsConstructor
+@SuppressFBWarnings(value = "OPM_OVERLY_PERMISSIVE_METHOD", justification = "API surface")
 public class Runner {
 	private final Script script;
 	private final RunHandler runHandler;
@@ -30,14 +33,35 @@ public class Runner {
 	private final Map<String, Object> variables;
 	private final Map<String, Object> utils;
 
+	/**
+	 * @return a {@link RunnerBuilder} for configuring a new {@link Runner}
+	 */
 	public static RunnerBuilder builder() {
 		return new RunnerBuilder();
 	}
 
+	/**
+	 * Runs the script associated with this runner.
+	 * <p>
+	 * Will start at the root node of the given session.
+	 *
+	 * @param session  the JCR session to use
+	 * @param isDryRun set true to disable saving the JCR session at the end of the script run
+	 * @throws HopperException     if one of the hops encounters a node it cannot handle and is configured to throw
+	 * @throws RepositoryException if an error occurs during JCR manipulation
+	 */
 	public void run(Session session, boolean isDryRun) throws HopperException, RepositoryException {
 		run(session.getRootNode(), isDryRun);
 	}
 
+	/**
+	 * Runs the script associated with this runner.
+	 *
+	 * @param node     the node with which script processing should start
+	 * @param isDryRun set true to disable saving the JCR session at the end of the script run
+	 * @throws HopperException     if one of the hops encounters a node it cannot handle and is configured to throw
+	 * @throws RepositoryException if an error occurs during JCR manipulation
+	 */
 	public void run(Node node, boolean isDryRun) throws HopperException, RepositoryException {
 		final JexlBuilder jexlBuilder = new JexlBuilder();
 		final Session session = node.getSession();
@@ -53,7 +77,7 @@ public class Runner {
 		variables.put("utils", utils);
 		final JexlEngine jexlEngine = jexlBuilder.create();
 
-		HopContext context = new HopContext(
+		final HopContext context = new HopContext(
 			this,
 			jexlEngine,
 			jexlEngine.createJxltEngine(),

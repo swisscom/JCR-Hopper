@@ -26,10 +26,7 @@ import com.swisscom.aem.tools.jcrhopper.HopperException;
 public class Declare implements Hop<Declare.Config> {
 	@Override
 	public void run(Config config, Node node, HopContext context) throws RepositoryException, HopperException {
-		Map<String, String> declarations = config.declarations;
-		if (declarations == null) {
-			declarations = Collections.emptyMap();
-		}
+		final Map<String, String> declarations = config.declarations;
 		for (Map.Entry<String, String> declaration : declarations.entrySet()) {
 			try {
 				final String key = context.evaluateTemplate(declaration.getKey());
@@ -63,7 +60,8 @@ public class Declare implements Hop<Declare.Config> {
 	@With
 	@ToString
 	@EqualsAndHashCode
-	public static class Config implements HopConfig {
+	@SuppressWarnings("PMD.ImmutableField")
+	public static final class Config implements HopConfig {
 		@Nonnull
 		private Map<String, String> declarations = Collections.emptyMap();
 	}

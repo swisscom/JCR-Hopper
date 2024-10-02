@@ -80,7 +80,8 @@ public class ReorderNode implements Hop<ReorderNode.Config> {
 	@With
 	@ToString
 	@EqualsAndHashCode
-	public static class Config implements HopConfig {
+	@SuppressWarnings("PMD.ImmutableField")
+	public static final class Config implements HopConfig {
 		private String before;
 		@Nonnull
 		private ConflictResolution conflict = ConflictResolution.IGNORE;

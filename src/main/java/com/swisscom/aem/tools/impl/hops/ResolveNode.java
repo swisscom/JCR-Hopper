@@ -70,7 +70,8 @@ public class ResolveNode implements Hop<ResolveNode.Config> {
 	@With
 	@ToString
 	@EqualsAndHashCode
-	public static class Config implements HopConfig {
+	@SuppressWarnings("PMD.ImmutableField")
+	public static final class Config implements HopConfig {
 		private String name;
 		@Nonnull
 		private ConflictResolution conflict = ConflictResolution.IGNORE;

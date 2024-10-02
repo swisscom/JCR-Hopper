@@ -69,23 +69,25 @@ public class SetProperty implements Hop<SetProperty.Config> {
 		final Object wrappedValue = context.getJcrFunctions().asValueType(context.evaluate(config.value));
 
 		final String valueDebugRepresentation = wrappedValue instanceof Value[]
-			?
-			stringifyValues((Value[]) wrappedValue, context)
-			:
-			wrappedValue.toString();
+			? stringifyValues((Value[]) wrappedValue, context)
+			: wrappedValue.toString();
 
 		if (node.hasProperty(propertyName)) {
 			final Property property = node.getProperty(propertyName);
 			final String existing = stringifyProperty(property, context);
 			switch (config.conflict) {
 			case IGNORE:
-				context.info("Not setting new value {} over {} of existing property {} on node {} ",
-					valueDebugRepresentation, existing, propertyName, node.getPath());
+				context.info(
+					"Not setting new value {} over {} of existing property {} on node {} ",
+					valueDebugRepresentation, existing, propertyName, node.getPath()
+				);
 				return;
 			case FORCE:
-				context.info("Setting new value {} over {} of existing property {} on node {} ",
-					valueDebugRepresentation, existing, propertyName, node.getPath());
-				// This is required if we’re converting between single-valued and multi-valued property types
+				context.info(
+					"Setting new value {} over {} of existing property {} on node {} ",
+					valueDebugRepresentation, existing, propertyName, node.getPath()
+				);
+				// This is required if we’re converting between single-valued and multivalued property types
 				node.getSession().removeItem(property.getPath());
 				break;
 			case THROW:
@@ -128,7 +130,8 @@ public class SetProperty implements Hop<SetProperty.Config> {
 	@With
 	@ToString
 	@EqualsAndHashCode
-	public static class Config implements HopConfig {
+	@SuppressWarnings("PMD.ImmutableField")
+	public static final class Config implements HopConfig {
 		private String propertyName;
 		private String value;
 		@Nonnull

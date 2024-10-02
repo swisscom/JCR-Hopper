@@ -66,7 +66,8 @@ public class Try implements Hop<Try.Config> {
 	@With
 	@ToString
 	@EqualsAndHashCode
-	public static class Config implements HopConfig {
+	@SuppressWarnings("PMD.ImmutableField")
+	public static final class Config implements HopConfig {
 		private boolean catchGeneric;
 		@Nonnull
 		private final List<HopConfig> hops = Collections.emptyList();

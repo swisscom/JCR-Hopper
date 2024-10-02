@@ -22,6 +22,7 @@ import lombok.With;
 
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
+import org.slf4j.Logger;
 
 import com.swisscom.aem.tools.impl.HopContext;
 import com.swisscom.aem.tools.jcrhopper.Hop;
@@ -55,9 +56,9 @@ public class NodeQuery implements Hop<NodeQuery.Config> {
 		context.info("Processed {} nodes from {} query {}", counter, config.queryType, statement);
 	}
 
-	private String getSelectorName(Config config, HopContext context, String... selectors) {
+	private String getSelectorName(Config config, Logger context, String... selectors) {
 		String selectorName = config.selectorName;
-		if (StringUtils.isBlank(selectorName) && selectors.length > 0) {
+		if (selectors.length > 0 && StringUtils.isBlank(selectorName)) {
 			selectorName = selectors[0];
 			if (selectors.length > 1) {
 				context.warn(
@@ -114,7 +115,8 @@ public class NodeQuery implements Hop<NodeQuery.Config> {
 	@With
 	@ToString
 	@EqualsAndHashCode
-	public static class Config implements HopConfig {
+	@SuppressWarnings("PMD.ImmutableField")
+	public static final class Config implements HopConfig {
 		private String query;
 		@Nonnull
 		private String queryType = Query.JCR_SQL2;

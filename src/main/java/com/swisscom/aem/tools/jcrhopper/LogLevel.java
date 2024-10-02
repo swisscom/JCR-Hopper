@@ -1,55 +1,55 @@
 package com.swisscom.aem.tools.jcrhopper;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.stream.Stream;
+
+import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Log level which is used in portal scripts. Keep in mind that different levels are for different users.
- * <ul>
- * <li>DEBUG: For developers</li>
- * <li>INFO: For operation (the guys hate to read - so keep it to a minimum!)</li>
- * <li>ERROR: For errors and exception</li>
- * </ul>
+ * Log level used in scripts.
  */
 public enum LogLevel {
+	/**
+	 * All messages, ideally allows to follow script execution precisely.
+	 */
 	TRACE,
+	/**
+	 * Messages only relevant when closely monitoring script execution.
+	 */
 	DEBUG,
+	/**
+	 * General information about actions executed.
+	 */
 	INFO,
+	/**
+	 * Potential problems.
+	 */
 	WARN,
+	/**
+	 * Definite problems.
+	 */
 	ERROR;
 
 	public static final LogLevel DEFAULT = INFO;
-	private static final Map<String, LogLevel> LEVELS = new HashMap<>();
 
-	static {
-		for (LogLevel level : LogLevel.values()) {
-			LEVELS.put(level.name().toLowerCase(), level);
-		}
+	/**
+	 * @param name log level name to look for
+	 * @return the log level matching the given name or the default log level
+	 */
+	@Nonnull
+	public static LogLevel fromName(final String name) {
+		return Stream.of(values())
+			.filter(cr -> StringUtils.equalsIgnoreCase(cr.name(), name))
+			.findFirst()
+			.orElse(DEFAULT);
 	}
 
 	/**
-	 * Gets the name of the conflict resolution.
-	 *
-	 * @return The name of the conflict resolution
+	 * @return The name of the log level
 	 */
 	public String toName() {
 		return StringUtils.lowerCase(this.name());
-	}
-
-	/**
-	 * Returns the LogLevel from String. If the level is null the default LogLevel is returned.
-	 *
-	 * @param level String log level
-	 * @return LogLevel
-	 */
-	public static LogLevel fromString(final String level) {
-		return Optional.ofNullable(level)
-			.map(String::toLowerCase)
-			.map(LEVELS::get)
-			.orElse(DEFAULT);
 	}
 
 	/**

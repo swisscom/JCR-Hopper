@@ -24,19 +24,37 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializer;
 import com.swisscom.aem.tools.jcrhopper.impl.NoopRunHandler;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 @Accessors(fluent = true, chain = true)
+@SuppressFBWarnings(value = "OPM_OVERLY_PERMISSIVE_METHOD", justification = "API surface")
+@SuppressWarnings("PMD.CouplingBetweenObjects")
 public class RunnerBuilder {
 	private static final String JSON_TYPE_PROPERTY = "type";
 	private final Set<Hop<?>> knownHops = new HashSet<>();
 	private final Map<String, Object> utils = new HashMap<>();
 	private final Map<String, Object> variables = new HashMap<>();
 
+	private final Gson gson;
+
+	/**
+	 * The listener that gets notified of events that happen during the script run.
+	 */
 	@Getter
 	@Setter
 	private RunHandler runHandler = new NoopRunHandler();
 
-	private final Gson gson;
-
+	/**
+	 * Whether to add some default utils to the map of configured utils.
+	 * <p>
+	 * These are as follows:
+	 * <ul>
+	 *     <li><code>arrays</code>: static methods on {@link Arrays}</li>
+	 *     <li><code>stream</code>: static methods on {@link Stream}</li>
+	 *     <li><code>class</code>: static methods on {@link Class}</li>
+	 *     <li><code>collections</code>: static methods on {@link Collections}</li>
+	 * </ul>
+	 */
 	@Getter
 	@Setter
 	private boolean addDefaultUtils;
@@ -46,7 +64,7 @@ public class RunnerBuilder {
 	}
 
 	private Gson createGson() {
-		JsonDeserializer<HopConfig> hopConfigJsonDeserializer = (json, typeOfT, context) -> {
+		final JsonDeserializer<HopConfig> hopConfigJsonDeserializer = (json, typeOfT, context) -> {
 			final JsonObject obj = json.getAsJsonObject();
 			final String type = obj.get(JSON_TYPE_PROPERTY).getAsString();
 			if (type == null) {
@@ -58,7 +76,7 @@ public class RunnerBuilder {
 				.map(Hop::getConfigType)
 				.orElseThrow(() -> new JsonParseException(String.format("Action type %s is unknown", type)));
 
-			HopConfig config = context.deserialize(json, configClass);
+			final HopConfig config = context.deserialize(json, configClass);
 			if (config == null) {
 				throw new JsonParseException(String.format(
 					"Config for action type %s (class %s) could not be parsed",
@@ -68,7 +86,7 @@ public class RunnerBuilder {
 			}
 			return config;
 		};
-		JsonSerializer<HopConfig> hopConfigJsonSerializer = (src, typeOfSrc, context) -> {
+		final JsonSerializer<HopConfig> hopConfigJsonSerializer = (src, typeOfSrc, context) -> {
 			final Hop<?> hop = knownHops.stream()
 				.filter(h -> h.getConfigType() == src.getClass())
 				.findFirst()
@@ -78,12 +96,16 @@ public class RunnerBuilder {
 			return el;
 		};
 
-		JsonDeserializer<ConflictResolution> conflictResolutionJsonDeserializer = (json, typeOfT, context) -> ConflictResolution.fromName(json.getAsString());
-		JsonSerializer<ConflictResolution> conflictResolutionJsonSerializer = (src, typeOfSrc, context) -> context.serialize(src.toName());
-		JsonDeserializer<LogLevel> logLevelJsonDeserializer = (json, typeOfT, context) -> LogLevel.fromString(json.getAsString());
-		JsonSerializer<LogLevel> logLevelJsonSerializer = (src, typeOfSrc, context) -> context.serialize(src.toName());
+		final JsonDeserializer<ConflictResolution> conflictResolutionJsonDeserializer = (json, typeOfT, context) ->
+			ConflictResolution.fromName(json.getAsString());
+		final JsonSerializer<ConflictResolution> conflictResolutionJsonSerializer = (src, typeOfSrc, context) ->
+			context.serialize(src.toName());
+		final JsonDeserializer<LogLevel> logLevelJsonDeserializer = (json, typeOfT, context) ->
+			LogLevel.fromName(json.getAsString());
+		final JsonSerializer<LogLevel> logLevelJsonSerializer = (src, typeOfSrc, context) ->
+			context.serialize(src.toName());
 
-		GsonBuilder builder = new GsonBuilder()
+		final GsonBuilder builder = new GsonBuilder()
 			.registerTypeAdapter(HopConfig.class, hopConfigJsonDeserializer)
 			.registerTypeAdapter(HopConfig.class, hopConfigJsonSerializer)
 			.registerTypeAdapter(ConflictResolution.class, conflictResolutionJsonDeserializer)
@@ -94,41 +116,91 @@ public class RunnerBuilder {
 		return builder.create();
 	}
 
+	/**
+	 * Adds a util to known to the EL expression engine and to scripts.
+	 * <p>
+	 * Utils are available from EL as <code>name:method()</code> and as <code>utils.name.method()</code> in scripts
+	 *
+	 * @param name the util name or namespace
+	 * @param util the util, either as an object or Class (for static method access)
+	 * @return self for chaining
+	 */
 	public RunnerBuilder addUtil(String name, Object util) {
 		utils.put(name, util);
 		return this;
 	}
 
+	/**
+	 * Adds utils to known to the EL expression engine and to scripts.
+	 * <p>
+	 * Utils are available from EL as <code>name:method()</code> and as <code>utils.name.method()</code> in scripts
+	 *
+	 * @param utils key-value pairs to make known
+	 * @return self for chaining
+	 */
 	public RunnerBuilder addUtils(Map<String, Object> utils) {
 		this.utils.putAll(utils);
 		return this;
 	}
 
-	public RunnerBuilder addVariable(String name, Object util) {
-		variables.put(name, util);
+
+	/**
+	 * Sets an initial variable known to the EL expression engine and to scripts.
+	 *
+	 * @param name  the name of the variable
+	 * @param value the value of the variable
+	 * @return self for chaining
+	 */
+	public RunnerBuilder addVariable(String name, Object value) {
+		variables.put(name, value);
 		return this;
 	}
 
+	/**
+	 * Sets initial variables known to the EL expression engine and to scripts.
+	 *
+	 * @param variables key-value pairs to make known
+	 * @return self for chaining
+	 */
 	public RunnerBuilder addVariables(Map<String, Object> variables) {
 		this.variables.putAll(variables);
 		return this;
 	}
 
+	/**
+	 * Makes hop types known to the runner.
+	 *
+	 * @param hops the array of hop types to make known
+	 * @return self for chaining
+	 */
 	public RunnerBuilder addHop(Hop<?>... hops) {
 		return addHops(Arrays.asList(hops));
 	}
 
+	/**
+	 * Makes hop types known to the runner.
+	 *
+	 * @param hops the collection of hop types to make known
+	 * @return self for chaining
+	 */
 	public RunnerBuilder addHops(Collection<Hop<?>> hops) {
 		knownHops.addAll(hops);
 		return this;
 	}
 
+	/**
+	 * Constructs a {@link Runner} with the configuration of this builder.
+	 *
+	 * @param script the script to run
+	 * @return the constructed Runner configured with the given script
+	 */
 	public Runner build(Script script) {
-		final HashMap<String, Object> utils = new HashMap<>(this.utils);
+		final Map<String, Object> utils = new HashMap<>(this.utils);
 		if (this.addDefaultUtils) {
 			utils.put("arrays", Arrays.class);
 			utils.put("stream", Stream.class);
 			utils.put("class", Class.class);
+			utils.put("collections", Collections.class);
 		}
 		return new Runner(
 			script,
@@ -139,18 +211,42 @@ public class RunnerBuilder {
 		);
 	}
 
+	/**
+	 * Constructs a Runner with the configuration this builder knows.
+	 *
+	 * @param scriptAsJson the JSON string representation of the script to parse
+	 * @return the constructed Runner configured with the given script
+	 */
 	public Runner build(String scriptAsJson) {
 		return build(scriptFromJson(scriptAsJson));
 	}
 
+	/**
+	 * Parses the given JSON into a script. Requires hop types used in the script to be known.
+	 *
+	 * @param scriptAsJson the JSON string representation of the script to parse
+	 * @return the parsed script
+	 */
 	public Script scriptFromJson(String scriptAsJson) {
 		return gson.fromJson(scriptAsJson, Script.class);
 	}
 
+	/**
+	 * Parses the given JSON into a script. Requires hop types used in the script to be known.
+	 *
+	 * @param scriptAsJson a reader for the JSON representation of the script to parse
+	 * @return the parsed script
+	 */
 	public Script scriptFromJson(Reader scriptAsJson) {
 		return gson.fromJson(scriptAsJson, Script.class);
 	}
 
+	/**
+	 * Generates the JSON representation of the given script. Requires hop types used in the script to be known.
+	 *
+	 * @param script the script to turn into JSON
+	 * @return the stringified JSON representation of the given script
+	 */
 	public String scriptToJson(Script script) {
 		return gson.toJson(script);
 	}

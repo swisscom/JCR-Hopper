@@ -12,6 +12,11 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 import com.swisscom.aem.tools.jcrhopper.Runner;
 import com.swisscom.aem.tools.jcrhopper.RunnerBuilder;
 
+/**
+ * A service to create {@link RunnerBuilder}s extended with configs known to OSGi.
+ * <p>
+ * By default, the {@link com.swisscom.aem.tools.impl.HopProviderExtension} will make all known {@link com.swisscom.aem.tools.jcrhopper.Hop} services available
+ */
 @Component(service = RunnerService.class)
 public class RunnerService {
 	@Reference(
@@ -24,11 +29,14 @@ public class RunnerService {
 	@SuppressWarnings("PMD.AvoidUsingVolatile")
 	private volatile List<RunnerBuilderExtension> extensions;
 
+	/**
+	 * @return a runner builder extended by all {@link RunnerBuilderExtension} services known to the current OSGi {@link org.osgi.framework.BundleContext}
+	 */
 	public RunnerBuilder builder() {
-		RunnerBuilder runnerBuilder = Runner.builder();
+		final RunnerBuilder runnerBuilder = Runner.builder();
 
 		for (RunnerBuilderExtension extension : extensions) {
-			extension.extend(runnerBuilder);
+			extension.configure(runnerBuilder);
 		}
 
 		return runnerBuilder;

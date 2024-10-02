@@ -26,7 +26,7 @@ public class HopProviderExtension implements RunnerBuilderExtension {
 	private volatile List<Hop<?>> hops;
 
 	@Override
-	public void extend(RunnerBuilder builder) {
+	public void configure(RunnerBuilder builder) {
 		builder.addHops(hops);
 	}
 }

@@ -1,6 +1,7 @@
 package com.swisscom.aem.tools.jcrhopper.osgi;
 
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -57,11 +58,11 @@ class RunnerServiceTest {
 
 		runner.run(context.resourceResolver().adaptTo(Session.class), true);
 
-		verify(runHandler).log(LogLevel.DEBUG, "Selecting node /test");
-		verify(runHandler).log(LogLevel.DEBUG, "Found child node one on /test");
-		verify(runHandler).log(LogLevel.DEBUG, "Found child node two on /test");
-		verify(runHandler).log(eq(LogLevel.INFO), startsWith("JCR Hopper script finished after "));
-		verify(runHandler).log(LogLevel.WARN, "Not saving changes as dry run is enabled");
+		verify(runHandler).log(LogLevel.DEBUG, "Selecting node /test", null);
+		verify(runHandler).log(LogLevel.DEBUG, "Found child node one on /test", null);
+		verify(runHandler).log(LogLevel.DEBUG, "Found child node two on /test", null);
+		verify(runHandler).log(eq(LogLevel.INFO), startsWith("JCR Hopper script finished after "), isNull());
+		verify(runHandler).log(LogLevel.WARN, "Not saving changes as dry run is enabled", null);
 
 	}
 
@@ -72,11 +73,11 @@ class RunnerServiceTest {
 		final Runner runner = runnerService.builder().runHandler(runHandler).build(new Script(Collections.singletonList(new ChildNodes.Config()), LogLevel.TRACE));
 		runner.run(context.resourceResolver().getResource("/test").adaptTo(Node.class), false);
 
-		verify(runHandler).log(LogLevel.TRACE, "Starting JCR Hopper script on node /test");
-		verify(runHandler).log(LogLevel.DEBUG, "Found child node one on /test");
-		verify(runHandler).log(LogLevel.DEBUG, "Found child node two on /test");
-		verify(runHandler).log(eq(LogLevel.INFO), startsWith("JCR Hopper script finished after "));
-		verify(runHandler).log(LogLevel.DEBUG, "Saving session");
-		verify(runHandler).log(LogLevel.INFO, "Successfully saved changes in session");
+		verify(runHandler).log(LogLevel.TRACE, "Starting JCR Hopper script on node /test", null);
+		verify(runHandler).log(LogLevel.DEBUG, "Found child node one on /test", null);
+		verify(runHandler).log(LogLevel.DEBUG, "Found child node two on /test", null);
+		verify(runHandler).log(eq(LogLevel.INFO), startsWith("JCR Hopper script finished after "), isNull());
+		verify(runHandler).log(LogLevel.DEBUG, "Saving session", null);
+		verify(runHandler).log(LogLevel.INFO, "Successfully saved changes in session", null);
 	}
 }

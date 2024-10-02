@@ -11,33 +11,33 @@ public class LogLevelTest {
 
 	@Test
 	public void fromString_null() {
-		assertEquals(LogLevel.INFO, LogLevel.fromString(null));
+		assertEquals(LogLevel.INFO, LogLevel.fromName(null));
 	}
 
 	@Test
 	public void fromString_unknown() {
-		assertEquals(LogLevel.INFO, LogLevel.fromString("lala"));
+		assertEquals(LogLevel.INFO, LogLevel.fromName("lala"));
 	}
 
 	@Test
 	public void fromString_lowerCase() {
-		assertEquals(LogLevel.DEBUG, LogLevel.fromString("debug"));
+		assertEquals(LogLevel.DEBUG, LogLevel.fromName("debug"));
 	}
 
 	@Test
 	public void fromString_mixedCase() {
-		assertEquals(LogLevel.DEBUG, LogLevel.fromString("deBug"));
+		assertEquals(LogLevel.DEBUG, LogLevel.fromName("deBug"));
 	}
 
 	@Test
 	public void ufromString_pperCase() {
-		assertEquals(LogLevel.ERROR, LogLevel.fromString("ERROR"));
+		assertEquals(LogLevel.ERROR, LogLevel.fromName("ERROR"));
 	}
 
 	@Test
 	public void allLevels() {
 		for (LogLevel level : LogLevel.values()) {
-			assertEquals(level, LogLevel.fromString(level.toString().toLowerCase()));
+			assertEquals(level, LogLevel.fromName(level.toString().toLowerCase()));
 		}
 	}
 

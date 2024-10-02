@@ -49,7 +49,8 @@ public class FilterNode implements Hop<FilterNode.Config> {
 	@With
 	@ToString
 	@EqualsAndHashCode
-	public static class Config implements HopConfig {
+	@SuppressWarnings("PMD.ImmutableField")
+	public static final class Config implements HopConfig {
 		private String expression;
 		@Nonnull
 		private List<HopConfig> hops = Collections.emptyList();

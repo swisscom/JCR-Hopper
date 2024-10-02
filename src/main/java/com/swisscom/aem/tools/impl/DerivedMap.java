@@ -8,12 +8,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import lombok.NonNull;
+import javax.annotation.Nonnull;
+
 import lombok.RequiredArgsConstructor;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 @RequiredArgsConstructor
-public class DerivedMap<K, V> implements Map<K, V> {
-	@NonNull
+public final class DerivedMap<K, V> implements Map<K, V> {
+	@Nonnull
 	private final Map<K, V> backing;
 	private final Map<K, V> local = new HashMap<>();
 
@@ -29,7 +32,7 @@ public class DerivedMap<K, V> implements Map<K, V> {
 
 	@Override
 	public boolean containsKey(Object key) {
-		return backing.containsKey(key) || local.containsKey(key);
+		return local.containsKey(key) || backing.containsKey(key);
 	}
 
 	@Override
@@ -38,6 +41,7 @@ public class DerivedMap<K, V> implements Map<K, V> {
 	}
 
 	@Override
+	@SuppressFBWarnings(value = "MUI_CONTAINSKEY_BEFORE_GET", justification = "We need to account for null in the local map")
 	public V get(Object key) {
 		if (local.containsKey(key)) {
 			return local.get(key);
@@ -47,20 +51,14 @@ public class DerivedMap<K, V> implements Map<K, V> {
 
 	@Override
 	public V put(K key, V value) {
-		V previous = null;
-		if (this.containsKey(key)) {
-			previous = this.get(key);
-		}
+		final V previous = this.get(key);
 		local.put(key, value);
 		return previous;
 	}
 
 	@Override
 	public V remove(Object key) {
-		V previous = null;
-		if (this.containsKey(key)) {
-			previous = this.get(key);
-		}
+		final V previous = this.get(key);
 		local.remove(key);
 		return previous;
 	}

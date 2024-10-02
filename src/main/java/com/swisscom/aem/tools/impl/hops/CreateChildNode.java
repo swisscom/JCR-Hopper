@@ -32,7 +32,7 @@ public class CreateChildNode implements Hop<CreateChildNode.Config> {
 		final MoveNode.NewNodeDescriptor descriptor = MoveNode.resolvePathToNewNode(node, name, config.conflict, context);
 
 		final Node childNode;
-		if (descriptor.getParent().hasNode(descriptor.getNewChildName())) {
+		if (descriptor.isNeedsReplacing()) {
 			childNode = descriptor.getParent().getNode(descriptor.getNewChildName());
 		} else {
 			context.info(
@@ -62,7 +62,8 @@ public class CreateChildNode implements Hop<CreateChildNode.Config> {
 	@With
 	@ToString
 	@EqualsAndHashCode
-	public static class Config implements HopConfig {
+	@SuppressWarnings("PMD.ImmutableField")
+	public static final class Config implements HopConfig {
 		private String name;
 		@Nonnull
 		private String primaryType = JcrConstants.NT_UNSTRUCTURED;

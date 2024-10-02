@@ -24,7 +24,10 @@ import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.lang3.StringUtils;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 @RequiredArgsConstructor
+@SuppressFBWarnings(value = "OPM_OVERLY_PERMISSIVE_METHOD", justification = "Used by scripting")
 @SuppressWarnings("PMD.GodClass")
 public class JcrFunctions {
 	private final Session session;
@@ -96,8 +99,9 @@ public class JcrFunctions {
 	}
 
 	/**
-	 * Gets a multi-valued property from a node or null if the property does not exist.
+	 * Gets a multivalued property from a node.
 	 * Useful if you want to coerce the property to a different type than its native one.
+	 * Absent properties will return an empty array. Check with {@link JcrFunctions#hasProp(Node, String)}.
 	 *
 	 * @param node     The node whose property you want to check
 	 * @param propName The name of the property to read
@@ -106,7 +110,7 @@ public class JcrFunctions {
 	 */
 	public Value[] props(Node node, String propName) throws RepositoryException {
 		if (!hasProp(node, propName)) {
-			return null;
+			return new Value[]{};
 		}
 		final Property prop = node.getProperty(propName);
 		if (prop.isMultiple()) {
@@ -154,8 +158,9 @@ public class JcrFunctions {
 
 		final int type = prop.getType();
 
-		final List<Object> list = new ArrayList<>();
-		for (Value val : prop.getValues()) {
+		final Value[] values = prop.getValues();
+		final List<Object> list = new ArrayList<>(values.length);
+		for (Value val : values) {
 			list.add(objectFromValue(val, type));
 		}
 		return list.toArray();
@@ -283,6 +288,7 @@ public class JcrFunctions {
 	}
 
 	@SuppressWarnings({"PMD", "checkstyle:ReturnCount", "checkstyle:CyclomaticComplexity"})
+	@SuppressFBWarnings(value = "ITC_INHERITANCE_TYPE_CHECKING", justification = "ValueFactory requires different signatures for each type")
 	private Value convertToValue(ValueFactory fac, Object value) throws RepositoryException {
 		if (value instanceof String) {
 			return fac.createValue((String) value);
@@ -420,6 +426,7 @@ public class JcrFunctions {
 	 * @return the size of any if it’s either a list, an array or a multivalued property, -1 otherwise
 	 * @throws RepositoryException if an error occurred
 	 */
+	@SuppressFBWarnings(value = "ITC_INHERITANCE_TYPE_CHECKING", justification = "Arbitration is the point of this method")
 	public int size(Object any) throws RepositoryException {
 		if (any instanceof List) {
 			return ((List<?>) any).size();

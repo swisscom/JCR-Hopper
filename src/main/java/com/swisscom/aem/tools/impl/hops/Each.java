@@ -21,6 +21,8 @@ import com.swisscom.aem.tools.jcrhopper.Hop;
 import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 @AllArgsConstructor
 @Component(service = Hop.class)
 public class Each implements Hop<Each.Config> {
@@ -44,6 +46,7 @@ public class Each implements Hop<Each.Config> {
 		}
 	}
 
+	@SuppressFBWarnings(value = "ITC_INHERITANCE_TYPE_CHECKING", justification = "The item comes from scripting and can be an arbitrary type")
 	private void runWith(
 		Config config,
 		Object item,
@@ -85,7 +88,8 @@ public class Each implements Hop<Each.Config> {
 	@With
 	@ToString
 	@EqualsAndHashCode
-	public static class Config implements HopConfig {
+	@SuppressWarnings("PMD.ImmutableField")
+	public static final class Config implements HopConfig {
 		private String expression;
 		@Nonnull
 		private String iterator = "item";

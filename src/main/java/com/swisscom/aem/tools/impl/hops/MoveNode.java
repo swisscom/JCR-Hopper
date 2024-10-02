@@ -41,6 +41,7 @@ public class MoveNode implements Hop<MoveNode.Config> {
 	 * @throws RepositoryException if an error occurs
 	 * @throws HopperException     if an error occurs
 	 */
+	@Nonnull
 	public static NewNodeDescriptor resolvePathToNewNode(
 		Node initialParent,
 		String initialTarget,
@@ -55,7 +56,7 @@ public class MoveNode implements Hop<MoveNode.Config> {
 			parent = session.getRootNode();
 		}
 
-		final LinkedList<String> parts = Arrays.stream(target.split("\\/"))
+		@SuppressWarnings("PMD.LooseCoupling") final LinkedList<String> parts = Arrays.stream(target.split("\\/"))
 			.filter(StringUtils::isNotEmpty)
 			.collect(Collectors.toCollection(LinkedList::new));
 
@@ -63,7 +64,9 @@ public class MoveNode implements Hop<MoveNode.Config> {
 
 		parent = getParentNode(parts, parent, session, target);
 
-		if (parent.hasNode(target)) {
+
+		final boolean needsReplacing = parent.hasNode(target);
+		if (needsReplacing) {
 			final Node childNode = parent.getNode(target);
 			switch (conflict) {
 			case IGNORE:
@@ -80,7 +83,7 @@ public class MoveNode implements Hop<MoveNode.Config> {
 			}
 		}
 
-		return new NewNodeDescriptor(parent, target);
+		return new NewNodeDescriptor(parent, target, needsReplacing);
 	}
 
 	private static Node getParentNode(List<String> parts, Node startParent, Session session, String target)
@@ -146,9 +149,9 @@ public class MoveNode implements Hop<MoveNode.Config> {
 	@RequiredArgsConstructor
 	@Getter
 	public static class NewNodeDescriptor {
-
 		private final Node parent;
 		private final String newChildName;
+		private final boolean needsReplacing;
 	}
 
 	@AllArgsConstructor
@@ -156,7 +159,8 @@ public class MoveNode implements Hop<MoveNode.Config> {
 	@With
 	@ToString
 	@EqualsAndHashCode
-	public static class Config implements HopConfig {
+	@SuppressWarnings("PMD.ImmutableField")
+	public static final class Config implements HopConfig {
 		private String newName;
 		@Nonnull
 		private ConflictResolution conflict = ConflictResolution.IGNORE;

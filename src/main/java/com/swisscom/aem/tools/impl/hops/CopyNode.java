@@ -40,7 +40,8 @@ public class CopyNode implements Hop<CopyNode.Config> {
 
 		final String newName = context.evaluateTemplate(config.newName);
 		final MoveNode.NewNodeDescriptor descriptor = MoveNode.resolvePathToNewNode(parent, newName, config.conflict, context);
-		if (descriptor.getParent().hasNode(descriptor.getNewChildName())) {
+		if (descriptor.isNeedsReplacing()) {
+			// Replacing not supported when copying
 			return;
 		}
 
@@ -96,7 +97,8 @@ public class CopyNode implements Hop<CopyNode.Config> {
 	@With
 	@ToString
 	@EqualsAndHashCode
-	public static class Config implements HopConfig {
+	@SuppressWarnings("PMD.ImmutableField")
+	public static final class Config implements HopConfig {
 		private String newName;
 		@Nonnull
 		private ConflictResolution conflict = ConflictResolution.IGNORE;

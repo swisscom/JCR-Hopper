@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- http://spotbugs.readthedocs.io/en/latest/filter.html -->
+<FindBugsFilter>
+
+	<!-- Do not check groovy -->
+	<Match>
+		<Source name="~.*\.groovy"/>
+	</Match>
+
+	<!-- Disable check -->
+	<Match>
+		<!-- The reason for disable is guava, which use @Nullable for function and if you want not nullable function
+		 you will have to use @NotNull annotation, which contradict with original contract
+		 (actually not, because guava intend weaker semantics). So disable this check to be able to properly
+		 use nullability annotations -->
+		<Bug pattern="NP_METHOD_PARAMETER_TIGHTENS_ANNOTATION"/>
+	</Match>
+	<Match>
+		<!-- Disabled as confusing check (very misleading description) and also not so useful -->
+		<Bug pattern="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"/>
+	</Match>
+	<Match>
+		<!-- IMHO back-to-back filters are useful if one or more of them can be expressed as method reference -->
+		<Bug pattern="FII_COMBINE_FILTERS"/>
+	</Match>
+	<Match>
+		<!-- Incompatible with lombok generated getters of nullable fields -->
+		<Bug pattern="AI_ANNOTATION_ISSUES_NEEDS_NULLABLE"/>
+	</Match>
+	<Match>
+		<!-- Not that useful. Using auto-generated toString can cause infinite recursion when used on cycles -->
+		<Bug pattern="IMC_IMMATURE_CLASS_NO_TOSTRING"/>
+	</Match>
+	<Match>
+		<!-- TODO: Fix these in the logger config directly using filter or the like -->
+		<Bug pattern="CRLF_INJECTION_LOGS"/>
+	</Match>
+	<Match>
+		<!-- Special rules for sling models-->
+		<Class name="~.*\.slingmodels\..*"/>
+		<Or>
+			<!-- Sling models have injected fields that need to be parsed some times -->
+			<Bug pattern="STT_STRING_PARSING_A_FIELD"/>
+			<!-- Add additional excludes here -->
+		</Or>
+	</Match>
+	<Match>
+		<Bug pattern="USBR_UNNECESSARY_STORE_BEFORE_RETURN"/>
+		<!-- Lombok generates a hashCode implementation that stores its result in a variable before returning -->
+		<Method name="hashCode"/>
+	</Match>
+	<Match>
+		<!-- Not useful as we don't serialize/deserialize classes in different versions -->
+		<Bug pattern="SE_NO_SERIALVERSIONID"/>
+	</Match>
+
+	<Match>
+		<Bug pattern="NM_CONFUSING"/>
+		<Or>
+			<!-- Core Components uses all-uppercase for their URL fields, we don’t, except when we override them -->
+			<Method name="~(getURL|getUrl)"/>
+		</Or>
+	</Match>
+
+	<Match>
+		<Bug pattern="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR"/>
+	</Match>
+
+	<Match>
+		<Bug pattern="CLI_CONSTANT_LIST_INDEX"/>
+	</Match>
+
+	<Match>
+		<Bug pattern="EI_EXPOSE_REP"/>
+	</Match>
+
+	<Match>
+		<Bug pattern="EI_EXPOSE_REP2"/>
+	</Match>
+
+	<Match>
+		<Bug pattern="NAB_NEEDLESS_BOXING_VALUEOF"/>
+	</Match>
+
+	<Match>
+		<Bug pattern="NAB_NEEDLESS_BOOLEAN_CONSTANT_CONVERSION"/>
+	</Match>
+
+	<Match>
+		<Bug pattern="DMC_DUBIOUS_MAP_COLLECTION"/>
+	</Match>
+
+	<!-- Do not check class -->
+	<!--<Match>-->
+	<!--<Class name="com.foobar.ClassNotToBeAnalyzed" />-->
+	<!--</Match>-->
+</FindBugsFilter>

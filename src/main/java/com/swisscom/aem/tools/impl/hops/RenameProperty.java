@@ -94,26 +94,26 @@ public class RenameProperty implements Hop<RenameProperty.Config> {
 		String propertyName,
 		String newName
 	) throws HopperException, RepositoryException {
-		if (!node.hasProperty(propertyName)) {
-			switch (config.doesNotExist) {
-			case THROW:
-				throw new HopperException(
-					String.format(
-						"Property %s on %s could not be found",
-						propertyName,
-						newName
-					)
-				);
-			case IGNORE:
-				context.warn("Property {} on {} does not exist. Set doesNotExist to “force” to avoid this warning",
-					propertyName, node.getPath());
-				return true;
-			default:
-				return true;
-			}
-
+		if (node.hasProperty(propertyName)) {
+			return false;
 		}
-		return false;
+		switch (config.doesNotExist) {
+		case THROW:
+			throw new HopperException(
+				String.format(
+					"Property %s on %s could not be found",
+					propertyName,
+					newName
+				)
+			);
+		case IGNORE:
+			context.warn("Property {} on {} does not exist. Set doesNotExist to “force” to avoid this warning",
+				propertyName, node.getPath());
+			return true;
+		default:
+			return true;
+		}
+
 	}
 
 	@Nonnull
@@ -133,7 +133,8 @@ public class RenameProperty implements Hop<RenameProperty.Config> {
 	@With
 	@ToString
 	@EqualsAndHashCode
-	public static class Config implements HopConfig {
+	@SuppressWarnings("PMD.ImmutableField")
+	public static final class Config implements HopConfig {
 		private String propertyName;
 		private String newName;
 		@Nonnull

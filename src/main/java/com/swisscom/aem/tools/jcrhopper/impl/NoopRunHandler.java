@@ -9,13 +9,16 @@ import com.swisscom.aem.tools.jcrhopper.RunHandler;
 public class NoopRunHandler implements RunHandler {
 	@Override
 	public void file(File file) {
+		// No-op
 	}
 
 	@Override
 	public void log(LogLevel level, String message, Marker marker) {
+		// No-op
 	}
 
 	@Override
 	public void print(String message) {
+		// No-op
 	}
 }
