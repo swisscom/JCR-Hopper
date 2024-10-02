@@ -56,7 +56,7 @@ class RunnerServiceTest {
 		final Runner runner = runnerBuilder.build(
 			new Script(Collections.singletonList(new ResolveNode.Config().withName("/test").withHops(Collections.singletonList(new ChildNodes.Config()))), LogLevel.DEBUG));
 
-		runner.run(context.resourceResolver().adaptTo(Session.class), true);
+		runner.run(context.resourceResolver().adaptTo(Session.class), false);
 
 		verify(runHandler).log(LogLevel.DEBUG, "Selecting node /test", null);
 		verify(runHandler).log(LogLevel.DEBUG, "Found child node one on /test", null);
@@ -71,7 +71,7 @@ class RunnerServiceTest {
 		final RunHandler runHandler = mock(RunHandler.class);
 
 		final Runner runner = runnerService.builder().runHandler(runHandler).build(new Script(Collections.singletonList(new ChildNodes.Config()), LogLevel.TRACE));
-		runner.run(context.resourceResolver().getResource("/test").adaptTo(Node.class), false);
+		runner.run(context.resourceResolver().getResource("/test").adaptTo(Node.class), true);
 
 		verify(runHandler).log(LogLevel.TRACE, "Starting JCR Hopper script on node /test", null);
 		verify(runHandler).log(LogLevel.DEBUG, "Found child node one on /test", null);

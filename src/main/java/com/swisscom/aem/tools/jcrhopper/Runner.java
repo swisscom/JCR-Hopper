@@ -45,24 +45,24 @@ public class Runner {
 	 * <p>
 	 * Will start at the root node of the given session.
 	 *
-	 * @param session  the JCR session to use
-	 * @param isDryRun set true to disable saving the JCR session at the end of the script run
+	 * @param session        the JCR session to use
+	 * @param commitAfterRun set true to save the JCR session at the end of the script run
 	 * @throws HopperException     if one of the hops encounters a node it cannot handle and is configured to throw
 	 * @throws RepositoryException if an error occurs during JCR manipulation
 	 */
-	public void run(Session session, boolean isDryRun) throws HopperException, RepositoryException {
-		run(session.getRootNode(), isDryRun);
+	public void run(Session session, boolean commitAfterRun) throws HopperException, RepositoryException {
+		run(session.getRootNode(), commitAfterRun);
 	}
 
 	/**
 	 * Runs the script associated with this runner.
 	 *
-	 * @param node     the node with which script processing should start
-	 * @param isDryRun set true to disable saving the JCR session at the end of the script run
+	 * @param node           the node with which script processing should start
+	 * @param commitAfterRun set true to save the JCR session at the end of the script run
 	 * @throws HopperException     if one of the hops encounters a node it cannot handle and is configured to throw
 	 * @throws RepositoryException if an error occurs during JCR manipulation
 	 */
-	public void run(Node node, boolean isDryRun) throws HopperException, RepositoryException {
+	public void run(Node node, boolean commitAfterRun) throws HopperException, RepositoryException {
 		final JexlBuilder jexlBuilder = new JexlBuilder();
 		final Session session = node.getSession();
 
@@ -88,12 +88,12 @@ public class Runner {
 		context.trace("Starting JCR Hopper script on node {}", node.getPath());
 		context.runHops(node, script.getHops());
 		context.info("JCR Hopper script finished after {}ms", System.currentTimeMillis() - ts);
-		if (isDryRun) {
-			context.warn("Not saving changes as dry run is enabled");
-		} else {
+		if (commitAfterRun) {
 			context.debug("Saving session");
 			session.save();
 			context.info("Successfully saved changes in session");
+		} else {
+			context.warn("Not saving changes as dry run is enabled");
 		}
 	}
 }

@@ -83,7 +83,7 @@ class RunnerTest {
 
 		final Resource root = context.resourceResolver().getResource("/");
 		final Node rootNode = root.adaptTo(Node.class);
-		runner.run(rootNode, false);
+		runner.run(rootNode, true);
 
 		assertTrue(root.getValueMap().get("test", false));
 		assertEquals("true", root.getValueMap().get("test", String.class));
@@ -135,7 +135,7 @@ class RunnerTest {
 			)
 		);
 
-		runner.run(root.adaptTo(Node.class), false);
+		runner.run(root.adaptTo(Node.class), true);
 		verifyManipulation(root);
 
 		RUNNER_BUILDER.build(
@@ -143,7 +143,7 @@ class RunnerTest {
 				Collections.singletonList(new CopyNode.Config().withNewName("/root-2")),
 				LogLevel.TRACE
 			)
-		).run(root.adaptTo(Node.class), false);
+		).run(root.adaptTo(Node.class), true);
 		verifyManipulation(context.resourceResolver().getResource("/root-2"));
 
 		RUNNER_BUILDER.build(
@@ -151,7 +151,7 @@ class RunnerTest {
 				Collections.singletonList(new CopyNode.Config().withNewName("/root-3")),
 				LogLevel.TRACE
 			)
-		).run(root.adaptTo(Node.class), true);
+		).run(root.adaptTo(Node.class), false);
 		verifyManipulation(context.resourceResolver().getResource("/root-3"));
 	}
 
@@ -223,7 +223,7 @@ class RunnerTest {
 		);
 
 		final Node rootNode = root.adaptTo(Node.class);
-		runner.run(rootNode, false);
+		runner.run(rootNode, true);
 
 		Resource changedItem;
 
