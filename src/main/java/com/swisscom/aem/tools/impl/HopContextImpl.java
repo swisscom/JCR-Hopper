@@ -16,6 +16,7 @@ import org.apache.commons.jexl3.JexlContext;
 import org.apache.commons.jexl3.JexlEngine;
 import org.apache.commons.jexl3.JxltEngine;
 import org.slf4j.Marker;
+import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 
 import com.swisscom.aem.tools.jcrhopper.HopperException;
@@ -30,7 +31,7 @@ import com.swisscom.aem.tools.jcrhopper.context.HopContext;
  */
 @RequiredArgsConstructor
 @Slf4j
-@SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.ExcessivePublicCount", "PMD.TooManyMethods"})
+@SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.ExcessivePublicCount", "PMD.TooManyMethods", "PMD.NcssCount"})
 public class HopContextImpl implements JexlContext, HopContext {
 	private final Runner runner;
 
@@ -141,7 +142,7 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void trace(String s) {
 		if (isTraceEnabled()) {
 			log.trace(s);
-			runner.getRunHandler().log(LogLevel.TRACE, s, null);
+			runner.getRunHandler().log(LogLevel.TRACE, s, null, null);
 		}
 	}
 
@@ -149,7 +150,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void trace(String s, Object o) {
 		if (isTraceEnabled()) {
 			log.trace(s, o);
-			runner.getRunHandler().log(LogLevel.TRACE, MessageFormatter.format(s, o).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, o);
+			runner.getRunHandler().log(LogLevel.TRACE, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -157,7 +159,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void trace(String s, Object o, Object o1) {
 		if (isTraceEnabled()) {
 			log.trace(s, o, o1);
-			runner.getRunHandler().log(LogLevel.TRACE, MessageFormatter.format(s, o, o1).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, o, o1);
+			runner.getRunHandler().log(LogLevel.TRACE, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -165,7 +168,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void trace(String s, Object... objects) {
 		if (isTraceEnabled()) {
 			log.trace(s, objects);
-			runner.getRunHandler().log(LogLevel.TRACE, MessageFormatter.format(s, objects).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, objects);
+			runner.getRunHandler().log(LogLevel.TRACE, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -173,7 +177,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void trace(String s, Throwable throwable) {
 		if (isTraceEnabled()) {
 			log.trace(s, throwable);
-			runner.getRunHandler().log(LogLevel.TRACE, MessageFormatter.format(s, throwable).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, throwable);
+			runner.getRunHandler().log(LogLevel.TRACE, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -181,7 +186,7 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void trace(Marker marker, String s) {
 		if (isTraceEnabled(marker)) {
 			log.trace(marker, s);
-			runner.getRunHandler().log(LogLevel.TRACE, s, marker);
+			runner.getRunHandler().log(LogLevel.TRACE, s, null, marker);
 		}
 	}
 
@@ -189,7 +194,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void trace(Marker marker, String s, Object o) {
 		if (isTraceEnabled(marker)) {
 			log.trace(marker, s, o);
-			runner.getRunHandler().log(LogLevel.TRACE, MessageFormatter.format(s, o).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, o);
+			runner.getRunHandler().log(LogLevel.TRACE, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -197,7 +203,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void trace(Marker marker, String s, Object o, Object o1) {
 		if (isTraceEnabled(marker)) {
 			log.trace(marker, s, o, o1);
-			runner.getRunHandler().log(LogLevel.TRACE, MessageFormatter.format(s, o, o1).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, o, o1);
+			runner.getRunHandler().log(LogLevel.TRACE, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -205,7 +212,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void trace(Marker marker, String s, Object... objects) {
 		if (isTraceEnabled(marker)) {
 			log.trace(marker, s, objects);
-			runner.getRunHandler().log(LogLevel.TRACE, MessageFormatter.format(s, objects).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, objects);
+			runner.getRunHandler().log(LogLevel.TRACE, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -213,7 +221,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void trace(Marker marker, String s, Throwable throwable) {
 		if (isTraceEnabled(marker)) {
 			log.trace(marker, s, throwable);
-			runner.getRunHandler().log(LogLevel.TRACE, MessageFormatter.format(s, throwable).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, throwable);
+			runner.getRunHandler().log(LogLevel.TRACE, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -231,7 +240,7 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void debug(String s) {
 		if (isDebugEnabled()) {
 			log.debug(s);
-			runner.getRunHandler().log(LogLevel.DEBUG, s, null);
+			runner.getRunHandler().log(LogLevel.DEBUG, s, null, null);
 		}
 	}
 
@@ -239,7 +248,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void debug(String s, Object o) {
 		if (isDebugEnabled()) {
 			log.debug(s, o);
-			runner.getRunHandler().log(LogLevel.DEBUG, MessageFormatter.format(s, o).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, o);
+			runner.getRunHandler().log(LogLevel.DEBUG, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -247,7 +257,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void debug(String s, Object o, Object o1) {
 		if (isDebugEnabled()) {
 			log.debug(s, o, o1);
-			runner.getRunHandler().log(LogLevel.DEBUG, MessageFormatter.format(s, o, o1).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, o, o1);
+			runner.getRunHandler().log(LogLevel.DEBUG, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -255,7 +266,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void debug(String s, Object... objects) {
 		if (isDebugEnabled()) {
 			log.debug(s, objects);
-			runner.getRunHandler().log(LogLevel.DEBUG, MessageFormatter.format(s, objects).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, objects);
+			runner.getRunHandler().log(LogLevel.DEBUG, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -263,7 +275,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void debug(String s, Throwable throwable) {
 		if (isDebugEnabled()) {
 			log.debug(s, throwable);
-			runner.getRunHandler().log(LogLevel.DEBUG, MessageFormatter.format(s, throwable).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, throwable);
+			runner.getRunHandler().log(LogLevel.DEBUG, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -271,7 +284,7 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void debug(Marker marker, String s) {
 		if (isDebugEnabled(marker)) {
 			log.debug(marker, s);
-			runner.getRunHandler().log(LogLevel.DEBUG, s, marker);
+			runner.getRunHandler().log(LogLevel.DEBUG, s, null, marker);
 		}
 	}
 
@@ -279,7 +292,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void debug(Marker marker, String s, Object o) {
 		if (isDebugEnabled(marker)) {
 			log.debug(marker, s, o);
-			runner.getRunHandler().log(LogLevel.DEBUG, MessageFormatter.format(s, o).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, o);
+			runner.getRunHandler().log(LogLevel.DEBUG, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -287,7 +301,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void debug(Marker marker, String s, Object o, Object o1) {
 		if (isDebugEnabled(marker)) {
 			log.debug(marker, s, o, o1);
-			runner.getRunHandler().log(LogLevel.DEBUG, MessageFormatter.format(s, o, o1).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, o, o1);
+			runner.getRunHandler().log(LogLevel.DEBUG, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -295,7 +310,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void debug(Marker marker, String s, Object... objects) {
 		if (isDebugEnabled(marker)) {
 			log.debug(marker, s, objects);
-			runner.getRunHandler().log(LogLevel.DEBUG, MessageFormatter.format(s, objects).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, objects);
+			runner.getRunHandler().log(LogLevel.DEBUG, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -303,7 +319,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void debug(Marker marker, String s, Throwable throwable) {
 		if (isDebugEnabled(marker)) {
 			log.debug(marker, s, throwable);
-			runner.getRunHandler().log(LogLevel.DEBUG, MessageFormatter.format(s, throwable).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, throwable);
+			runner.getRunHandler().log(LogLevel.DEBUG, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -321,7 +338,7 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void info(String s) {
 		if (isInfoEnabled()) {
 			log.info(s);
-			runner.getRunHandler().log(LogLevel.INFO, s, null);
+			runner.getRunHandler().log(LogLevel.INFO, s, null, null);
 		}
 	}
 
@@ -329,7 +346,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void info(String s, Object o) {
 		if (isInfoEnabled()) {
 			log.info(s, o);
-			runner.getRunHandler().log(LogLevel.INFO, MessageFormatter.format(s, o).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, o);
+			runner.getRunHandler().log(LogLevel.INFO, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -337,7 +355,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void info(String s, Object o, Object o1) {
 		if (isInfoEnabled()) {
 			log.info(s, o, o1);
-			runner.getRunHandler().log(LogLevel.INFO, MessageFormatter.format(s, o, o1).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, o, o1);
+			runner.getRunHandler().log(LogLevel.INFO, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -345,7 +364,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void info(String s, Object... objects) {
 		if (isInfoEnabled()) {
 			log.info(s, objects);
-			runner.getRunHandler().log(LogLevel.INFO, MessageFormatter.format(s, objects).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, objects);
+			runner.getRunHandler().log(LogLevel.INFO, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -353,7 +373,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void info(String s, Throwable throwable) {
 		if (isInfoEnabled()) {
 			log.info(s, throwable);
-			runner.getRunHandler().log(LogLevel.INFO, MessageFormatter.format(s, throwable).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, throwable);
+			runner.getRunHandler().log(LogLevel.INFO, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -361,7 +382,7 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void info(Marker marker, String s) {
 		if (isInfoEnabled(marker)) {
 			log.info(marker, s);
-			runner.getRunHandler().log(LogLevel.INFO, s, marker);
+			runner.getRunHandler().log(LogLevel.INFO, s, null, marker);
 		}
 	}
 
@@ -369,7 +390,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void info(Marker marker, String s, Object o) {
 		if (isInfoEnabled(marker)) {
 			log.info(marker, s, o);
-			runner.getRunHandler().log(LogLevel.INFO, MessageFormatter.format(s, o).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, o);
+			runner.getRunHandler().log(LogLevel.INFO, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -377,7 +399,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void info(Marker marker, String s, Object o, Object o1) {
 		if (isInfoEnabled(marker)) {
 			log.info(marker, s, o, o1);
-			runner.getRunHandler().log(LogLevel.INFO, MessageFormatter.format(s, o, o1).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, o, o1);
+			runner.getRunHandler().log(LogLevel.INFO, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -385,7 +408,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void info(Marker marker, String s, Object... objects) {
 		if (isInfoEnabled(marker)) {
 			log.info(marker, s, objects);
-			runner.getRunHandler().log(LogLevel.INFO, MessageFormatter.format(s, objects).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, objects);
+			runner.getRunHandler().log(LogLevel.INFO, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -393,7 +417,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void info(Marker marker, String s, Throwable throwable) {
 		if (isInfoEnabled(marker)) {
 			log.info(marker, s, throwable);
-			runner.getRunHandler().log(LogLevel.INFO, MessageFormatter.format(s, throwable).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, throwable);
+			runner.getRunHandler().log(LogLevel.INFO, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -412,7 +437,7 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void warn(String s) {
 		if (isWarnEnabled()) {
 			log.warn(s);
-			runner.getRunHandler().log(LogLevel.WARN, s, null);
+			runner.getRunHandler().log(LogLevel.WARN, s, null, null);
 		}
 	}
 
@@ -420,7 +445,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void warn(String s, Object o) {
 		if (isWarnEnabled()) {
 			log.warn(s, o);
-			runner.getRunHandler().log(LogLevel.WARN, MessageFormatter.format(s, o).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, o);
+			runner.getRunHandler().log(LogLevel.WARN, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -428,7 +454,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void warn(String s, Object o, Object o1) {
 		if (isWarnEnabled()) {
 			log.warn(s, o, o1);
-			runner.getRunHandler().log(LogLevel.WARN, MessageFormatter.format(s, o, o1).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, o, o1);
+			runner.getRunHandler().log(LogLevel.WARN, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -436,7 +463,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void warn(String s, Object... objects) {
 		if (isWarnEnabled()) {
 			log.warn(s, objects);
-			runner.getRunHandler().log(LogLevel.WARN, MessageFormatter.format(s, objects).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, objects);
+			runner.getRunHandler().log(LogLevel.WARN, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -444,7 +472,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void warn(String s, Throwable throwable) {
 		if (isWarnEnabled()) {
 			log.warn(s, throwable);
-			runner.getRunHandler().log(LogLevel.WARN, MessageFormatter.format(s, throwable).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, throwable);
+			runner.getRunHandler().log(LogLevel.WARN, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -452,7 +481,7 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void warn(Marker marker, String s) {
 		if (isWarnEnabled(marker)) {
 			log.warn(marker, s);
-			runner.getRunHandler().log(LogLevel.WARN, s, marker);
+			runner.getRunHandler().log(LogLevel.WARN, s, null, marker);
 		}
 	}
 
@@ -460,7 +489,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void warn(Marker marker, String s, Object o) {
 		if (isWarnEnabled(marker)) {
 			log.warn(marker, s, o);
-			runner.getRunHandler().log(LogLevel.WARN, MessageFormatter.format(s, o).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, o);
+			runner.getRunHandler().log(LogLevel.WARN, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -468,7 +498,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void warn(Marker marker, String s, Object o, Object o1) {
 		if (isWarnEnabled(marker)) {
 			log.warn(marker, s, o, o1);
-			runner.getRunHandler().log(LogLevel.WARN, MessageFormatter.format(s, o, o1).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, o, o1);
+			runner.getRunHandler().log(LogLevel.WARN, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -476,7 +507,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void warn(Marker marker, String s, Object... objects) {
 		if (isWarnEnabled(marker)) {
 			log.warn(marker, s, objects);
-			runner.getRunHandler().log(LogLevel.WARN, MessageFormatter.format(s, objects).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, objects);
+			runner.getRunHandler().log(LogLevel.WARN, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -484,7 +516,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void warn(Marker marker, String s, Throwable throwable) {
 		if (isWarnEnabled(marker)) {
 			log.warn(marker, s, throwable);
-			runner.getRunHandler().log(LogLevel.WARN, MessageFormatter.format(s, throwable).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, throwable);
+			runner.getRunHandler().log(LogLevel.WARN, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -503,7 +536,7 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void error(String s) {
 		if (isErrorEnabled()) {
 			log.error(s);
-			runner.getRunHandler().log(LogLevel.ERROR, s, null);
+			runner.getRunHandler().log(LogLevel.ERROR, s, null, null);
 		}
 	}
 
@@ -511,7 +544,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void error(String s, Object o) {
 		if (isErrorEnabled()) {
 			log.error(s, o);
-			runner.getRunHandler().log(LogLevel.ERROR, MessageFormatter.format(s, o).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, o);
+			runner.getRunHandler().log(LogLevel.ERROR, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -519,7 +553,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void error(String s, Object o, Object o1) {
 		if (isErrorEnabled()) {
 			log.error(s, o, o1);
-			runner.getRunHandler().log(LogLevel.ERROR, MessageFormatter.format(s, o, o1).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, o, o1);
+			runner.getRunHandler().log(LogLevel.ERROR, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -527,7 +562,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void error(String s, Object... objects) {
 		if (isErrorEnabled()) {
 			log.error(s, objects);
-			runner.getRunHandler().log(LogLevel.ERROR, MessageFormatter.format(s, objects).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, objects);
+			runner.getRunHandler().log(LogLevel.ERROR, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -535,7 +571,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void error(String s, Throwable throwable) {
 		if (isErrorEnabled()) {
 			log.error(s, throwable);
-			runner.getRunHandler().log(LogLevel.ERROR, MessageFormatter.format(s, throwable).getMessage(), null);
+			final FormattingTuple format = MessageFormatter.format(s, throwable);
+			runner.getRunHandler().log(LogLevel.ERROR, format.getMessage(), format.getThrowable(), null);
 		}
 	}
 
@@ -543,7 +580,7 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void error(Marker marker, String s) {
 		if (isErrorEnabled(marker)) {
 			log.error(marker, s);
-			runner.getRunHandler().log(LogLevel.ERROR, s, marker);
+			runner.getRunHandler().log(LogLevel.ERROR, s, null, marker);
 		}
 	}
 
@@ -551,7 +588,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void error(Marker marker, String s, Object o) {
 		if (isErrorEnabled(marker)) {
 			log.error(marker, s, o);
-			runner.getRunHandler().log(LogLevel.ERROR, MessageFormatter.format(s, o).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, o);
+			runner.getRunHandler().log(LogLevel.ERROR, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -559,7 +597,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void error(Marker marker, String s, Object o, Object o1) {
 		if (isErrorEnabled(marker)) {
 			log.error(marker, s, o, o1);
-			runner.getRunHandler().log(LogLevel.ERROR, MessageFormatter.format(s, o, o1).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, o, o1);
+			runner.getRunHandler().log(LogLevel.ERROR, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -567,7 +606,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void error(Marker marker, String s, Object... objects) {
 		if (isErrorEnabled(marker)) {
 			log.error(marker, s, objects);
-			runner.getRunHandler().log(LogLevel.ERROR, MessageFormatter.format(s, objects).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, objects);
+			runner.getRunHandler().log(LogLevel.ERROR, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 
@@ -575,7 +615,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void error(Marker marker, String s, Throwable throwable) {
 		if (isErrorEnabled(marker)) {
 			log.error(marker, s, throwable);
-			runner.getRunHandler().log(LogLevel.ERROR, MessageFormatter.format(s, throwable).getMessage(), marker);
+			final FormattingTuple format = MessageFormatter.format(s, throwable);
+			runner.getRunHandler().log(LogLevel.ERROR, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
 	// endregion

@@ -89,7 +89,7 @@ public interface HopContext extends Logger {
 	void print(String message);
 
 	/**
-	 * @return a writer that can be used to print to the response, the same way calling {@link #print()} would
+	 * @return a writer that can be used to print to the response, the same way calling {@link #print(String)} would
 	 */
 	Writer getWriter();
 

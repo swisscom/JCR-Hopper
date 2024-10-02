@@ -1,5 +1,8 @@
 package com.swisscom.aem.tools.jcrhopper.impl;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.slf4j.Marker;
 
 import com.swisscom.aem.tools.jcrhopper.config.File;
@@ -8,17 +11,17 @@ import com.swisscom.aem.tools.jcrhopper.config.RunHandler;
 
 public class NoopRunHandler implements RunHandler {
 	@Override
-	public void file(File file) {
+	public void file(@Nonnull File file) {
 		// No-op
 	}
 
 	@Override
-	public void log(LogLevel level, String message, Marker marker) {
+	public void log(@Nonnull LogLevel level, @Nonnull String message, @Nullable Throwable throwable, @Nullable Marker marker) {
 		// No-op
 	}
 
 	@Override
-	public void print(String message) {
+	public void print(@Nullable String message) {
 		// No-op
 	}
 }
