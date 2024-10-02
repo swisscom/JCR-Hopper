@@ -11,6 +11,7 @@ jackrabbit = "2.18.3"
 
 [libraries]
 osgi-cmpn = { group = "org.osgi", name = "osgi.cmpn", version.ref = "osgi" }
+osgi-annotation = { group = "org.osgi", name = "osgi.annotation", version.ref = "osgi" }
 
 # Java & AEM dependencies
 lombok = "org.projectlombok:lombok:1.18.30"

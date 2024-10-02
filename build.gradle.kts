@@ -12,6 +12,7 @@ plugins {
 }
 
 group = "com.swisscom.aem.tools"
+description = "JCR Hopper: Migrate AEM with Grace"
 
 defaultTasks("check")
 
@@ -72,6 +73,7 @@ java {
         compileOnly(libs.servlet)
         compileOnly(libs.gson)
         compileOnly(libs.apacheCommons.lang3)
+        compileOnly(libs.osgi.annotation)
         compileOnly(libs.osgi.cmpn)
         compileOnly(libs.jcr)
         compileOnly(libs.spiCommons)
