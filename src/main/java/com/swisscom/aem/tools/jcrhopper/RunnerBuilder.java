@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import lombok.Getter;
@@ -23,6 +24,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializer;
 import com.swisscom.aem.tools.jcrhopper.config.ConflictResolution;
+import com.swisscom.aem.tools.jcrhopper.config.File;
 import com.swisscom.aem.tools.jcrhopper.config.Hop;
 import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
@@ -40,6 +42,7 @@ public class RunnerBuilder {
 	private final Set<Hop<?>> knownHops = new HashSet<>();
 	private final Map<String, Object> utils = new HashMap<>();
 	private final Map<String, Object> variables = new HashMap<>();
+	private final Map<String, Function<String, File>> fileTypeSuppliers = new HashMap<>();
 
 	private final Gson gson;
 
@@ -60,6 +63,8 @@ public class RunnerBuilder {
 	 *     <li><code>class</code>: static methods on {@link Class}</li>
 	 *     <li><code>collections</code>: static methods on {@link Collections}</li>
 	 * </ul>
+	 * <p>
+	 * Note that the <code>jcr</code> and <code>file</code> utils cannot be disabled.
 	 */
 	@Getter
 	@Setter
@@ -195,6 +200,29 @@ public class RunnerBuilder {
 	}
 
 	/**
+	 * Registers a file supplier.
+	 *
+	 * @param type         the file type name to register (will become a function in the `file:` util namespace)
+	 * @param fileSupplier the file supplier to register
+	 * @return self for chaining
+	 */
+	public RunnerBuilder registerFile(String type, Function<String, File> fileSupplier) {
+		fileTypeSuppliers.put(type, fileSupplier);
+		return this;
+	}
+
+	/**
+	 * Registers multiple file suppliers.
+	 *
+	 * @param suppliers the map of suppliers to add
+	 * @return self for chaining
+	 */
+	public RunnerBuilder registerFiles(Map<String, Function<String, File>> suppliers) {
+		fileTypeSuppliers.putAll(suppliers);
+		return this;
+	}
+
+	/**
 	 * Constructs a {@link Runner} with the configuration of this builder.
 	 *
 	 * @param script the script to run
@@ -209,11 +237,12 @@ public class RunnerBuilder {
 			utils.put("collections", Collections.class);
 		}
 		return new Runner(
-			script,
-			runHandler,
 			Collections.unmodifiableSet(new HashSet<>(knownHops)),
+			utils,
 			new HashMap<>(variables),
-			utils
+			new HashMap<>(fileTypeSuppliers),
+			runHandler,
+			script
 		);
 	}
 

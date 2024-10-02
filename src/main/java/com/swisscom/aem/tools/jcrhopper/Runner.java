@@ -2,8 +2,11 @@ package com.swisscom.aem.tools.jcrhopper;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
@@ -19,9 +22,12 @@ import org.apache.commons.jexl3.introspection.JexlPermissions;
 
 import com.swisscom.aem.tools.impl.HopContextImpl;
 import com.swisscom.aem.tools.impl.JcrFunctionsImpl;
+import com.swisscom.aem.tools.impl.file.FileUtils;
+import com.swisscom.aem.tools.jcrhopper.config.File;
 import com.swisscom.aem.tools.jcrhopper.config.Hop;
 import com.swisscom.aem.tools.jcrhopper.config.RunHandler;
 import com.swisscom.aem.tools.jcrhopper.config.Script;
+import com.swisscom.aem.tools.jcrhopper.context.HopContext;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -30,11 +36,13 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 @RequiredArgsConstructor
 @SuppressFBWarnings(value = "OPM_OVERLY_PERMISSIVE_METHOD", justification = "API surface")
 public class Runner {
-	private final Script script;
-	private final RunHandler runHandler;
-	private final Set<Hop<?>> hops;
-	private final Map<String, Object> variables;
+	private final Set<Hop<?>> knownHops;
 	private final Map<String, Object> utils;
+	private final Map<String, Object> variables;
+	private final Map<String, Function<String, File>> fileTypeSuppliers;
+
+	private final RunHandler runHandler;
+	private final Script script;
 
 	/**
 	 * @return a {@link RunnerBuilder} for configuring a new {@link Runner}
@@ -69,28 +77,29 @@ public class Runner {
 		final JexlBuilder jexlBuilder = new JexlBuilder();
 		final Session session = node.getSession();
 
+		final Map<String, Object> variables = new HashMap<>(this.variables);
+		final List<File> knownFiles = new LinkedList<>();
 		final JcrFunctionsImpl jcrFunctions = new JcrFunctionsImpl(session);
-		Map<String, Object> utils = new HashMap<>(this.utils);
-		utils.put("jcr", jcrFunctions);
-		utils = Collections.unmodifiableMap(utils);
+
+		registerUtils(knownFiles, jcrFunctions, variables, jexlBuilder);
+
 		jexlBuilder.antish(false);
 		jexlBuilder.permissions(JexlPermissions.UNRESTRICTED);
-		jexlBuilder.namespaces(utils);
-		// For access in scripting languages other than JEXL
-		variables.put("utils", utils);
-		final JexlEngine jexlEngine = jexlBuilder.create();
 
-		final HopContextImpl context = new HopContextImpl(
+		final JexlEngine jexlEngine = jexlBuilder.create();
+		final HopContext context = new HopContextImpl(
 			this,
 			jexlEngine,
 			jexlEngine.createJxltEngine(),
 			jcrFunctions,
 			variables
 		);
+
 		final long ts = System.currentTimeMillis();
-		context.trace("Starting JCR Hopper script on node {}", node.getPath());
+		context.trace("Starting JCR Hopper script on node {} at {}", node.getPath(), ts);
 		context.runHops(node, script.getHops());
 		context.info("JCR Hopper script finished after {}ms", System.currentTimeMillis() - ts);
+
 		if (commitAfterRun) {
 			context.debug("Saving session");
 			session.save();
@@ -98,5 +107,23 @@ public class Runner {
 		} else {
 			context.warn("Not saving changes as dry run is enabled");
 		}
+
+		context.trace("Outputting files");
+		for (File file : knownFiles) {
+			runHandler.file(file);
+		}
+	}
+
+	private void registerUtils(List<File> knownFiles, JcrFunctionsImpl jcrFunctions, Map<String, Object> variables, JexlBuilder jexlBuilder) {
+		final FileUtils fileUtils = new FileUtils(knownFiles::add, fileTypeSuppliers, runHandler);
+
+		Map<String, Object> utils = new HashMap<>(this.utils);
+		utils.put("jcr", jcrFunctions);
+		utils.put("file", fileUtils);
+		utils = Collections.unmodifiableMap(utils);
+		// For access in scripting languages other than JEXL
+		variables.put("utils", utils);
+
+		jexlBuilder.namespaces(utils);
 	}
 }

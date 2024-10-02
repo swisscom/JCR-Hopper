@@ -1,4 +1,4 @@
-package com.swisscom.aem.tools.impl;
+package com.swisscom.aem.tools.impl.extension;
 
 import java.util.List;
 

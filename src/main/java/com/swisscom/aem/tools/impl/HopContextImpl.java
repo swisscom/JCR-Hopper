@@ -82,7 +82,10 @@ public class HopContextImpl implements JexlContext, HopContext {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void runHop(Node node, HopConfig hopConfig) throws HopperException, RepositoryException {
-		final Hop<HopConfig> hop = (Hop<HopConfig>) runner.getHops().stream().filter(h -> h.getConfigType().isInstance(hopConfig)).findFirst()
+		final Hop<HopConfig> hop = (Hop<HopConfig>) runner.getKnownHops()
+			.stream()
+			.filter(h -> h.getConfigType().isInstance(hopConfig))
+			.findFirst()
 			.orElseThrow(() -> new HopperException("Hop config of type " + hopConfig.getClass() + " is not known"));
 
 		hop.run(hopConfig, node, this);
