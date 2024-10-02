@@ -20,11 +20,11 @@ import com.swisscom.aem.tools.impl.HopProviderExtension;
 import com.swisscom.aem.tools.impl.hops.ChildNodes;
 import com.swisscom.aem.tools.impl.hops.ResolveNode;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.LogLevel;
-import com.swisscom.aem.tools.jcrhopper.RunHandler;
+import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
+import com.swisscom.aem.tools.jcrhopper.config.RunHandler;
 import com.swisscom.aem.tools.jcrhopper.Runner;
 import com.swisscom.aem.tools.jcrhopper.RunnerBuilder;
-import com.swisscom.aem.tools.jcrhopper.Script;
+import com.swisscom.aem.tools.jcrhopper.config.Script;
 
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;

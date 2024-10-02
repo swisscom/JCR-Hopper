@@ -29,10 +29,11 @@ import org.apache.commons.jexl3.MapContext;
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
 
-import com.swisscom.aem.tools.impl.HopContext;
-import com.swisscom.aem.tools.jcrhopper.Hop;
-import com.swisscom.aem.tools.jcrhopper.HopConfig;
+import com.swisscom.aem.tools.impl.HopContextImpl;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
+import com.swisscom.aem.tools.jcrhopper.config.Hop;
+import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
+import com.swisscom.aem.tools.jcrhopper.context.HopContext;
 
 @RequiredArgsConstructor
 @Component(service = Hop.class)
@@ -57,9 +58,14 @@ public class RunScript implements Hop<RunScript.Config> {
 	}
 
 	private static void runJexl(Config config, HopContext context, Map<String, Object> params) {
+		if (!(context instanceof HopContextImpl)) {
+			// Only our HopContext implementation has a JEXL engine accessor
+			context.error("Cannot run jexl with {} context", context.getClass());
+			return;
+		}
 		final Map<String, Object> jexlContext = new HashMap<>();
 		final List<Map.Entry<String, Object>> paramsOrdered = new ArrayList<>(params.entrySet());
-		context.getJexlEngine().createScript(
+		((HopContextImpl) context).getJexlEngine().createScript(
 			config.code,
 			paramsOrdered.stream().map(Map.Entry::getKey).toArray(String[]::new)
 		).execute(
@@ -67,7 +73,9 @@ public class RunScript implements Hop<RunScript.Config> {
 			paramsOrdered.stream().map(Map.Entry::getValue).toArray(Object[]::new)
 		);
 		if (config.putLocalsBackIntoScope) {
-			context.getVariables().putAll(jexlContext);
+			for (Map.Entry<String, Object> entry : jexlContext.entrySet()) {
+				context.setVariable(entry.getKey(), entry.getValue());
+			}
 		}
 	}
 
@@ -90,16 +98,20 @@ public class RunScript implements Hop<RunScript.Config> {
 		scriptContext.setBindings(engine.createBindings(), ScriptContext.ENGINE_SCOPE);
 		final Bindings engineScope = scriptContext.getBindings(ScriptContext.ENGINE_SCOPE);
 
-		engineScope.putAll(context.getVariables());
+		final Map<String, Object> knownVariables = context.getVariables();
+		engineScope.putAll(knownVariables);
 		engineScope.putAll(params);
 
 		try {
 			engine.eval(config.code, scriptContext);
 			if (config.putLocalsBackIntoScope) {
-				// Only allow added variables back into the context, not overridden variables or params
-				engineScope.keySet().removeAll(params.keySet());
-				engineScope.keySet().removeAll(context.getVariables().keySet());
-				context.getVariables().putAll(engineScope);
+				for (Map.Entry<String, Object> entry : engineScope.entrySet()) {
+					if (knownVariables.containsKey(entry.getKey()) || params.containsKey(entry.getKey())) {
+						// Don’t allow overriding existing variables
+						continue;
+					}
+					context.setVariable(entry.getKey(), entry.getValue());
+				}
 			}
 		} catch (ScriptException e) {
 			throw new HopperException("Error executing script for code: " + config.code, e);

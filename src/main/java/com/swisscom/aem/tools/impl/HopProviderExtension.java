@@ -9,7 +9,7 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.component.annotations.ReferencePolicyOption;
 
-import com.swisscom.aem.tools.jcrhopper.Hop;
+import com.swisscom.aem.tools.jcrhopper.config.Hop;
 import com.swisscom.aem.tools.jcrhopper.RunnerBuilder;
 import com.swisscom.aem.tools.jcrhopper.osgi.RunnerBuilderExtension;
 

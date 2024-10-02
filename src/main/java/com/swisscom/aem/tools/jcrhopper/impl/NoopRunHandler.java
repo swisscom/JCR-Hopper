@@ -2,9 +2,9 @@ package com.swisscom.aem.tools.jcrhopper.impl;
 
 import org.slf4j.Marker;
 
-import com.swisscom.aem.tools.jcrhopper.File;
-import com.swisscom.aem.tools.jcrhopper.LogLevel;
-import com.swisscom.aem.tools.jcrhopper.RunHandler;
+import com.swisscom.aem.tools.jcrhopper.config.File;
+import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
+import com.swisscom.aem.tools.jcrhopper.config.RunHandler;
 
 public class NoopRunHandler implements RunHandler {
 	@Override

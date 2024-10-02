@@ -24,10 +24,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 
-import com.swisscom.aem.tools.impl.HopContext;
-import com.swisscom.aem.tools.jcrhopper.Hop;
-import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
+import com.swisscom.aem.tools.jcrhopper.config.Hop;
+import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
+import com.swisscom.aem.tools.jcrhopper.context.HopContext;
 
 @Component(service = Hop.class)
 public class NodeQuery implements Hop<NodeQuery.Config> {
@@ -88,9 +88,11 @@ public class NodeQuery implements Hop<NodeQuery.Config> {
 		if (config.offset > 0) {
 			query.setOffset(config.offset);
 		}
+		final Map<String, Object> variables = context.getVariables();
 		for (String bindVar : query.getBindVariableNames()) {
-			if (context.has(bindVar)) {
-				query.bindValue(bindVar, context.getJcrFunctions().valueFromObject(context.get(bindVar)));
+			final Object value = variables.get(bindVar);
+			if (value != null) {
+				query.bindValue(bindVar, context.getJcrFunctions().valueFromObject(value));
 			} else {
 				context.error("Could not bind placeholder {} as there is no known variable for it", bindVar);
 			}

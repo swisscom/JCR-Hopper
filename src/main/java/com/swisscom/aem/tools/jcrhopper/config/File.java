@@ -1,4 +1,4 @@
-package com.swisscom.aem.tools.jcrhopper;
+package com.swisscom.aem.tools.jcrhopper.config;
 
 /**
  * Interface representing a file generated during the run of a script.

@@ -11,11 +11,12 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 import com.swisscom.aem.tools.jcrhopper.Runner;
 import com.swisscom.aem.tools.jcrhopper.RunnerBuilder;
+import com.swisscom.aem.tools.jcrhopper.config.Hop;
 
 /**
  * A service to create {@link RunnerBuilder}s extended with configs known to OSGi.
  * <p>
- * By default, the {@link com.swisscom.aem.tools.impl.HopProviderExtension} will make all known {@link com.swisscom.aem.tools.jcrhopper.Hop} services available
+ * By default, the {@link com.swisscom.aem.tools.impl.HopProviderExtension} will make all known {@link Hop} services available
  */
 @Component(service = RunnerService.class)
 public class RunnerService {

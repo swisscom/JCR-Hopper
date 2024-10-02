@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
+
 public class LogLevelTest {
 
 	@Test

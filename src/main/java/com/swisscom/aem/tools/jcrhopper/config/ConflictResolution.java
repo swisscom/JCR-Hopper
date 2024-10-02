@@ -1,8 +1,10 @@
-package com.swisscom.aem.tools.jcrhopper;
+package com.swisscom.aem.tools.jcrhopper.config;
 
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
+
+import com.swisscom.aem.tools.jcrhopper.HopperException;
 
 /**
  * How problems with a hop’s action are handled.

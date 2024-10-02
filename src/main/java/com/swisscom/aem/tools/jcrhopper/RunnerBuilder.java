@@ -22,6 +22,12 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializer;
+import com.swisscom.aem.tools.jcrhopper.config.ConflictResolution;
+import com.swisscom.aem.tools.jcrhopper.config.Hop;
+import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
+import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
+import com.swisscom.aem.tools.jcrhopper.config.RunHandler;
+import com.swisscom.aem.tools.jcrhopper.config.Script;
 import com.swisscom.aem.tools.jcrhopper.impl.NoopRunHandler;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;

@@ -16,10 +16,10 @@ import lombok.With;
 
 import org.osgi.service.component.annotations.Component;
 
-import com.swisscom.aem.tools.impl.HopContext;
-import com.swisscom.aem.tools.jcrhopper.Hop;
-import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
+import com.swisscom.aem.tools.jcrhopper.config.Hop;
+import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
+import com.swisscom.aem.tools.jcrhopper.context.HopContext;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 

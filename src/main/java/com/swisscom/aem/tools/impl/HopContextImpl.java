@@ -15,15 +15,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.jexl3.JexlContext;
 import org.apache.commons.jexl3.JexlEngine;
 import org.apache.commons.jexl3.JxltEngine;
-import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.helpers.MessageFormatter;
 
-import com.swisscom.aem.tools.jcrhopper.Hop;
-import com.swisscom.aem.tools.jcrhopper.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.LogLevel;
 import com.swisscom.aem.tools.jcrhopper.Runner;
+import com.swisscom.aem.tools.jcrhopper.config.Hop;
+import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
+import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
+import com.swisscom.aem.tools.jcrhopper.context.HopContext;
 
 /**
  * Helper for hops to execute their actions.
@@ -31,81 +31,45 @@ import com.swisscom.aem.tools.jcrhopper.Runner;
 @RequiredArgsConstructor
 @Slf4j
 @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.ExcessivePublicCount", "PMD.TooManyMethods"})
-public class HopContext implements Logger, JexlContext {
+public class HopContextImpl implements JexlContext, HopContext {
 	private final Runner runner;
 
 	@Getter
 	private final JexlEngine jexlEngine;
 	private final JxltEngine templateEngine;
 	@Getter
-	private final JcrFunctions jcrFunctions;
-
-	@Getter
+	private final JcrFunctionsImpl jcrFunctions;
 	private final Map<String, Object> variables;
 
-	/**
-	 * Run the given hops on a new node.
-	 * <p>
-	 * Useful for running descendant hop pipelines.
-	 *
-	 * @param node the node to run the pipeline on
-	 * @param hops the hop pipeline to run
-	 * @throws HopperException     if one of the hops encounters a node it cannot handle and is configured to throw
-	 * @throws RepositoryException if an error occurs during JCR manipulation
-	 */
+	@Override
 	public void runHops(Node node, Iterable<HopConfig> hops) throws HopperException, RepositoryException {
 		runHops(node, hops, Collections.emptyMap());
 	}
 
-	/**
-	 * Run the given hops on a new node.
-	 * <p>
-	 * Useful for running descendant hop pipelines.
-	 *
-	 * @param node                the node to run the pipeline on
-	 * @param hops                the hop pipeline to run
-	 * @param additionalVariables additional EL/Script variables to set on the descendant pipeline
-	 * @throws HopperException     if one of the hops encounters a node it cannot handle and is configured to throw
-	 * @throws RepositoryException if an error occurs during JCR manipulation
-	 */
+	@Override
 	public void runHops(
 		Node node,
 		Iterable<HopConfig> hops,
 		Map<String, Object> additionalVariables
 	) throws HopperException, RepositoryException {
-		final HopContext inner = childContext(node, additionalVariables);
+		final HopContextImpl inner = childContext(node, additionalVariables);
 		for (HopConfig hopConfig : hops) {
 			inner.runHop(node, hopConfig);
 		}
 	}
 
-	/**
-	 * Evaluates a string as JEXL template.
-	 *
-	 * @param template a JEXL template string, e.g. “Hello, my name is ${name}”
-	 * @return the evaluated template
-	 */
+	@Override
 	public String evaluateTemplate(String template) {
 		return templateEngine.createTemplate(template).prepare(this).asString();
 	}
 
 
-	/**
-	 * Evaluates a JEXL expression and returns its value.
-	 *
-	 * @param expression the expression to evaluate, e.g. 1+2
-	 * @return the evaluated JEXL expression value
-	 */
+	@Override
 	public Object evaluate(String expression) {
 		return jexlEngine.createExpression(expression).evaluate(this);
 	}
 
-	/**
-	 * Evaluates a JEXL expression and returns whether it evaluates to true.
-	 *
-	 * @param expression the expression to evaluate, e.g. a &gt; b
-	 * @return whether the JEXL expression evaluates to true (or the string "true")
-	 */
+	@Override
 	public boolean expressionMatches(String expression) {
 		final Object result = evaluate(expression);
 		if (result instanceof Boolean) {
@@ -114,20 +78,7 @@ public class HopContext implements Logger, JexlContext {
 		return Boolean.parseBoolean(result.toString());
 	}
 
-	/**
-	 * Runs a given hop config on the given node.
-	 * <p>
-	 * This is used for special purposes where running a hop must be run in isolation.
-	 * It also does not create a nested variable map or put the given node on the variable map.
-	 * <p>
-	 * TODO: Refactor the method and remove this parameter, take node from variables always
-	 *
-	 * @param node      the node to run the hop on
-	 *                  Note: it is undefined behavior if this is not the node currently active on this context
-	 * @param hopConfig the hop to run
-	 * @throws HopperException     if the hop or one of its descendants encounters a node it cannot handle and is configured to throw
-	 * @throws RepositoryException if an error occurs during JCR manipulation
-	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public void runHop(Node node, HopConfig hopConfig) throws HopperException, RepositoryException {
 		final Hop<HopConfig> hop = (Hop<HopConfig>) runner.getHops().stream().filter(h -> h.getConfigType().isInstance(hopConfig)).findFirst()
@@ -136,11 +87,11 @@ public class HopContext implements Logger, JexlContext {
 		hop.run(hopConfig, node, this);
 	}
 
-	private HopContext childContext(Node node, Map<String, Object> additionalVariables) {
+	private HopContextImpl childContext(Node node, Map<String, Object> additionalVariables) {
 		final Map<String, Object> childVariables = new DerivedMap<>(variables);
 		childVariables.putAll(additionalVariables);
 		childVariables.put("node", node);
-		return new HopContext(runner, jexlEngine, jexlEngine.createJxltEngine(), jcrFunctions, childVariables);
+		return new HopContextImpl(runner, jexlEngine, jexlEngine.createJxltEngine(), jcrFunctions, childVariables);
 	}
 
 	// region JEXL Context Accessors
@@ -159,6 +110,16 @@ public class HopContext implements Logger, JexlContext {
 		variables.put(key, value);
 	}
 	//endregion
+
+	@Override
+	public void setVariable(String name, Object value) {
+		set(name, value);
+	}
+
+	@Override
+	public Map<String, Object> getVariables() {
+		return Collections.unmodifiableMap(variables);
+	}
 
 	// region Logging functions
 	@Override
@@ -619,13 +580,19 @@ public class HopContext implements Logger, JexlContext {
 	}
 	// endregion
 
+	@Override
+	public void print(String message) {
+		runner.getRunHandler().print(message);
+	}
+
 
 	// region Writer
+	@Override
 	public Writer getWriter() {
 		return new PrintWriter(new Writer() {
 			@Override
 			public void write(char[] cbuf, int off, int len) {
-				runner.getRunHandler().print(new String(cbuf, off, len));
+				print(new String(cbuf, off, len));
 			}
 
 			@Override

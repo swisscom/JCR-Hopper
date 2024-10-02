@@ -1,7 +1,6 @@
 package com.swisscom.aem.tools.impl;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
@@ -24,12 +23,14 @@ import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.swisscom.aem.tools.jcrhopper.context.JcrFunctions;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @RequiredArgsConstructor
 @SuppressFBWarnings(value = "OPM_OVERLY_PERMISSIVE_METHOD", justification = "Used by scripting")
 @SuppressWarnings("PMD.GodClass")
-public class JcrFunctions {
+public class JcrFunctionsImpl implements JcrFunctions {
 	private final Session session;
 
 	/**
@@ -70,27 +71,12 @@ public class JcrFunctions {
 		return result;
 	}
 
-	/**
-	 * Checks if a property exists.
-	 *
-	 * @param node     The node whose property you want to check
-	 * @param propName The name of the property to read
-	 * @return true if the referenced property exists
-	 * @throws RepositoryException If an error occurs in JCR
-	 */
+	@Override
 	public boolean hasProp(Node node, String propName) throws RepositoryException {
 		return node.hasProperty(propName);
 	}
 
-	/**
-	 * Gets a property from a node or null if the property does not exist.
-	 * Useful if you want to coerce the property to a different type than its native one.
-	 *
-	 * @param node     The node whose property you want to check
-	 * @param propName The name of the property to read
-	 * @return The value object of the property referenced by propName on node or null
-	 * @throws RepositoryException If an error occurs in JCR
-	 */
+	@Override
 	public Value prop(Node node, String propName) throws RepositoryException {
 		if (!hasProp(node, propName)) {
 			return null;
@@ -98,16 +84,7 @@ public class JcrFunctions {
 		return node.getProperty(propName).getValue();
 	}
 
-	/**
-	 * Gets a multivalued property from a node.
-	 * Useful if you want to coerce the property to a different type than its native one.
-	 * Absent properties will return an empty array. Check with {@link JcrFunctions#hasProp(Node, String)}.
-	 *
-	 * @param node     The node whose property you want to check
-	 * @param propName The name of the property to read
-	 * @return The value object of the property referenced by propName on node or null
-	 * @throws RepositoryException If an error occurs in JCR
-	 */
+	@Override
 	public Value[] props(Node node, String propName) throws RepositoryException {
 		if (!hasProp(node, propName)) {
 			return new Value[]{};
@@ -120,14 +97,7 @@ public class JcrFunctions {
 		return new Value[]{prop.getValue()};
 	}
 
-	/**
-	 * Returns the value of a property or null if the property does not exist.
-	 *
-	 * @param node     The node whose property you want to check
-	 * @param propName The name of the property to read
-	 * @return The value of the property referenced by propName on node converted to its type or null
-	 * @throws RepositoryException If an error occurs in JCR
-	 */
+	@Override
 	public Object val(Node node, String propName) throws RepositoryException {
 		final Value val = prop(node, propName);
 		if (val == null) {
@@ -136,15 +106,7 @@ public class JcrFunctions {
 		return objectFromValue(val, val.getType());
 	}
 
-	/**
-	 * Returns an array for the values of the given property (empty if the property does not exist).
-	 * To check if the property exists, use hasProp.
-	 *
-	 * @param node     The node whose property you want to check
-	 * @param propName The name of the property to read
-	 * @return an array of the property values (all have the same type)
-	 * @throws RepositoryException If an error occurs in JCR
-	 */
+	@Override
 	public Object[] vals(Node node, String propName) throws RepositoryException {
 		if (!hasProp(node, propName)) {
 			return new Object[0];
@@ -166,37 +128,17 @@ public class JcrFunctions {
 		return list.toArray();
 	}
 
-	/**
-	 * Checks if a node matches a given type either as primary or mixin.
-	 *
-	 * @param node     The node whose type you want to check
-	 * @param nodeType The type to check
-	 * @return true if the node matches the specified type
-	 * @throws RepositoryException If an error occurs in JCR
-	 */
+	@Override
 	public boolean isType(Node node, String nodeType) throws RepositoryException {
 		return node.isNodeType(nodeType);
 	}
 
-	/**
-	 * Checks if a node exists at a given absolute path.
-	 *
-	 * @param path The absolute path to resolve
-	 * @return true if a node exists at the path
-	 * @throws RepositoryException If an error occurs in JCR
-	 */
+	@Override
 	public boolean exists(String path) throws RepositoryException {
 		return exists(null, path);
 	}
 
-	/**
-	 * Checks if a node exists at a given path.
-	 *
-	 * @param context The node from which the path should be resolved
-	 * @param path    The absolute or relative path to resolve
-	 * @return true if a node exists at the path
-	 * @throws RepositoryException If an error occurs in JCR
-	 */
+	@Override
 	public boolean exists(@Nullable Node context, String path) throws RepositoryException {
 		if (StringUtils.startsWith(path, "/")) {
 			return session.nodeExists(path);
@@ -207,14 +149,7 @@ public class JcrFunctions {
 		return context.hasNode(path);
 	}
 
-	/**
-	 * Resolves the node at a given path.
-	 *
-	 * @param context The node from which the path should be resolved
-	 * @param path    The absolute or relative path to resolve
-	 * @return The node at the specified path or null if no node exists
-	 * @throws RepositoryException If an error occurs in JCR
-	 */
+	@Override
 	public Node resolve(@Nullable Node context, String path) throws RepositoryException {
 		if (!exists(context, path)) {
 			return null;
@@ -228,39 +163,19 @@ public class JcrFunctions {
 		return context.getNode(path);
 	}
 
-	/**
-	 * Resolves the node at a given absolute path.
-	 *
-	 * @param path The absolute path to resolve
-	 * @return The node at the specified path or null if no node exists
-	 * @throws RepositoryException If an error occurs in JCR
-	 */
+	@Override
 	public Node resolve(String path) throws RepositoryException {
 		return resolve(null, path);
 	}
 
-	/**
-	 * Creates a binary representation of the given string.
-	 *
-	 * @param data     The string to convert
-	 * @param encoding The target encoding
-	 * @return An instance of Binary representing the given string
-	 * @throws RepositoryException If an error occurs in JCR
-	 * @throws IOException         If the encoding is invalid
-	 */
+	@Override
 	public Binary toBinary(String data, String encoding) throws RepositoryException {
 		return session.getValueFactory().createBinary(
 			new ByteArrayInputStream(data.getBytes(Charset.forName(encoding)))
 		);
 	}
 
-	/**
-	 * Create list of parents nodes.
-	 *
-	 * @param context start node
-	 * @return list of parent nodes
-	 * @throws RepositoryException if there is no depth or parent
-	 */
+	@Override
 	public List<Node> parents(Node context) throws RepositoryException {
 		final List<Node> results = new ArrayList<>(context.getDepth());
 		Node current = context;
@@ -271,13 +186,7 @@ public class JcrFunctions {
 		return results;
 	}
 
-	/**
-	 * Converts the given object to a single-valued JCR value.
-	 *
-	 * @param value The value to convert
-	 * @return The converted value in the correct type or its string representation
-	 * @throws RepositoryException if an error occurred
-	 */
+	@Override
 	public Value valueFromObject(Object value) throws RepositoryException {
 
 		if (value instanceof Value) {
@@ -320,13 +229,7 @@ public class JcrFunctions {
 	}
 
 
-	/**
-	 * Convert the given array of objects or primitives to an array or JCR Values.
-	 *
-	 * @param value The array of values to convert
-	 * @return The array of JCR values
-	 * @throws RepositoryException if an error occurred
-	 */
+	@Override
 	public Value[] valuesFromArray(Object value) throws RepositoryException {
 		if (!value.getClass().isArray()) {
 			return new Value[]{valueFromObject(value)};
@@ -350,13 +253,7 @@ public class JcrFunctions {
 		return result;
 	}
 
-	/**
-	 * Creates a value array from a list of objects.
-	 *
-	 * @param list the list of values to convert. Values have to coerce to the same property type for them to be usable in a property
-	 * @return the values array
-	 * @throws RepositoryException if an error occurred
-	 */
+	@Override
 	public Value[] valuesFromList(List<?> list) throws RepositoryException {
 		final Value[] result = new Value[list.size()];
 		for (int i = 0; i < list.size(); i++) {
@@ -365,37 +262,17 @@ public class JcrFunctions {
 		return result;
 	}
 
-	/**
-	 * Convert the given array of strings to an array or JCR Values.
-	 *
-	 * @param elements The array of values to convert
-	 * @return The array of JCR values
-	 * @throws RepositoryException if an error occurred
-	 */
+	@Override
 	public Value[] toStringArray(String[]... elements) throws RepositoryException {
 		return valuesFromArray(elements);
 	}
 
-	/**
-	 * Convert the given array of ints to an array or JCR Values.
-	 *
-	 * @param elements The array of values to convert
-	 * @return The array of JCR values
-	 * @throws RepositoryException if an error occurred
-	 */
+	@Override
 	public Value[] toLongArray(Long[]... elements) throws RepositoryException {
 		return valuesFromArray(elements);
 	}
 
-	/**
-	 * Turns the given object into either a single Value instance or an array of Value[] instances.
-	 * <p>
-	 * Is capable of handling all value types supported by valuesFromList, valuesFromArray and valueFromObject
-	 *
-	 * @param value the object to convert to either Value or Value[]
-	 * @return an object, guaranteed to be either Value or Value[]
-	 * @throws RepositoryException if an error occurred
-	 */
+	@Override
 	public Object asValueType(Object value) throws RepositoryException {
 		final Object result;
 
@@ -418,14 +295,7 @@ public class JcrFunctions {
 		return result;
 	}
 
-
-	/**
-	 * Count the number of items in the given thing.
-	 *
-	 * @param any the object to count
-	 * @return the size of any if it’s either a list, an array or a multivalued property, -1 otherwise
-	 * @throws RepositoryException if an error occurred
-	 */
+	@Override
 	@SuppressFBWarnings(value = "ITC_INHERITANCE_TYPE_CHECKING", justification = "Arbitration is the point of this method")
 	public int size(Object any) throws RepositoryException {
 		if (any instanceof List) {

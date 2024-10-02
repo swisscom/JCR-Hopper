@@ -1,4 +1,4 @@
-package com.swisscom.aem.tools.jcrhopper;
+package com.swisscom.aem.tools.jcrhopper.config;
 
 import java.util.List;
 

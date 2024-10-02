@@ -15,6 +15,9 @@ import com.swisscom.aem.tools.impl.hops.ChildNodes;
 import com.swisscom.aem.tools.impl.hops.CreateChildNode;
 import com.swisscom.aem.tools.impl.hops.ResolveNode;
 import com.swisscom.aem.tools.impl.hops.SetProperty;
+import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
+import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
+import com.swisscom.aem.tools.jcrhopper.config.Script;
 
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.JcrOakAemContext;

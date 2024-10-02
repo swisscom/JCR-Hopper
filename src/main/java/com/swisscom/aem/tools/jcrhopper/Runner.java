@@ -17,8 +17,11 @@ import org.apache.commons.jexl3.JexlBuilder;
 import org.apache.commons.jexl3.JexlEngine;
 import org.apache.commons.jexl3.introspection.JexlPermissions;
 
-import com.swisscom.aem.tools.impl.HopContext;
-import com.swisscom.aem.tools.impl.JcrFunctions;
+import com.swisscom.aem.tools.impl.HopContextImpl;
+import com.swisscom.aem.tools.impl.JcrFunctionsImpl;
+import com.swisscom.aem.tools.jcrhopper.config.Hop;
+import com.swisscom.aem.tools.jcrhopper.config.RunHandler;
+import com.swisscom.aem.tools.jcrhopper.config.Script;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -66,7 +69,7 @@ public class Runner {
 		final JexlBuilder jexlBuilder = new JexlBuilder();
 		final Session session = node.getSession();
 
-		final JcrFunctions jcrFunctions = new JcrFunctions(session);
+		final JcrFunctionsImpl jcrFunctions = new JcrFunctionsImpl(session);
 		Map<String, Object> utils = new HashMap<>(this.utils);
 		utils.put("jcr", jcrFunctions);
 		utils = Collections.unmodifiableMap(utils);
@@ -77,7 +80,7 @@ public class Runner {
 		variables.put("utils", utils);
 		final JexlEngine jexlEngine = jexlBuilder.create();
 
-		final HopContext context = new HopContext(
+		final HopContextImpl context = new HopContextImpl(
 			this,
 			jexlEngine,
 			jexlEngine.createJxltEngine(),
