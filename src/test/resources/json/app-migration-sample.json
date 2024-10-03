@@ -1,5 +1,4 @@
 {
-  "logLevel": "trace",
   "hops": [
     {
       "type": "setProperty",

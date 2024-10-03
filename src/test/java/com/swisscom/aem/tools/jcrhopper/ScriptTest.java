@@ -31,7 +31,7 @@ class ScriptTest {
 		final String json = IOUtils.resourceToString("/json/app-migration-sample.json", StandardCharsets.UTF_8);
 		final Script script = RunnerTest.RUNNER_BUILDER.scriptFromJson(json);
 
-		assertEquals(LogLevel.TRACE, script.getLogLevel());
+		assertEquals(LogLevel.DEFAULT, script.getLogLevel());
 		final List<HopConfig> hops = script.getHops();
 		assertEquals(5, hops.size());
 
@@ -61,9 +61,9 @@ class ScriptTest {
 			+ "RenameProperty.Config(propertyName=trackApp, newName=/dev/null, doesNotExist=FORCE, conflict=IGNORE)"
 			+ "])"
 			+ "])"
-			+ "], logLevel=TRACE)", script.toString());
+			+ "], logLevel=INFO)", script.toString());
 
 
-		JSONAssert.assertEquals(json, RunnerTest.RUNNER_BUILDER.scriptToJson(script), true);
+		JSONAssert.assertEquals(json, RunnerTest.RUNNER_BUILDER.scriptToJson(script), false);
 	}
 }

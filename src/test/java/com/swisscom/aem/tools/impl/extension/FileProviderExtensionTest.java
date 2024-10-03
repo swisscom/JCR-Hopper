@@ -2,7 +2,6 @@ package com.swisscom.aem.tools.impl.extension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import javax.jcr.RepositoryException;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import com.swisscom.aem.tools.impl.hops.Declare;
 import com.swisscom.aem.tools.impl.hops.RunScript;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
 import com.swisscom.aem.tools.jcrhopper.config.Script;
 import com.swisscom.aem.tools.jcrhopper.osgi.RunnerService;
 import com.swisscom.aem.tools.testsupport.FileTestRunHandler;
@@ -48,11 +46,8 @@ class FileProviderExtensionTest {
 		runnerService.builder()
 			.runHandler(runHandler)
 			.build(new Script(
-				Arrays.asList(
-					new Declare.Config().withDeclarations(Collections.singletonMap("csvFile", "file:csv('testfile')")),
-					new RunScript.Config().withExtension("jexl").withCode("csvFile.line('my,csv', 'one')")
-				),
-				LogLevel.DEBUG
+				new Declare.Config().withDeclarations(Collections.singletonMap("csvFile", "file:csv('testfile')")),
+				new RunScript.Config().withExtension("jexl").withCode("csvFile.line('my,csv', 'one')")
 			))
 			.run(context.resourceResolver().adaptTo(Session.class), true);
 
@@ -68,11 +63,8 @@ class FileProviderExtensionTest {
 		runnerService.builder()
 			.runHandler(runHandler)
 			.build(new Script(
-				Arrays.asList(
-					new Declare.Config().withDeclarations(Collections.singletonMap("jsonFile", "file:json('my-test-json')")),
-					new RunScript.Config().withExtension("jexl").withCode("jsonFile.set('myProp', 'propVal')")
-				),
-				LogLevel.DEBUG
+				new Declare.Config().withDeclarations(Collections.singletonMap("jsonFile", "file:json('my-test-json')")),
+				new RunScript.Config().withExtension("jexl").withCode("jsonFile.set('myProp', 'propVal')")
 			))
 			.run(context.resourceResolver().adaptTo(Session.class), true);
 
@@ -88,11 +80,8 @@ class FileProviderExtensionTest {
 		runnerService.builder()
 			.runHandler(runHandler)
 			.build(new Script(
-				Arrays.asList(
-					new Declare.Config().withDeclarations(Collections.singletonMap("jsonFile", "file:jsonArray('arr')")),
-					new RunScript.Config().withExtension("jexl").withCode("jsonFile.append('arr', ['speak like a', 'pirate'])")
-				),
-				LogLevel.DEBUG
+				new Declare.Config().withDeclarations(Collections.singletonMap("jsonFile", "file:jsonArray('arr')")),
+				new RunScript.Config().withExtension("jexl").withCode("jsonFile.append('arr', ['speak like a', 'pirate'])")
 			))
 			.run(context.resourceResolver().adaptTo(Session.class), true);
 
@@ -108,11 +97,8 @@ class FileProviderExtensionTest {
 		runnerService.builder()
 			.runHandler(runHandler)
 			.build(new Script(
-				Arrays.asList(
-					new Declare.Config().withDeclarations(Collections.singletonMap("txt", "file:txt('README')")),
-					new RunScript.Config().withExtension("jexl").withCode("txt.append('## Usage');\ntxt.println();\ntxt.append('Use it however you want.')")
-				),
-				LogLevel.DEBUG
+				new Declare.Config().withDeclarations(Collections.singletonMap("txt", "file:txt('README')")),
+				new RunScript.Config().withExtension("jexl").withCode("txt.append('## Usage');\ntxt.println();\ntxt.append('Use it however you want.')")
 			))
 			.run(context.resourceResolver().adaptTo(Session.class), true);
 
@@ -129,11 +115,8 @@ class FileProviderExtensionTest {
 		runnerService.builder()
 			.runHandler(runHandler)
 			.build(new Script(
-				Arrays.asList(
-					new Declare.Config().withDeclarations(Collections.singletonMap("txt", "file:txt('main')")),
-					new RunScript.Config().withExtension("jexl").withCode("txt.mimeType = 'text/javascript';\ntxt.extension = 'js';\ntxt.append('\"use strict\"')")
-				),
-				LogLevel.DEBUG
+				new Declare.Config().withDeclarations(Collections.singletonMap("txt", "file:txt('main')")),
+				new RunScript.Config().withExtension("jexl").withCode("txt.mimeType = 'text/javascript';\ntxt.extension = 'js';\ntxt.append('\"use strict\"')")
 			))
 			.run(context.resourceResolver().adaptTo(Session.class), true);
 

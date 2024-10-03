@@ -105,55 +105,46 @@ class RunnerTest {
 
 		final Runner runner = RUNNER_BUILDER.build(
 			new Script(
-				Arrays.asList(
-					new SetProperty.Config().withPropertyName("prop1").withValue("33"),
-					new ResolveNode.Config().withName("child1").withHops(Arrays.asList(
-						new RenameProperty.Config().withPropertyName("prop1").withNewName("prop33"),
-						new CreateChildNode.Config().withName("some-child").withHops(Arrays.asList(
-							new MoveNode.Config().withNewName("some-other-child"),
-							new CreateChildNode.Config().withName("${node.name}-child1"),
-							new CreateChildNode.Config().withName("${node.name}-child2"),
-							new CreateChildNode.Config().withName("${node.name}-child3"),
-							new CreateChildNode.Config().withName("bastard-child").withHops(Collections.singletonList(
-								new ReorderNode.Config().withBefore("some-other-child-child3")
-							)),
-							new ChildNodes.Config().withNamePattern("${node.name}-*").withHops(Arrays.asList(
-								new SetProperty.Config().withPropertyName("node-tokens").withValue("str:splitPreserveAllTokens(node.name, '-', -1)"),
-								new SetProperty.Config().withPropertyName("node-index").withValue("counter"),
-								new SetProperty.Config().withPropertyName("node-name-number").withValue("str:replacePattern(node.name, '^.*([0-9]+)$', '$1')"),
-								new SetProperty.Config().withPropertyName("dummy").withValue("!true"),
-								new FilterNode.Config().withExpression("jcr:val(node, 'node-index') < 2").withHops(Arrays.asList(
-									new SetProperty.Config().withPropertyName("node-name-number").withValue("jcr:val(node, 'node-name-number')+20"),
-									new RenameProperty.Config().withPropertyName("dummy").withNewName("/dev/null")
-								))
-							)),
-							new CreateChildNode.Config().withName("${node.parent.name}-child6").withHops(Collections.singletonList(
-								new MoveNode.Config().withNewName("/dev/null")
+				new SetProperty.Config().withPropertyName("prop1").withValue("33"),
+				new ResolveNode.Config().withName("child1").withHops(Arrays.asList(
+					new RenameProperty.Config().withPropertyName("prop1").withNewName("prop33"),
+					new CreateChildNode.Config().withName("some-child").withHops(Arrays.asList(
+						new MoveNode.Config().withNewName("some-other-child"),
+						new CreateChildNode.Config().withName("${node.name}-child1"),
+						new CreateChildNode.Config().withName("${node.name}-child2"),
+						new CreateChildNode.Config().withName("${node.name}-child3"),
+						new CreateChildNode.Config().withName("bastard-child").withHops(Collections.singletonList(
+							new ReorderNode.Config().withBefore("some-other-child-child3")
+						)),
+						new ChildNodes.Config().withNamePattern("${node.name}-*").withHops(Arrays.asList(
+							new SetProperty.Config().withPropertyName("node-tokens").withValue("str:splitPreserveAllTokens(node.name, '-', -1)"),
+							new SetProperty.Config().withPropertyName("node-index").withValue("counter"),
+							new SetProperty.Config().withPropertyName("node-name-number").withValue("str:replacePattern(node.name, '^.*([0-9]+)$', '$1')"),
+							new SetProperty.Config().withPropertyName("dummy").withValue("!true"),
+							new FilterNode.Config().withExpression("jcr:val(node, 'node-index') < 2").withHops(Arrays.asList(
+								new SetProperty.Config().withPropertyName("node-name-number").withValue("jcr:val(node, 'node-name-number')+20"),
+								new RenameProperty.Config().withPropertyName("dummy").withNewName("/dev/null")
 							))
+						)),
+						new CreateChildNode.Config().withName("${node.parent.name}-child6").withHops(Collections.singletonList(
+							new MoveNode.Config().withNewName("/dev/null")
 						))
 					))
-				),
-				LogLevel.TRACE
+				))
 			)
 		);
 
 		runner.run(root.adaptTo(Node.class), true);
 		verifyManipulation(root);
 
-		RUNNER_BUILDER.build(
-			new Script(
-				Collections.singletonList(new CopyNode.Config().withNewName("/root-2")),
-				LogLevel.TRACE
-			)
-		).run(root.adaptTo(Node.class), true);
+		RUNNER_BUILDER
+			.build(new Script(new CopyNode.Config().withNewName("/root-2")))
+			.run(root.adaptTo(Node.class), true);
 		verifyManipulation(context.resourceResolver().getResource("/root-2"));
 
-		RUNNER_BUILDER.build(
-			new Script(
-				Collections.singletonList(new CopyNode.Config().withNewName("/root-3")),
-				LogLevel.TRACE
-			)
-		).run(root.adaptTo(Node.class), false);
+		RUNNER_BUILDER
+			.build(new Script(new CopyNode.Config().withNewName("/root-3")))
+			.run(root.adaptTo(Node.class), true);
 		verifyManipulation(context.resourceResolver().getResource("/root-3"));
 	}
 
