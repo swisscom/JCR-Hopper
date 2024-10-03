@@ -1,6 +1,8 @@
 package com.swisscom.aem.tools.impl.http;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.jcr.Session;
@@ -12,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.request.RequestParameter;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.servlets.annotations.SlingServletPaths;
 import org.osgi.service.component.annotations.Activate;
@@ -81,13 +84,21 @@ public class HopRunnerServlet extends SlingAllMethodsServlet {
 		}
 		final boolean commitAfterRun = Boolean.parseBoolean(request.getParameter("_commit"));
 
+		final Map<String, String> arguments = request.getRequestParameterList()
+			.stream()
+			.filter(param -> !StringUtils.startsWithAny(param.getName(), ":", "_"))
+			.collect(Collectors.toMap(
+				RequestParameter::getName,
+				RequestParameter::getString
+			));
+
 		try {
 			final Runner runner = runnerService.builder()
 				.addUtil("req", request.getRequestParameterMap())
 				.runHandler(runHandler)
 				.build(script);
 
-			runner.run(request.getResourceResolver().adaptTo(Session.class), commitAfterRun);
+			runner.run(request.getResourceResolver().adaptTo(Session.class), commitAfterRun, arguments);
 		} catch (Exception e) {
 			log.error(ABORT_ERROR_MESSAGE, e);
 			runHandler.log(
