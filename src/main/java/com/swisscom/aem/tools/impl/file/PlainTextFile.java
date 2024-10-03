@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,6 +16,14 @@ public class PlainTextFile implements File {
 	@Getter
 	private final String name;
 
+	@Getter
+	@Setter
+	private String mimeType = "text/plain;charset=utf-8";
+
+	@Getter
+	@Setter
+	private String extension = "txt";
+
 	@SuppressWarnings("PMD.AvoidStringBufferField")
 	@Delegate(types = StringBuilder.class)
 	private final StringBuilder result = new StringBuilder();
@@ -24,16 +33,6 @@ public class PlainTextFile implements File {
 	 */
 	public void println() {
 		result.append('\n');
-	}
-
-	@Override
-	public String getMimeType() {
-		return "text/plain;charset=utf-8";
-	}
-
-	@Override
-	public String getExtension() {
-		return "txt";
 	}
 
 	@Override

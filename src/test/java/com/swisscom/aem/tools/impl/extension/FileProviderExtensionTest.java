@@ -123,4 +123,24 @@ class FileProviderExtensionTest {
 			runHandler.getLastFile()
 		);
 	}
+
+	@Test
+	public void file_plainTextCustomType() throws HopperException, RepositoryException {
+		runnerService.builder()
+			.runHandler(runHandler)
+			.build(new Script(
+				Arrays.asList(
+					new Declare.Config().withDeclarations(Collections.singletonMap("txt", "file:txt('main')")),
+					new RunScript.Config().withExtension("jexl").withCode("txt.mimeType = 'text/javascript';\ntxt.extension = 'js';\ntxt.append('\"use strict\"')")
+				),
+				LogLevel.DEBUG
+			))
+			.run(context.resourceResolver().adaptTo(Session.class), true);
+
+		assertEquals(
+			"main.js (text/javascript):\n"
+				+ "\"use strict\"",
+			runHandler.getLastFile()
+		);
+	}
 }
