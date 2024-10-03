@@ -137,14 +137,15 @@ class RunnerTest {
 		runner.run(root.adaptTo(Node.class), true);
 		verifyManipulation(root);
 
-		RUNNER_BUILDER
-			.build(new Script(new CopyNode.Config().withNewName("/root-2")))
-			.run(root.adaptTo(Node.class), true);
+		final Runner copier = RUNNER_BUILDER.build(new Script(
+			Collections.singletonList(new CopyNode.Config().withNewName("/root-${newNodeIndex}")),
+			Collections.singletonList(new Script.Parameter("newNodeIndex", "${1+1}", "text"))
+		));
+
+		copier.run(root.adaptTo(Node.class), true);
 		verifyManipulation(context.resourceResolver().getResource("/root-2"));
 
-		RUNNER_BUILDER
-			.build(new Script(new CopyNode.Config().withNewName("/root-3")))
-			.run(root.adaptTo(Node.class), true);
+		copier.run(root.adaptTo(Node.class), true, Collections.singletonMap("newNodeIndex", "3"));
 		verifyManipulation(context.resourceResolver().getResource("/root-3"));
 	}
 

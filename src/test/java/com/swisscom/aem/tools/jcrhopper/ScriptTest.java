@@ -61,7 +61,7 @@ class ScriptTest {
 			+ "RenameProperty.Config(propertyName=trackApp, newName=/dev/null, doesNotExist=FORCE, conflict=IGNORE)"
 			+ "])"
 			+ "])"
-			+ "], logLevel=INFO)", script.toString());
+			+ "], logLevel=INFO, parameters=[])", script.toString());
 
 
 		JSONAssert.assertEquals(json, RunnerTest.RUNNER_BUILDER.scriptToJson(script), false);

@@ -46,11 +46,21 @@ public class RunnerImpl implements Runner {
 
 	@Override
 	public void run(Session session, boolean commitAfterRun) throws HopperException, RepositoryException {
-		run(session.getRootNode(), commitAfterRun);
+		run(session, commitAfterRun, Collections.emptyMap());
 	}
 
 	@Override
 	public void run(Node node, boolean commitAfterRun) throws HopperException, RepositoryException {
+		run(node, commitAfterRun, Collections.emptyMap());
+	}
+
+	@Override
+	public void run(Session session, boolean commitAfterRun, Map<String, String> arguments) throws HopperException, RepositoryException {
+		run(session.getRootNode(), commitAfterRun, arguments);
+	}
+
+	@Override
+	public void run(Node node, boolean commitAfterRun, Map<String, String> arguments) throws HopperException, RepositoryException {
 		final JexlBuilder jexlBuilder = new JexlBuilder();
 		final Session session = node.getSession();
 
@@ -71,6 +81,8 @@ public class RunnerImpl implements Runner {
 			jcrFunctions,
 			variables
 		);
+
+		fillParameters(context, arguments);
 
 		final long ts = System.currentTimeMillis();
 		context.trace("Starting JCR Hopper script on node {} at {}", node.getPath(), ts);
@@ -102,5 +114,15 @@ public class RunnerImpl implements Runner {
 		variables.put("utils", utils);
 
 		jexlBuilder.namespaces(utils);
+	}
+
+	private void fillParameters(HopContext context, Map<String, String> arguments) {
+		for (Script.Parameter parameter : script.getParameters()) {
+			String argument = arguments.get(parameter.getName());
+			if (argument == null) {
+				argument = context.evaluateTemplate(parameter.getDefaultValue());
+			}
+			context.setVariable(parameter.getName(), argument);
+		}
 	}
 }
