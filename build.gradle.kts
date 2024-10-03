@@ -76,9 +76,11 @@ java {
         compileOnly(libs.osgi.annotation)
         compileOnly(libs.osgi.cmpn)
         compileOnly(libs.jcr)
+        compileOnly(libs.geronimo)
         compileOnly(libs.spiCommons)
-        compileOnly(libs.sling.api)
         compileOnly(libs.sling.annotations)
+        compileOnly(libs.sling.api)
+        compileOnly(libs.sling.models)
 
         // Test framework
         testImplementation(libs.junit)

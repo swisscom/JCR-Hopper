@@ -27,12 +27,13 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 import com.swisscom.aem.tools.jcrhopper.Runner;
 import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
+import com.swisscom.aem.tools.jcrhopper.osgi.ConfigInfo;
 import com.swisscom.aem.tools.jcrhopper.osgi.RunnerService;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @Component(
-	service = Servlet.class,
+	service = {Servlet.class, ConfigInfo.class},
 	property = "sling.servlet.methods=post"
 )
 @ServiceDescription("JCR Hopper: Runner Servlet")
@@ -41,12 +42,12 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 	ocd = HopRunnerServlet.HopRunnerServletDelegate.class
 )
 @Slf4j
-public class HopRunnerServlet extends SlingAllMethodsServlet {
+public class HopRunnerServlet extends SlingAllMethodsServlet implements ConfigInfo {
 	static final String DEFAULT_PATH = "/bin/servlets/jcr-hopper/run";
 	private static final String ABORT_ERROR_MESSAGE = "Script execution aborted with exception";
 
 	@Getter
-	private String servletPath;
+	private String runnerServletPath;
 
 	@Reference
 	private RunnerService runnerService;
@@ -65,7 +66,7 @@ public class HopRunnerServlet extends SlingAllMethodsServlet {
 
 	@Activate
 	public void activate(HopRunnerServletDelegate config) {
-		servletPath = config.sling_servlet_paths()[0];
+		runnerServletPath = config.sling_servlet_paths()[0];
 	}
 
 	@Override
@@ -80,7 +81,7 @@ public class HopRunnerServlet extends SlingAllMethodsServlet {
 
 		final String script = request.getParameter("_script");
 		if (StringUtils.isBlank(script)) {
-			runHandler.log(LogLevel.ERROR, "No script to run in call to " + servletPath, null, null);
+			runHandler.log(LogLevel.ERROR, "No script to run in call to " + runnerServletPath, null, null);
 		}
 		final boolean commitAfterRun = Boolean.parseBoolean(request.getParameter("_commit"));
 
