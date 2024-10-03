@@ -1,5 +1,8 @@
 # JCR Hopper
 
+
+<img src="./docs/logo.svg" width=200 height=200 alt="">
+
 _Migrate AEM with Grace_
 
 JCR Hopper is a migration and reporting tool for AEM’s content repository.
