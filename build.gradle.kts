@@ -1,4 +1,5 @@
 import com.cognifide.gradle.aem.bundle.tasks.bundle
+import com.github.gradle.node.npm.task.NpxTask
 
 plugins {
     java
@@ -102,9 +103,33 @@ node {
 aem {
     bundleEmbed(libs.apacheCommons.jexl, "org.apache.commons.jexl3.*", export = false)
 
-    tasks {
-        packageCompose {
 
+
+    tasks {
+        val frontendBuild by registering(NpxTask::class) {
+            dependsOn(npmInstall)
+            command.set("parcel")
+            args.add("build")
+
+            inputs.dir("src/main/frontend")
+            inputs.file("package-lock.json")
+            outputs.dir(layout.buildDirectory.dir("frontend"))
+        }
+
+        val aemContent by registering(Sync::class) {
+            from("$projectDir/src/main/content")
+            from(frontendBuild)
+
+            destinationDir = project.layout.buildDirectory.dir(name).get().asFile
+            packageOptions.contentDir.set(destinationDir)
+        }
+
+        assemble {
+            dependsOn(aemContent)
+        }
+
+        packagePrepare {
+            dependsOn(aemContent)
         }
 
         withType<Jar> {
