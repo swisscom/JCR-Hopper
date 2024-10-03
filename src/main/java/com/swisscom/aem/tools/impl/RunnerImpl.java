@@ -117,8 +117,9 @@ public class RunnerImpl implements Runner {
 	}
 
 	private void fillParameters(HopContext context, Map<String, String> arguments) {
-		final Map<String, String> argumentMap = new HashMap<>();
-		for (Script.Parameter parameter : script.getParameters()) {
+		final List<Script.Parameter> parameters = script.getParameters();
+		final Map<String, String> argumentMap = new HashMap<>(parameters.size());
+		for (Script.Parameter parameter : parameters) {
 			String argument = arguments.get(parameter.getName());
 			if (argument == null) {
 				argument = context.evaluateTemplate(parameter.getDefaultValue());
