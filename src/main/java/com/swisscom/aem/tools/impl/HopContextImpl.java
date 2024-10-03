@@ -20,7 +20,6 @@ import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 
 import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.Runner;
 import com.swisscom.aem.tools.jcrhopper.config.Hop;
 import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
@@ -33,7 +32,7 @@ import com.swisscom.aem.tools.jcrhopper.context.HopContext;
 @Slf4j
 @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.ExcessivePublicCount", "PMD.TooManyMethods", "PMD.NcssCount"})
 public class HopContextImpl implements JexlContext, HopContext {
-	private final Runner runner;
+	private final RunnerImpl runner;
 
 	@Getter
 	private final JexlEngine jexlEngine;

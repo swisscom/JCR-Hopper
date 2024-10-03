@@ -23,6 +23,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializer;
+import com.swisscom.aem.tools.impl.RunnerImpl;
 import com.swisscom.aem.tools.jcrhopper.config.ConflictResolution;
 import com.swisscom.aem.tools.jcrhopper.config.File;
 import com.swisscom.aem.tools.jcrhopper.config.Hop;
@@ -236,7 +237,7 @@ public class RunnerBuilder {
 			utils.put("class", Class.class);
 			utils.put("collections", Collections.class);
 		}
-		return new Runner(
+		return new RunnerImpl(
 			Collections.unmodifiableSet(new HashSet<>(knownHops)),
 			utils,
 			new HashMap<>(variables),
