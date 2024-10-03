@@ -75,11 +75,11 @@ public class HopRunnerServlet extends SlingAllMethodsServlet {
 		response.setHeader("Transfer-Encoding", "chunked");
 		final HttpChunkedResponseRunHandler runHandler = new HttpChunkedResponseRunHandler(response.getWriter());
 
-		final String script = request.getParameter("script");
+		final String script = request.getParameter("_script");
 		if (StringUtils.isBlank(script)) {
 			runHandler.log(LogLevel.ERROR, "No script to run in call to " + servletPath, null, null);
 		}
-		final boolean commitAfterRun = Boolean.parseBoolean(request.getParameter("commit"));
+		final boolean commitAfterRun = Boolean.parseBoolean(request.getParameter("_commit"));
 
 		try {
 			final Runner runner = runnerService.builder()
