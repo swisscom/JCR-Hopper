@@ -117,12 +117,14 @@ public class RunnerImpl implements Runner {
 	}
 
 	private void fillParameters(HopContext context, Map<String, String> arguments) {
+		final Map<String, String> argumentMap = new HashMap<>();
 		for (Script.Parameter parameter : script.getParameters()) {
 			String argument = arguments.get(parameter.getName());
 			if (argument == null) {
 				argument = context.evaluateTemplate(parameter.getDefaultValue());
 			}
-			context.setVariable(parameter.getName(), argument);
+			argumentMap.put(parameter.getName(), argument);
 		}
+		context.setVariable("args", argumentMap);
 	}
 }

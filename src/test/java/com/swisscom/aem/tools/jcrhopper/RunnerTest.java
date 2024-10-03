@@ -138,7 +138,7 @@ class RunnerTest {
 		verifyManipulation(root);
 
 		final Runner copier = RUNNER_BUILDER.build(new Script(
-			Collections.singletonList(new CopyNode.Config().withNewName("/root-${newNodeIndex}")),
+			Collections.singletonList(new CopyNode.Config().withNewName("/root-${args.newNodeIndex}")),
 			Collections.singletonList(new Script.Parameter("newNodeIndex", "${1+1}", "text"))
 		));
 
