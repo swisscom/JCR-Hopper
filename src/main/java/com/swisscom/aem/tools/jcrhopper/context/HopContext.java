@@ -71,15 +71,12 @@ public interface HopContext extends Logger {
 	 * This is used for special purposes where running a hop must be run in isolation.
 	 * It also does not create a nested variable map or put the given node on the variable map.
 	 * <p>
-	 * TODO: Refactor the method and remove this parameter, take node from variables always
 	 *
-	 * @param node      the node to run the hop on
-	 *                  Note: it is undefined behavior if this is not the node currently active on this context
 	 * @param hopConfig the hop to run
 	 * @throws HopperException     if the hop or one of its descendants encounters a node it cannot handle and is configured to throw
 	 * @throws RepositoryException if an error occurs during JCR manipulation
 	 */
-	void runHop(Node node, HopConfig hopConfig) throws HopperException, RepositoryException;
+	void runHop(HopConfig hopConfig) throws HopperException, RepositoryException;
 
 	/**
 	 * Print a plain text message.

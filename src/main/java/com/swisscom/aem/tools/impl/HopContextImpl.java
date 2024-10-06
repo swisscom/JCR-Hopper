@@ -39,7 +39,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	private final JxltEngine templateEngine;
 	@Getter
 	private final JcrFunctionsImpl jcrFunctions;
-	private final Map<String, Object> variables;
+	@SuppressWarnings("PMD.LooseCoupling")
+	private final HopVariables variables;
 
 	@Override
 	public void runHops(Node node, Iterable<HopConfig> hops) throws HopperException, RepositoryException {
@@ -54,7 +55,7 @@ public class HopContextImpl implements JexlContext, HopContext {
 	) throws HopperException, RepositoryException {
 		final HopContextImpl inner = childContext(node, additionalVariables);
 		for (HopConfig hopConfig : hops) {
-			inner.runHop(node, hopConfig);
+			inner.runHop(hopConfig);
 		}
 	}
 
@@ -80,20 +81,20 @@ public class HopContextImpl implements JexlContext, HopContext {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void runHop(Node node, HopConfig hopConfig) throws HopperException, RepositoryException {
+	public void runHop(HopConfig hopConfig) throws HopperException, RepositoryException {
 		final Hop<HopConfig> hop = (Hop<HopConfig>) runner.getKnownHops()
 			.stream()
 			.filter(h -> h.getConfigType().isInstance(hopConfig))
 			.findFirst()
 			.orElseThrow(() -> new HopperException("Hop config of type " + hopConfig.getClass() + " is not known"));
 
-		hop.run(hopConfig, node, this);
+		hop.run(hopConfig, variables.getNode(), this);
 	}
 
+	@SuppressWarnings("PMD.LooseCoupling")
 	private HopContextImpl childContext(Node node, Map<String, Object> additionalVariables) {
-		final Map<String, Object> childVariables = new DerivedMap<>(variables);
+		final HopVariables childVariables = new HopVariables(variables, node);
 		childVariables.putAll(additionalVariables);
-		childVariables.put("node", node);
 		return new HopContextImpl(runner, jexlEngine, jexlEngine.createJxltEngine(), jcrFunctions, childVariables);
 	}
 

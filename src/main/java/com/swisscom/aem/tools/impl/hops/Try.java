@@ -15,10 +15,10 @@ import lombok.With;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.swisscom.aem.tools.jcrhopper.HopperException;
 import com.swisscom.aem.tools.jcrhopper.config.Hop;
 import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.context.HopContext;
-import com.swisscom.aem.tools.jcrhopper.HopperException;
 
 @AllArgsConstructor
 @Component(service = Hop.class)
@@ -28,7 +28,7 @@ public class Try implements Hop<Try.Config> {
 		final boolean catchGeneric = config.catchGeneric;
 		for (HopConfig hopConfig : config.hops) {
 			try {
-				context.runHop(node, hopConfig);
+				context.runHop(hopConfig);
 			} catch (HopperException e) {
 				context.info(
 					"Pipeline error {} during action {}, aborting pipeline gracefully",

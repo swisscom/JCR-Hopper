@@ -24,6 +24,7 @@ import com.swisscom.aem.tools.jcrhopper.HopperException;
 import com.swisscom.aem.tools.jcrhopper.Runner;
 import com.swisscom.aem.tools.jcrhopper.config.File;
 import com.swisscom.aem.tools.jcrhopper.config.Hop;
+import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.config.RunHandler;
 import com.swisscom.aem.tools.jcrhopper.config.Script;
 import com.swisscom.aem.tools.jcrhopper.context.HopContext;
@@ -60,11 +61,12 @@ public class RunnerImpl implements Runner {
 	}
 
 	@Override
+	@SuppressWarnings("PMD.LooseCoupling")
 	public void run(Node node, boolean commitAfterRun, Map<String, String> arguments) throws HopperException, RepositoryException {
 		final JexlBuilder jexlBuilder = new JexlBuilder();
 		final Session session = node.getSession();
 
-		final Map<String, Object> variables = new HashMap<>(this.variables);
+		final HopVariables variables = new HopVariables(this.variables, node);
 		final List<File> knownFiles = new LinkedList<>();
 		final JcrFunctionsImpl jcrFunctions = new JcrFunctionsImpl(session);
 
@@ -86,7 +88,9 @@ public class RunnerImpl implements Runner {
 
 		final long ts = System.currentTimeMillis();
 		context.trace("Starting JCR Hopper script on node {} at {}", node.getPath(), ts);
-		context.runHops(node, script.getHops());
+		for (HopConfig hopConfig : script.getHops()) {
+			context.runHop(hopConfig);
+		}
 		context.info("JCR Hopper script finished after {}ms", System.currentTimeMillis() - ts);
 
 		if (commitAfterRun) {

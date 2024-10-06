@@ -9,16 +9,23 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
+import javax.jcr.Node;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @RequiredArgsConstructor
-public final class DerivedMap<K, V> implements Map<K, V> {
+public final class HopVariables implements Map<String, Object> {
+	public static final String NODE_VAR_NAME = "node";
 	@Nonnull
-	private final Map<K, V> backing;
-	private final Map<K, V> local = new HashMap<>();
+	private final Map<String, Object> backing;
+	@Nonnull
+	@Getter
+	private final Node node;
+
+	private final Map<String, Object> local = new HashMap<>();
 
 	@Override
 	public int size() {
@@ -41,8 +48,14 @@ public final class DerivedMap<K, V> implements Map<K, V> {
 	}
 
 	@Override
-	@SuppressFBWarnings(value = "MUI_CONTAINSKEY_BEFORE_GET", justification = "We need to account for null in the local map")
-	public V get(Object key) {
+	@SuppressFBWarnings(
+		value = {"MUI_CONTAINSKEY_BEFORE_GET", "URV_INHERITED_METHOD_WITH_RELATED_TYPES"},
+		justification = "We need to account for null in the local map. Special-casing the node is necessary."
+	)
+	public Object get(Object key) {
+		if (NODE_VAR_NAME.equals(key)) {
+			return node;
+		}
 		if (local.containsKey(key)) {
 			return local.get(key);
 		}
@@ -50,21 +63,21 @@ public final class DerivedMap<K, V> implements Map<K, V> {
 	}
 
 	@Override
-	public V put(K key, V value) {
-		final V previous = this.get(key);
+	public Object put(String key, Object value) {
+		final Object previous = this.get(key);
 		local.put(key, value);
 		return previous;
 	}
 
 	@Override
-	public V remove(Object key) {
-		final V previous = this.get(key);
+	public Object remove(Object key) {
+		final Object previous = this.get(key);
 		local.remove(key);
 		return previous;
 	}
 
 	@Override
-	public void putAll(Map<? extends K, ? extends V> m) {
+	public void putAll(Map<? extends String, ? extends Object> m) {
 		this.local.putAll(m);
 	}
 
@@ -74,16 +87,17 @@ public final class DerivedMap<K, V> implements Map<K, V> {
 	}
 
 	@Override
-	public Set<K> keySet() {
-		final Set<K> result = new HashSet<>();
+	public Set<String> keySet() {
+		final Set<String> result = new HashSet<>();
 		result.addAll(backing.keySet());
 		result.addAll(local.keySet());
+		result.add(NODE_VAR_NAME);
 		return result;
 	}
 
 
 	@Override
-	public Collection<V> values() {
+	public Collection<Object> values() {
 		return this.keySet()
 			.stream()
 			.map(this::get)
@@ -91,7 +105,7 @@ public final class DerivedMap<K, V> implements Map<K, V> {
 	}
 
 	@Override
-	public Set<Entry<K, V>> entrySet() {
+	public Set<Entry<String, Object>> entrySet() {
 		return this.keySet()
 			.stream()
 			.map(key -> new AbstractMap.SimpleEntry<>(key, this.get(key)))
