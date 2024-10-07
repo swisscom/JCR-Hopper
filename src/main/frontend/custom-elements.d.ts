@@ -785,6 +785,7 @@ declare module 'react' {
 			'coral-select-item': DetailedHTMLProps<OptionHTMLAttributes<HTMLOptionElement> & {}, HTMLSelectElement>;
 			'coral-checkbox': DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement> & {}, HTMLSelectElement>;
 			'coral-checkbox-label': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
+			'coral-wait': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
 		}
 	}
 }

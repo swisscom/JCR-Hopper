@@ -2,12 +2,12 @@ import React, { FC, createContext } from 'react';
 
 import { styled } from 'goober';
 import { Toolbar } from './sections/Toolbar';
-import { RunControls } from './sections/RunControls';
-import { ScriptEditor } from './sections/ScriptEditor';
-import { Output } from './sections/Output';
+import { Runner } from './sections/Runner';
+
 import { getInitialScript, Script, SESSION_STORAGE_KEY } from './model/Script';
 import { HistoryUpdater, useHistoryImmutable } from './hooks/useHistoryImmutable';
 import { useOnce } from './hooks/useOnce';
+import { ScriptEditor } from './sections/ScriptEditor';
 
 export const RunEndpointContext = createContext('');
 export const ScriptContext = createContext<HistoryUpdater<Script>>(null!);
@@ -61,9 +61,8 @@ export const App: FC<{ runEndpoint: string }> = props => {
 			<ScriptContext.Provider value={scriptContext}>
 				<RootElement>
 					<Toolbar />
-					<RunControls />
 					<ScriptEditor />
-					<Output />
+					<Runner />
 				</RootElement>
 			</ScriptContext.Provider>
 		</RunEndpointContext.Provider>

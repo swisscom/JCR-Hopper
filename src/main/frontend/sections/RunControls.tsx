@@ -18,7 +18,7 @@ const Elm = styled('form', React.forwardRef)`
 	}
 `;
 
-export const RunControls: FC = () => {
+export const RunControls: FC<{ runWith: (data: FormData) => Promise<void> }> = ({ runWith }) => {
 	const { current: script } = useContext(ScriptContext);
 	const endpoint = useContext(RunEndpointContext);
 
@@ -29,29 +29,26 @@ export const RunControls: FC = () => {
 		const data = new FormData(formRef.current!);
 		data.append('_script', JSON.stringify(script));
 
-		console.log('data', data);
-
-		await fetch(endpoint, {
-			method: 'POST',
-			body: data,
-		});
+		await runWith(data);
 	}
 
 	const id = useId();
 
 	return (
 		<Elm className="run-controls" ref={formRef} method="POST" action={endpoint} encType="multipart/form-data" onSubmit={run}>
-			<fieldset>
-				<legend>Arguments</legend>
-				<div className="arguments">
-					{script.parameters.map(({ name, type }, i) => (
-						<>
-							<label htmlFor={`${id}_${i}`}>{name}: </label>
-							<input id={`${id}_${i}`} is="coral-textfield" type={type} name={name} />
-						</>
-					))}
-				</div>
-			</fieldset>
+			{script.parameters.length ? (
+				<fieldset>
+					<legend>Arguments</legend>
+					<div className="arguments">
+						{script.parameters.map(({ name, type }, i) => (
+							<>
+								<label htmlFor={`${id}_${i}`}>{name}: </label>
+								<input id={`${id}_${i}`} is="coral-textfield" type={type} name={name} />
+							</>
+						))}
+					</div>
+				</fieldset>
+			) : undefined}
 			<div className="options">
 				<span className="flex-spacer"></span>
 				<coral-checkbox name="_commit" value="true">

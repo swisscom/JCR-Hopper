@@ -1,3 +1,5 @@
+import { LogLevel } from './LogLevel';
+
 export interface Parameter {
 	name: string;
 	defaultValue: string;
@@ -9,7 +11,7 @@ interface AnyHop {
 }
 
 export interface Script {
-	logLevel: 'trace' | 'debug' | 'info' | 'warn' | 'error';
+	logLevel: LogLevel;
 	parameters: Parameter[];
 	hops: AnyHop[];
 }
