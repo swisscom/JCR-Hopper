@@ -1,5 +1,5 @@
 import com.cognifide.gradle.aem.bundle.tasks.bundle
-import com.github.gradle.node.npm.task.NpxTask
+import com.github.gradle.node.npm.task.NpmTask
 
 plugins {
     java
@@ -103,17 +103,42 @@ node {
 aem {
     bundleEmbed(libs.apacheCommons.jexl, "org.apache.commons.jexl3.*", export = false)
 
-
-
     tasks {
-        val frontendBuild by registering(NpxTask::class) {
+        val frontendBuild by registering(NpmTask::class) {
             dependsOn(npmInstall)
-            command.set("parcel")
-            args.add("build")
+            npmCommand.set(listOf("run", "build"))
 
             inputs.dir("src/main/frontend")
             inputs.file("package-lock.json")
             outputs.dir(layout.buildDirectory.dir("frontend"))
+        }
+
+        val lint by registering(NpmTask::class) {
+            dependsOn(npmInstall)
+            npmCommand.set(listOf("run", "test:lint"))
+
+            inputs.dir("src/main/frontend")
+            inputs.file("package-lock.json")
+        }
+
+        val tsc by registering(NpmTask::class) {
+            dependsOn(npmInstall)
+            npmCommand.set(listOf("run", "test:compile"))
+
+            inputs.dir("src/main/frontend")
+            inputs.file("package-lock.json")
+        }
+
+        val format by registering(NpmTask::class) {
+            dependsOn(npmInstall)
+            npmCommand.set(listOf("run", "test:format"))
+
+            inputs.dir("src/main/frontend")
+            inputs.file("package-lock.json")
+        }
+
+        check {
+            dependsOn(lint, tsc, format)
         }
 
         val aemContent by registering(Sync::class) {

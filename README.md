@@ -1,6 +1,5 @@
 # JCR Hopper
 
-
 <img src="./docs/logo.svg" width=200 height=200 alt="">
 
 _Migrate AEM with Grace_
