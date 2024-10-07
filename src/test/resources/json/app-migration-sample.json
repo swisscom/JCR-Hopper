@@ -1,114 +1,114 @@
 {
-  "hops": [
-    {
-      "type": "setProperty",
-      "propertyName": "sling:resourceType",
-      "value": "'swisscom/sdx/components/containers/tabs'",
-      "conflict": "force"
-    },
-    {
-      "type": "createChildNode",
-      "name": "contents",
-      "primaryType": "nt:unstructured",
-      "conflict": "ignore",
-      "hops": [
-        {
-          "type": "createChildNode",
-          "name": "shared",
-          "primaryType": "nt:unstructured",
-          "conflict": "ignore",
-          "hops": [
-            {
-              "type": "setProperty",
-              "propertyName": "sling:resourceType",
-              "value": "'swisscom/sdx/components/responsivegrid'",
-              "conflict": "force"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "resolveNode",
-      "name": "angularApp",
-      "conflict": "ignore",
-      "hops": [
-        {
-          "type": "moveNode",
-          "newName": "./contents/shared/angularapppicker",
-          "conflict": "ignore"
-        }
-      ]
-    },
-    {
-      "type": "childNodes",
-      "namePattern": "tabpar*",
-      "counterName": "item",
-      "hops": [
-        {
-          "type": "moveNode",
-          "newName": "./contents/${item}",
-          "conflict": "ignore"
-        }
-      ]
-    },
-    {
-      "type": "resolveNode",
-      "name": "tabNames",
-      "conflict": "ignore",
-      "hops": [
-        {
-          "type": "moveNode",
-          "newName": "tabs",
-          "conflict": "ignore"
-        },
-        {
-          "type": "childNodes",
-          "counterName": "tab",
-          "hops": [
-            {
-              "type": "setProperty",
-              "propertyName": "tabContentId",
-              "conflict": "ignore",
-              "value": "tab"
-            },
-            {
-              "type": "renameProperty",
-              "propertyName": "tabname",
-              "conflict": "ignore",
-              "newName": "tabTitle",
-              "doesNotExist": "ignore"
-            },
-            {
-              "type": "setProperty",
-              "propertyName": "hideSharedContent",
-              "conflict": "ignore",
-              "value": "!jcr:val(node, 'isEnabledAngularApp')"
-            },
-            {
-              "type": "renameProperty",
-              "propertyName": "isEnabledAngularApp",
-              "conflict": "ignore",
-              "newName": "/dev/null",
-              "doesNotExist": "ignore"
-            },
-            {
-              "type": "renameProperty",
-              "propertyName": "trackApp",
-              "newName": "appRouteValue",
-              "conflict": "ignore",
-              "doesNotExist": "ignore"
-            },
-            {
-              "type": "renameProperty",
-              "propertyName": "trackApp",
-              "newName": "/dev/null",
-              "conflict": "ignore",
-              "doesNotExist": "force"
-            }
-          ]
-        }
-      ]
-    }
-  ]
+	"hops": [
+		{
+			"type": "setProperty",
+			"propertyName": "sling:resourceType",
+			"value": "'swisscom/sdx/components/containers/tabs'",
+			"conflict": "force"
+		},
+		{
+			"type": "createChildNode",
+			"name": "contents",
+			"primaryType": "nt:unstructured",
+			"conflict": "ignore",
+			"hops": [
+				{
+					"type": "createChildNode",
+					"name": "shared",
+					"primaryType": "nt:unstructured",
+					"conflict": "ignore",
+					"hops": [
+						{
+							"type": "setProperty",
+							"propertyName": "sling:resourceType",
+							"value": "'swisscom/sdx/components/responsivegrid'",
+							"conflict": "force"
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "resolveNode",
+			"name": "angularApp",
+			"conflict": "ignore",
+			"hops": [
+				{
+					"type": "moveNode",
+					"newName": "./contents/shared/angularapppicker",
+					"conflict": "ignore"
+				}
+			]
+		},
+		{
+			"type": "childNodes",
+			"namePattern": "tabpar*",
+			"counterName": "item",
+			"hops": [
+				{
+					"type": "moveNode",
+					"newName": "./contents/${item}",
+					"conflict": "ignore"
+				}
+			]
+		},
+		{
+			"type": "resolveNode",
+			"name": "tabNames",
+			"conflict": "ignore",
+			"hops": [
+				{
+					"type": "moveNode",
+					"newName": "tabs",
+					"conflict": "ignore"
+				},
+				{
+					"type": "childNodes",
+					"counterName": "tab",
+					"hops": [
+						{
+							"type": "setProperty",
+							"propertyName": "tabContentId",
+							"conflict": "ignore",
+							"value": "tab"
+						},
+						{
+							"type": "renameProperty",
+							"propertyName": "tabname",
+							"conflict": "ignore",
+							"newName": "tabTitle",
+							"doesNotExist": "ignore"
+						},
+						{
+							"type": "setProperty",
+							"propertyName": "hideSharedContent",
+							"conflict": "ignore",
+							"value": "!jcr:val(node, 'isEnabledAngularApp')"
+						},
+						{
+							"type": "renameProperty",
+							"propertyName": "isEnabledAngularApp",
+							"conflict": "ignore",
+							"newName": "/dev/null",
+							"doesNotExist": "ignore"
+						},
+						{
+							"type": "renameProperty",
+							"propertyName": "trackApp",
+							"newName": "appRouteValue",
+							"conflict": "ignore",
+							"doesNotExist": "ignore"
+						},
+						{
+							"type": "renameProperty",
+							"propertyName": "trackApp",
+							"newName": "/dev/null",
+							"conflict": "ignore",
+							"doesNotExist": "force"
+						}
+					]
+				}
+			]
+		}
+	]
 }

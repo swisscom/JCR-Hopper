@@ -1,22 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ruleset name="Base ruleset" xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+<?xml version="1.0" encoding="UTF-8" ?>
+<ruleset
+	name="Base ruleset"
+	xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
-
-	<description>
-		General Java quality rules.
-	</description>
+	xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd"
+>
+	<description>General Java quality rules.</description>
 
 	<!-- Custom Rules -->
-	<rule name="ForbidInjectionIntoStaticFields"
+	<rule
+		name="ForbidInjectionIntoStaticFields"
 		language="java"
 		message="Injection into static field detected."
 		class="net.sourceforge.pmd.lang.rule.xpath.XPathRule"
 		typeResolution="true"
 		externalInfoUrl="https://sling.apache.org/documentation/bundles/models.html"
 	>
-		<description>Injection into static fields is not allowed. Sling models will silently work but
-			fail with multiple concurrent requests.</description>
+		<description>
+			Injection into static fields is not allowed. Sling models will silently work but
+			fail with multiple concurrent requests.
+		</description>
 		<priority>3</priority>
 		<properties>
 			<property name="xpath">
@@ -71,26 +74,34 @@ public class TeaserImpl implements Teaser {
 		</properties>
 	</rule>
 
-
 	<!-- Code style (https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html) -->
 	<rule ref="category/java/codestyle.xml">
 		<exclude name="AtLeastOneConstructor" />
 		<exclude name="CallSuperInConstructor" />
 		<exclude name="CommentDefaultAccessModifier" />
-		<exclude name="UselessParentheses" /> <!-- covered by prettier-plugin-java -->
+		<exclude name="UselessParentheses" />
+		<!-- covered by prettier-plugin-java -->
 		<exclude name="ClassNamingConventions" />
-		<exclude name="LocalHomeNamingConvention" /> <!-- earlier j2ee group-->
-		<exclude name="LocalInterfaceSessionNamingConvention" /> <!-- earlier j2ee group-->
-		<exclude name="LocalVariableCouldBeFinal" /> <!-- covered by checkstyle -->
-		<exclude name="MethodArgumentCouldBeFinal" /> <!-- checkstyle forces arguments to be effectively
+		<exclude name="LocalHomeNamingConvention" />
+		<!-- earlier j2ee group-->
+		<exclude name="LocalInterfaceSessionNamingConvention" />
+		<!-- earlier j2ee group-->
+		<exclude name="LocalVariableCouldBeFinal" />
+		<!-- covered by checkstyle -->
+		<exclude name="MethodArgumentCouldBeFinal" />
+		<!-- checkstyle forces arguments to be effectively
 		final anyway, making this explicit in the code provides no benefit -->
 		<exclude name="LongVariable" />
 		<exclude name="ShortClassName" />
 		<exclude name="ShortVariable" />
-		<exclude name="MDBAndSessionBeanNamingConvention" /> <!-- earlier j2ee group-->
-		<exclude name="OnlyOneReturn" /> <!-- disabled in favour of checkstyle ReturnCount check -->
-		<exclude name="RemoteInterfaceNamingConvention" /> <!-- earlier j2ee group-->
-		<exclude name="RemoteSessionInterfaceNamingConvention" /> <!-- earlier j2ee group-->
+		<exclude name="MDBAndSessionBeanNamingConvention" />
+		<!-- earlier j2ee group-->
+		<exclude name="OnlyOneReturn" />
+		<!-- disabled in favour of checkstyle ReturnCount check -->
+		<exclude name="RemoteInterfaceNamingConvention" />
+		<!-- earlier j2ee group-->
+		<exclude name="RemoteSessionInterfaceNamingConvention" />
+		<!-- earlier j2ee group-->
 	</rule>
 	<rule ref="category/java/codestyle.xml/FieldNamingConventions">
 		<properties>
@@ -102,12 +113,15 @@ public class TeaserImpl implements Teaser {
 	<rule ref="category/java/design.xml">
 		<exclude name="AvoidCatchingGenericException" />
 		<exclude name="DataClass" />
-		<exclude name="ExcessiveImports" /> <!-- Useless as it also counts imports for annotations -->
+		<exclude name="ExcessiveImports" />
+		<!-- Useless as it also counts imports for annotations -->
 		<exclude name="LawOfDemeter" />
 		<exclude name="LoosePackageCoupling" />
 		<exclude name="SignatureDeclareThrowsException" />
-		<exclude name="SimplifyBooleanReturns" /> <!-- People naturally do this where it makes sense -->
-		<exclude name="TooManyFields" /> <!-- Unusable for sling models -->
+		<exclude name="SimplifyBooleanReturns" />
+		<!-- People naturally do this where it makes sense -->
+		<exclude name="TooManyFields" />
+		<!-- Unusable for sling models -->
 	</rule>
 	<rule ref="category/java/design.xml/AvoidDeeplyNestedIfStmts">
 		<properties>
@@ -138,26 +152,27 @@ public class TeaserImpl implements Teaser {
 		</properties>
 	</rule>
 
-
 	<!-- Documentation (https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_documentation.html) -->
 	<rule ref="category/java/documentation.xml">
 		<exclude name="CommentRequired" />
 		<exclude name="CommentSize" />
 	</rule>
 
-
 	<!-- Error prone (https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_errorprone.html) -->
 	<rule ref="category/java/errorprone.xml">
 		<exclude name="NonSerializableClass" />
 		<exclude name="MissingSerialVersionUID" />
-		<exclude name="DoNotTerminateVM" /> <!-- earlier j2ee group-->
-		<exclude
-			name="NullAssignment" /> <!-- disabled due to false positive for initialization with ternary
+		<exclude name="DoNotTerminateVM" />
+		<!-- earlier j2ee group-->
+		<exclude name="NullAssignment" />
+		<!-- disabled due to false positive for initialization with ternary
 		operator -->
-		<exclude name="StaticEJBFieldShouldBeFinal" /> <!-- earlier j2ee group-->
+		<exclude name="StaticEJBFieldShouldBeFinal" />
+		<!-- earlier j2ee group-->
 		<exclude name="UseCorrectExceptionLogging" />
 		<exclude name="UseLocaleWithCaseConversions" />
-		<exclude name="UseProperClassLoader" /> <!-- earlier j2ee group-->
+		<exclude name="UseProperClassLoader" />
+		<!-- earlier j2ee group-->
 		<exclude name="ReturnEmptyCollectionRatherThanNull" />
 	</rule>
 	<rule ref="category/java/errorprone.xml/AvoidDuplicateLiterals">
@@ -169,7 +184,8 @@ public class TeaserImpl implements Teaser {
 		<properties>
 			<property
 				name="allowedResourceTypes"
-				value="java.io.ByteArrayOutputStream , java.io.ByteArrayInputStream , java.io.StringWriter , java.io.CharArrayWriter , java.util.stream.Stream , org.apache.sling.api.resource.ResourceResolver" />
+				value="java.io.ByteArrayOutputStream , java.io.ByteArrayInputStream , java.io.StringWriter , java.io.CharArrayWriter , java.util.stream.Stream , org.apache.sling.api.resource.ResourceResolver"
+			/>
 		</properties>
 	</rule>
 	<rule ref="category/java/errorprone.xml/AvoidLiteralsInIfCondition">
@@ -180,11 +196,11 @@ public class TeaserImpl implements Teaser {
 
 	<!-- Multi-threading (https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_multithreading.html) -->
 	<rule ref="category/java/multithreading.xml">
-		<exclude name="DoNotUseThreads" /> <!-- earlier j2ee group-->
+		<exclude name="DoNotUseThreads" />
+		<!-- earlier j2ee group-->
 		<exclude name="UseConcurrentHashMap" />
 	</rule>
 
 	<!-- Security (no rules) -->
 	<rule ref="category/java/security.xml" />
-
 </ruleset>

@@ -1,6 +1,6 @@
 {
-  "prop1": "val1",
-  "child1": {
-    "prop1": true
-  }
+	"prop1": "val1",
+	"child1": {
+		"prop1": true
+	}
 }

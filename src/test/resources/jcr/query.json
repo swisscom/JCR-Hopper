@@ -1,29 +1,28 @@
 {
-  "child": {
-    "child1": {
-      "subchild1": {
-        "test-item": {
-          "yes": 1,
-          "subsub": {
-            "child": true
-          }
-        }
-      }
-    },
-    "child2": {},
-    "child3": {
-      "test-item": {
-      }
-    },
-    "test-item": {
-      "subsub": {
-        "child": false
-      }
-    }
-  },
-  "test-item": {
-    "subsub": {
-      "child": true
-    }
-  }
+	"child": {
+		"child1": {
+			"subchild1": {
+				"test-item": {
+					"yes": 1,
+					"subsub": {
+						"child": true
+					}
+				}
+			}
+		},
+		"child2": {},
+		"child3": {
+			"test-item": {}
+		},
+		"test-item": {
+			"subsub": {
+				"child": false
+			}
+		}
+	},
+	"test-item": {
+		"subsub": {
+			"child": true
+		}
+	}
 }
