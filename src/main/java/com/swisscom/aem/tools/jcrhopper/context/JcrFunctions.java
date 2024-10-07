@@ -2,7 +2,6 @@ package com.swisscom.aem.tools.jcrhopper.context;
 
 import java.io.IOException;
 import java.util.List;
-
 import javax.annotation.Nullable;
 import javax.jcr.Binary;
 import javax.jcr.Node;

@@ -1,16 +1,14 @@
 package com.swisscom.aem.tools.jcrhopper.config;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A script that can be run.
@@ -20,6 +18,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 @EqualsAndHashCode
 @SuppressFBWarnings(value = "OPM_OVERLY_PERMISSIVE_METHOD", justification = "API surface")
 public class Script {
+
 	private final List<HopConfig> hops;
 	private final LogLevel logLevel;
 	private final List<Parameter> parameters;
@@ -93,6 +92,7 @@ public class Script {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static final class Parameter {
+
 		/**
 		 * The parameter name.
 		 * Used both as the name of the argument that needs to be passed to the script as well as the name of the variable inside the script.

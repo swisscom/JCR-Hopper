@@ -1,15 +1,18 @@
 package com.swisscom.aem.tools.impl.hops;
 
+import com.swisscom.aem.tools.jcrhopper.HopperException;
+import com.swisscom.aem.tools.jcrhopper.config.ConflictResolution;
+import com.swisscom.aem.tools.jcrhopper.config.Hop;
+import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
+import com.swisscom.aem.tools.jcrhopper.context.HopContext;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.annotation.Nonnull;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,19 +20,13 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.With;
-
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
-
-import com.swisscom.aem.tools.jcrhopper.config.ConflictResolution;
-import com.swisscom.aem.tools.jcrhopper.config.Hop;
-import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
-import com.swisscom.aem.tools.jcrhopper.context.HopContext;
-import com.swisscom.aem.tools.jcrhopper.HopperException;
 
 @AllArgsConstructor
 @Component(service = Hop.class)
 public class MoveNode implements Hop<MoveNode.Config> {
+
 	/**
 	 * Resolve the path to a new node, creating the parent nodes if necessary.
 	 *
@@ -56,7 +53,8 @@ public class MoveNode implements Hop<MoveNode.Config> {
 			parent = session.getRootNode();
 		}
 
-		@SuppressWarnings("PMD.LooseCoupling") final LinkedList<String> parts = Arrays.stream(target.split("\\/"))
+		@SuppressWarnings("PMD.LooseCoupling")
+		final LinkedList<String> parts = Arrays.stream(target.split("\\/"))
 			.filter(StringUtils::isNotEmpty)
 			.collect(Collectors.toCollection(LinkedList::new));
 
@@ -64,22 +62,21 @@ public class MoveNode implements Hop<MoveNode.Config> {
 
 		parent = getParentNode(parts, parent, session, target);
 
-
 		final boolean needsReplacing = parent.hasNode(target);
 		if (needsReplacing) {
 			final Node childNode = parent.getNode(target);
 			switch (conflict) {
-			case IGNORE:
-				context.info("Node {} already exists, won’t replace", childNode.getPath());
-				break;
-			case FORCE:
-				context.info("Replacing existing node {}", childNode.getPath());
-				childNode.remove();
-				break;
-			case THROW:
-				throw new HopperException(String.format("Node %s already exists", childNode.getPath()));
-			default:
-				throw new IllegalArgumentException("Unexpected value: " + conflict);
+				case IGNORE:
+					context.info("Node {} already exists, won’t replace", childNode.getPath());
+					break;
+				case FORCE:
+					context.info("Replacing existing node {}", childNode.getPath());
+					childNode.remove();
+					break;
+				case THROW:
+					throw new HopperException(String.format("Node %s already exists", childNode.getPath()));
+				default:
+					throw new IllegalArgumentException("Unexpected value: " + conflict);
 			}
 		}
 
@@ -106,7 +103,6 @@ public class MoveNode implements Hop<MoveNode.Config> {
 		}
 		return parent;
 	}
-
 
 	@Override
 	public void run(Config config, Node node, HopContext context) throws RepositoryException, HopperException {
@@ -149,6 +145,7 @@ public class MoveNode implements Hop<MoveNode.Config> {
 	@RequiredArgsConstructor
 	@Getter
 	public static class NewNodeDescriptor {
+
 		private final Node parent;
 		private final String newChildName;
 		private final boolean needsReplacing;
@@ -161,9 +158,10 @@ public class MoveNode implements Hop<MoveNode.Config> {
 	@EqualsAndHashCode
 	@SuppressWarnings("PMD.ImmutableField")
 	public static final class Config implements HopConfig {
+
 		private String newName;
+
 		@Nonnull
 		private ConflictResolution conflict = ConflictResolution.IGNORE;
 	}
 }
-

@@ -133,8 +133,15 @@ aem {
             dependsOn(npmInstall)
             npmCommand.set(listOf("run", "test:format"))
 
-            inputs.dir("src/main/frontend")
+            inputs.dir("src")
             inputs.file("package-lock.json")
+            inputs.file(".prettierrc.json")
+        }
+
+        val prettierFormat by registering(NpmTask::class) {
+            dependsOn(npmInstall)
+            npmCommand.set(listOf("run", "test:format", "--", "--write"))
+            outputs.upToDateWhen { false }
         }
 
         check {

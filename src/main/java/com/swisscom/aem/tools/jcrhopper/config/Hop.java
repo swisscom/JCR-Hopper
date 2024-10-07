@@ -1,11 +1,10 @@
 package com.swisscom.aem.tools.jcrhopper.config;
 
+import com.swisscom.aem.tools.jcrhopper.HopperException;
+import com.swisscom.aem.tools.jcrhopper.context.HopContext;
 import javax.annotation.Nonnull;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
-
-import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.context.HopContext;
 
 /**
  * Interface for an action that can be run on a node.

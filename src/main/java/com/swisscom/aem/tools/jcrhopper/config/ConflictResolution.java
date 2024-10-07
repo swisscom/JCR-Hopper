@@ -1,10 +1,8 @@
 package com.swisscom.aem.tools.jcrhopper.config;
 
-import java.util.stream.Stream;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.swisscom.aem.tools.jcrhopper.HopperException;
+import java.util.stream.Stream;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * How problems with a hop’s action are handled.
@@ -41,10 +39,7 @@ public enum ConflictResolution {
 	 * @return The conflict resolution
 	 */
 	public static ConflictResolution fromName(String name) {
-		return Stream.of(values())
-			.filter(cr -> StringUtils.equalsIgnoreCase(cr.name(), name))
-			.findFirst()
-			.orElse(null);
+		return Stream.of(values()).filter(cr -> StringUtils.equalsIgnoreCase(cr.name(), name)).findFirst().orElse(null);
 	}
 
 	/**

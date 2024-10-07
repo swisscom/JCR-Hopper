@@ -1,18 +1,17 @@
 package com.swisscom.aem.tools.impl.file;
 
+import com.swisscom.aem.tools.jcrhopper.config.File;
 import java.nio.charset.StandardCharsets;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 
-import com.swisscom.aem.tools.jcrhopper.config.File;
-
 @RequiredArgsConstructor
 @Slf4j
 public class PlainTextFile implements File {
+
 	@Getter
 	private final String name;
 

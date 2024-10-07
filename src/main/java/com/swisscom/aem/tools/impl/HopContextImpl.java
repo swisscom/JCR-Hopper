@@ -1,17 +1,19 @@
 package com.swisscom.aem.tools.impl;
 
+import com.swisscom.aem.tools.jcrhopper.HopperException;
+import com.swisscom.aem.tools.jcrhopper.config.Hop;
+import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
+import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
+import com.swisscom.aem.tools.jcrhopper.context.HopContext;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Collections;
 import java.util.Map;
-
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.jexl3.JexlContext;
 import org.apache.commons.jexl3.JexlEngine;
 import org.apache.commons.jexl3.JxltEngine;
@@ -19,26 +21,24 @@ import org.slf4j.Marker;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 
-import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.config.Hop;
-import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
-import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
-import com.swisscom.aem.tools.jcrhopper.context.HopContext;
-
 /**
  * Helper for hops to execute their actions.
  */
 @RequiredArgsConstructor
 @Slf4j
-@SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.ExcessivePublicCount", "PMD.TooManyMethods", "PMD.NcssCount"})
+@SuppressWarnings({ "PMD.CyclomaticComplexity", "PMD.ExcessivePublicCount", "PMD.TooManyMethods", "PMD.NcssCount" })
 public class HopContextImpl implements JexlContext, HopContext {
+
 	private final RunnerImpl runner;
 
 	@Getter
 	private final JexlEngine jexlEngine;
+
 	private final JxltEngine templateEngine;
+
 	@Getter
 	private final JcrFunctionsImpl jcrFunctions;
+
 	@SuppressWarnings("PMD.LooseCoupling")
 	private final HopVariables variables;
 
@@ -48,11 +48,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	}
 
 	@Override
-	public void runHops(
-		Node node,
-		Iterable<HopConfig> hops,
-		Map<String, Object> additionalVariables
-	) throws HopperException, RepositoryException {
+	public void runHops(Node node, Iterable<HopConfig> hops, Map<String, Object> additionalVariables)
+		throws HopperException, RepositoryException {
 		final HopContextImpl inner = childContext(node, additionalVariables);
 		for (HopConfig hopConfig : hops) {
 			inner.runHop(hopConfig);
@@ -63,7 +60,6 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public String evaluateTemplate(String template) {
 		return templateEngine.createTemplate(template).prepare(this).asString();
 	}
-
 
 	@Override
 	public Object evaluate(String expression) {
@@ -82,7 +78,8 @@ public class HopContextImpl implements JexlContext, HopContext {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void runHop(HopConfig hopConfig) throws HopperException, RepositoryException {
-		final Hop<HopConfig> hop = (Hop<HopConfig>) runner.getKnownHops()
+		final Hop<HopConfig> hop = (Hop<HopConfig>) runner
+			.getKnownHops()
 			.stream()
 			.filter(h -> h.getConfigType().isInstance(hopConfig))
 			.findFirst()
@@ -113,6 +110,7 @@ public class HopContextImpl implements JexlContext, HopContext {
 	public void set(String key, Object value) {
 		variables.put(key, value);
 	}
+
 	//endregion
 
 	@Override
@@ -425,7 +423,6 @@ public class HopContextImpl implements JexlContext, HopContext {
 		}
 	}
 
-
 	@Override
 	public boolean isWarnEnabled() {
 		return LogLevel.WARN.shouldLogTo(runner.getScript().getLogLevel());
@@ -524,7 +521,6 @@ public class HopContextImpl implements JexlContext, HopContext {
 		}
 	}
 
-
 	@Override
 	public boolean isErrorEnabled() {
 		return LogLevel.ERROR.shouldLogTo(runner.getScript().getLogLevel());
@@ -622,6 +618,7 @@ public class HopContextImpl implements JexlContext, HopContext {
 			runner.getRunHandler().log(LogLevel.ERROR, format.getMessage(), format.getThrowable(), marker);
 		}
 	}
+
 	// endregion
 
 	@Override
@@ -629,26 +626,27 @@ public class HopContextImpl implements JexlContext, HopContext {
 		runner.getRunHandler().print(message);
 	}
 
-
 	// region Writer
 	@Override
 	public Writer getWriter() {
-		return new PrintWriter(new Writer() {
-			@Override
-			public void write(char[] cbuf, int off, int len) {
-				print(new String(cbuf, off, len));
-			}
+		return new PrintWriter(
+			new Writer() {
+				@Override
+				public void write(char[] cbuf, int off, int len) {
+					print(new String(cbuf, off, len));
+				}
 
-			@Override
-			public void flush() {
-				// No-op
-			}
+				@Override
+				public void flush() {
+					// No-op
+				}
 
-			@Override
-			public void close() {
-				// No-op
+				@Override
+				public void close() {
+					// No-op
+				}
 			}
-		});
+		);
 	}
 	// endregion
 }

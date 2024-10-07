@@ -1,7 +1,6 @@
 package com.swisscom.aem.tools.jcrhopper;
 
 import java.util.Map;
-
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;

@@ -1,13 +1,13 @@
 package com.swisscom.aem.tools.impl.file;
 
+import com.google.gson.JsonObject;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import com.google.gson.JsonObject;
-
 @RequiredArgsConstructor
 public class JsonObjectFile extends JsonFile {
+
 	@Getter
 	private final String name;
 

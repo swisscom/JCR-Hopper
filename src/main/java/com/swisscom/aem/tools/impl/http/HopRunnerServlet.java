@@ -1,16 +1,18 @@
 package com.swisscom.aem.tools.impl.http;
 
+import com.swisscom.aem.tools.jcrhopper.Runner;
+import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
+import com.swisscom.aem.tools.jcrhopper.osgi.ConfigInfo;
+import com.swisscom.aem.tools.jcrhopper.osgi.RunnerService;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javax.annotation.Nonnull;
 import javax.jcr.Session;
 import javax.servlet.Servlet;
-
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -25,24 +27,13 @@ import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.Designate;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
-import com.swisscom.aem.tools.jcrhopper.Runner;
-import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
-import com.swisscom.aem.tools.jcrhopper.osgi.ConfigInfo;
-import com.swisscom.aem.tools.jcrhopper.osgi.RunnerService;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-@Component(
-	service = {Servlet.class, ConfigInfo.class},
-	property = "sling.servlet.methods=post"
-)
+@Component(service = { Servlet.class, ConfigInfo.class }, property = "sling.servlet.methods=post")
 @ServiceDescription("JCR Hopper: Runner Servlet")
 @SlingServletPaths(HopRunnerServlet.DEFAULT_PATH)
-@Designate(
-	ocd = HopRunnerServlet.HopRunnerServletDelegate.class
-)
+@Designate(ocd = HopRunnerServlet.HopRunnerServletDelegate.class)
 @Slf4j
 public class HopRunnerServlet extends SlingAllMethodsServlet implements ConfigInfo {
+
 	static final String DEFAULT_PATH = "/bin/servlets/jcr-hopper/run";
 	private static final String ABORT_ERROR_MESSAGE = "Script execution aborted with exception";
 
@@ -61,7 +52,6 @@ public class HopRunnerServlet extends SlingAllMethodsServlet implements ConfigIn
 			defaultValue = DEFAULT_PATH
 		)
 		String[] sling_servlet_paths();
-
 	}
 
 	@Activate
@@ -71,10 +61,7 @@ public class HopRunnerServlet extends SlingAllMethodsServlet implements ConfigIn
 
 	@Override
 	@SuppressFBWarnings(value = "REC_CATCH_EXCEPTION", justification = "All exception types should be sent to the caller")
-	protected void doPost(
-		@Nonnull SlingHttpServletRequest request,
-		@Nonnull SlingHttpServletResponse response
-	) throws IOException {
+	protected void doPost(@Nonnull SlingHttpServletRequest request, @Nonnull SlingHttpServletResponse response) throws IOException {
 		response.setContentType("application/x-ndjson");
 		response.setHeader("Transfer-Encoding", "chunked");
 		final HttpChunkedResponseRunHandler runHandler = new HttpChunkedResponseRunHandler(response.getWriter());
@@ -85,16 +72,15 @@ public class HopRunnerServlet extends SlingAllMethodsServlet implements ConfigIn
 		}
 		final boolean commitAfterRun = Boolean.parseBoolean(request.getParameter("_commit"));
 
-		final Map<String, String> arguments = request.getRequestParameterList()
+		final Map<String, String> arguments = request
+			.getRequestParameterList()
 			.stream()
 			.filter(param -> !StringUtils.startsWithAny(param.getName(), ":", "_"))
-			.collect(Collectors.toMap(
-				RequestParameter::getName,
-				RequestParameter::getString
-			));
+			.collect(Collectors.toMap(RequestParameter::getName, RequestParameter::getString));
 
 		try {
-			final Runner runner = runnerService.builder()
+			final Runner runner = runnerService
+				.builder()
 				.addUtil("req", request.getRequestParameterMap())
 				.runHandler(runHandler)
 				.build(script);
@@ -102,12 +88,7 @@ public class HopRunnerServlet extends SlingAllMethodsServlet implements ConfigIn
 			runner.run(request.getResourceResolver().adaptTo(Session.class), commitAfterRun, arguments);
 		} catch (Exception e) {
 			log.error(ABORT_ERROR_MESSAGE, e);
-			runHandler.log(
-				LogLevel.ERROR,
-				ABORT_ERROR_MESSAGE,
-				e,
-				null
-			);
+			runHandler.log(LogLevel.ERROR, ABORT_ERROR_MESSAGE, e, null);
 		}
 	}
 }

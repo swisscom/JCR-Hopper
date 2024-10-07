@@ -1,30 +1,27 @@
 package com.swisscom.aem.tools.impl.hops;
 
-
+import com.swisscom.aem.tools.jcrhopper.HopperException;
+import com.swisscom.aem.tools.jcrhopper.config.ConflictResolution;
+import com.swisscom.aem.tools.jcrhopper.config.Hop;
+import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
+import com.swisscom.aem.tools.jcrhopper.context.HopContext;
 import javax.annotation.Nonnull;
 import javax.jcr.Node;
 import javax.jcr.Property;
 import javax.jcr.RepositoryException;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.With;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.spi.commons.conversion.IllegalNameException;
 import org.osgi.service.component.annotations.Component;
 
-import com.swisscom.aem.tools.jcrhopper.config.ConflictResolution;
-import com.swisscom.aem.tools.jcrhopper.config.Hop;
-import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
-import com.swisscom.aem.tools.jcrhopper.context.HopContext;
-import com.swisscom.aem.tools.jcrhopper.HopperException;
-
 @AllArgsConstructor
 @Component(service = Hop.class)
 public class RenameProperty implements Hop<RenameProperty.Config> {
+
 	@Override
 	public void run(Config config, Node node, HopContext context) throws RepositoryException, HopperException {
 		final String propertyName = context.evaluateTemplate(config.propertyName);
@@ -54,66 +51,62 @@ public class RenameProperty implements Hop<RenameProperty.Config> {
 		prop.remove();
 	}
 
-	private boolean shouldStopOnConflict(
-		Config config,
-		Node node,
-		HopContext context,
-		String newName,
-		String propertyName
-	) throws HopperException, RepositoryException {
+	private boolean shouldStopOnConflict(Config config, Node node, HopContext context, String newName, String propertyName)
+		throws HopperException, RepositoryException {
 		if (node.hasProperty(newName)) {
 			final Property existing = node.getProperty(newName);
 			switch (config.conflict) {
-			case THROW:
-				throw new HopperException(
-					String.format(
-						"Property %s could not be renamed to %s because it already exists on %s",
-						propertyName,
+				case THROW:
+					throw new HopperException(
+						String.format(
+							"Property %s could not be renamed to %s because it already exists on %s",
+							propertyName,
+							newName,
+							node.getPath()
+						)
+					);
+				case IGNORE:
+					context.info(
+						"Not replacing existing property {} on {} with value from {}",
 						newName,
-						node.getPath()
-					)
-				);
-			case IGNORE:
-				context.info("Not replacing existing property {} on {} with value from {}", newName, node.getPath(), propertyName);
-				return true;
-			case FORCE:
-				context.info("Replacing existing property {} on {} with value from {}", newName, node.getPath(), propertyName);
-				existing.remove();
-				return true;
-			default:
-				throw new IllegalNameException("Invalid conflict name: " + config.conflict.name());
+						node.getPath(),
+						propertyName
+					);
+					return true;
+				case FORCE:
+					context.info(
+						"Replacing existing property {} on {} with value from {}",
+						newName,
+						node.getPath(),
+						propertyName
+					);
+					existing.remove();
+					return true;
+				default:
+					throw new IllegalNameException("Invalid conflict name: " + config.conflict.name());
 			}
 		}
 		return false;
 	}
 
-	private boolean shouldStopOnMissingProperty(
-		Config config,
-		Node node,
-		HopContext context,
-		String propertyName,
-		String newName
-	) throws HopperException, RepositoryException {
+	private boolean shouldStopOnMissingProperty(Config config, Node node, HopContext context, String propertyName, String newName)
+		throws HopperException, RepositoryException {
 		if (node.hasProperty(propertyName)) {
 			return false;
 		}
 		switch (config.doesNotExist) {
-		case THROW:
-			throw new HopperException(
-				String.format(
-					"Property %s on %s could not be found",
+			case THROW:
+				throw new HopperException(String.format("Property %s on %s could not be found", propertyName, newName));
+			case IGNORE:
+				context.warn(
+					"Property {} on {} does not exist. Set doesNotExist to “force” to avoid this warning",
 					propertyName,
-					newName
-				)
-			);
-		case IGNORE:
-			context.warn("Property {} on {} does not exist. Set doesNotExist to “force” to avoid this warning",
-				propertyName, node.getPath());
-			return true;
-		default:
-			return true;
+					node.getPath()
+				);
+				return true;
+			default:
+				return true;
 		}
-
 	}
 
 	@Nonnull
@@ -135,13 +128,14 @@ public class RenameProperty implements Hop<RenameProperty.Config> {
 	@EqualsAndHashCode
 	@SuppressWarnings("PMD.ImmutableField")
 	public static final class Config implements HopConfig {
+
 		private String propertyName;
 		private String newName;
+
 		@Nonnull
 		private ConflictResolution doesNotExist = ConflictResolution.IGNORE;
+
 		@Nonnull
 		private ConflictResolution conflict = ConflictResolution.IGNORE;
 	}
 }
-
-

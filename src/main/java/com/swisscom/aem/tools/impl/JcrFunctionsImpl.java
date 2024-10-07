@@ -1,5 +1,7 @@
 package com.swisscom.aem.tools.impl;
 
+import com.swisscom.aem.tools.jcrhopper.context.JcrFunctions;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Array;
@@ -8,7 +10,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
 import javax.annotation.Nullable;
 import javax.jcr.Binary;
 import javax.jcr.Node;
@@ -18,19 +19,14 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
 import javax.jcr.ValueFactory;
-
 import lombok.RequiredArgsConstructor;
-
 import org.apache.commons.lang3.StringUtils;
-
-import com.swisscom.aem.tools.jcrhopper.context.JcrFunctions;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @RequiredArgsConstructor
 @SuppressFBWarnings(value = "OPM_OVERLY_PERMISSIVE_METHOD", justification = "Used by scripting")
 @SuppressWarnings("PMD.GodClass")
 public class JcrFunctionsImpl implements JcrFunctions {
+
 	private final Session session;
 
 	/**
@@ -45,27 +41,27 @@ public class JcrFunctionsImpl implements JcrFunctions {
 		final Object result;
 
 		switch (type) {
-		case PropertyType.BOOLEAN:
-			result = val.getBoolean();
-			break;
-		case PropertyType.DATE:
-			result = val.getDate();
-			break;
-		case PropertyType.DECIMAL:
-			result = val.getDecimal();
-			break;
-		case PropertyType.DOUBLE:
-			result = val.getDouble();
-			break;
-		case PropertyType.LONG:
-			result = val.getLong();
-			break;
-		case PropertyType.BINARY:
-			result = val.getBinary();
-			break;
-		default:
-			result = val.getString();
-			break;
+			case PropertyType.BOOLEAN:
+				result = val.getBoolean();
+				break;
+			case PropertyType.DATE:
+				result = val.getDate();
+				break;
+			case PropertyType.DECIMAL:
+				result = val.getDecimal();
+				break;
+			case PropertyType.DOUBLE:
+				result = val.getDouble();
+				break;
+			case PropertyType.LONG:
+				result = val.getLong();
+				break;
+			case PropertyType.BINARY:
+				result = val.getBinary();
+				break;
+			default:
+				result = val.getString();
+				break;
 		}
 
 		return result;
@@ -87,14 +83,14 @@ public class JcrFunctionsImpl implements JcrFunctions {
 	@Override
 	public Value[] props(Node node, String propName) throws RepositoryException {
 		if (!hasProp(node, propName)) {
-			return new Value[]{};
+			return new Value[] {};
 		}
 		final Property prop = node.getProperty(propName);
 		if (prop.isMultiple()) {
 			return prop.getValues();
 		}
 
-		return new Value[]{prop.getValue()};
+		return new Value[] { prop.getValue() };
 	}
 
 	@Override
@@ -115,7 +111,7 @@ public class JcrFunctionsImpl implements JcrFunctions {
 		final Property prop = node.getProperty(propName);
 
 		if (!prop.isMultiple()) {
-			return new Object[]{val(node, propName)};
+			return new Object[] { val(node, propName) };
 		}
 
 		final int type = prop.getType();
@@ -170,9 +166,7 @@ public class JcrFunctionsImpl implements JcrFunctions {
 
 	@Override
 	public Binary toBinary(String data, String encoding) throws RepositoryException {
-		return session.getValueFactory().createBinary(
-			new ByteArrayInputStream(data.getBytes(Charset.forName(encoding)))
-		);
+		return session.getValueFactory().createBinary(new ByteArrayInputStream(data.getBytes(Charset.forName(encoding))));
 	}
 
 	@Override
@@ -188,7 +182,6 @@ public class JcrFunctionsImpl implements JcrFunctions {
 
 	@Override
 	public Value valueFromObject(Object value) throws RepositoryException {
-
 		if (value instanceof Value) {
 			return (Value) value;
 		}
@@ -196,7 +189,7 @@ public class JcrFunctionsImpl implements JcrFunctions {
 		return convertToValue(fac, value);
 	}
 
-	@SuppressWarnings({"PMD", "checkstyle:ReturnCount", "checkstyle:CyclomaticComplexity"})
+	@SuppressWarnings({ "PMD", "checkstyle:ReturnCount", "checkstyle:CyclomaticComplexity" })
 	@SuppressFBWarnings(value = "ITC_INHERITANCE_TYPE_CHECKING", justification = "ValueFactory requires different signatures for each type")
 	private Value convertToValue(ValueFactory fac, Object value) throws RepositoryException {
 		if (value instanceof String) {
@@ -228,11 +221,10 @@ public class JcrFunctionsImpl implements JcrFunctions {
 		}
 	}
 
-
 	@Override
 	public Value[] valuesFromArray(Object value) throws RepositoryException {
 		if (!value.getClass().isArray()) {
-			return new Value[]{valueFromObject(value)};
+			return new Value[] { valueFromObject(value) };
 		}
 
 		if (value instanceof Value[]) {

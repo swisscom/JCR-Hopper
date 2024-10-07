@@ -2,7 +2,6 @@ package com.swisscom.aem.tools.jcrhopper.config;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import org.slf4j.Marker;
 
 /**

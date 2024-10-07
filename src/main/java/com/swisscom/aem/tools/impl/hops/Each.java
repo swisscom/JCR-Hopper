@@ -1,31 +1,27 @@
 package com.swisscom.aem.tools.impl.hops;
 
+import com.swisscom.aem.tools.jcrhopper.HopperException;
+import com.swisscom.aem.tools.jcrhopper.config.Hop;
+import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
+import com.swisscom.aem.tools.jcrhopper.context.HopContext;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.With;
-
 import org.osgi.service.component.annotations.Component;
-
-import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.config.Hop;
-import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
-import com.swisscom.aem.tools.jcrhopper.context.HopContext;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @AllArgsConstructor
 @Component(service = Hop.class)
 public class Each implements Hop<Each.Config> {
+
 	@Override
 	public void run(Config config, Node node, HopContext context) throws RepositoryException, HopperException {
 		final Object items = context.evaluate(config.expression);
@@ -47,12 +43,7 @@ public class Each implements Hop<Each.Config> {
 	}
 
 	@SuppressFBWarnings(value = "ITC_INHERITANCE_TYPE_CHECKING", justification = "The item comes from scripting and can be an arbitrary type")
-	private void runWith(
-		Config config,
-		Object item,
-		Node initialNode,
-		HopContext context
-	) throws HopperException, RepositoryException {
+	private void runWith(Config config, Object item, Node initialNode, HopContext context) throws HopperException, RepositoryException {
 		Node node = initialNode;
 		if (config.assumeNodes) {
 			if (item instanceof Node) {
@@ -90,10 +81,14 @@ public class Each implements Hop<Each.Config> {
 	@EqualsAndHashCode
 	@SuppressWarnings("PMD.ImmutableField")
 	public static final class Config implements HopConfig {
+
 		private String expression;
+
 		@Nonnull
 		private String iterator = "item";
+
 		private boolean assumeNodes;
+
 		@Nonnull
 		private List<HopConfig> hops = Collections.emptyList();
 	}

@@ -1,20 +1,19 @@
 package com.swisscom.aem.tools.impl.file;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.swisscom.aem.tools.jcrhopper.config.File;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.swisscom.aem.tools.jcrhopper.config.File;
 
 @RequiredArgsConstructor
 @Slf4j
 public abstract class JsonFile implements File {
+
 	protected final Gson gson = new Gson();
 
 	protected abstract JsonElement getResult();

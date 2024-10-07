@@ -1,24 +1,5 @@
 package com.swisscom.aem.tools.impl;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
-
-import javax.jcr.Node;
-import javax.jcr.RepositoryException;
-import javax.jcr.Session;
-
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-import org.apache.commons.jexl3.JexlBuilder;
-import org.apache.commons.jexl3.JexlEngine;
-import org.apache.commons.jexl3.introspection.JexlPermissions;
-
 import com.swisscom.aem.tools.impl.file.FileUtils;
 import com.swisscom.aem.tools.jcrhopper.HopperException;
 import com.swisscom.aem.tools.jcrhopper.Runner;
@@ -28,20 +9,37 @@ import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.config.RunHandler;
 import com.swisscom.aem.tools.jcrhopper.config.Script;
 import com.swisscom.aem.tools.jcrhopper.context.HopContext;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.jexl3.JexlBuilder;
+import org.apache.commons.jexl3.JexlEngine;
+import org.apache.commons.jexl3.introspection.JexlPermissions;
 
 @RequiredArgsConstructor
 @SuppressFBWarnings(value = "OPM_OVERLY_PERMISSIVE_METHOD", justification = "API surface")
 public class RunnerImpl implements Runner {
+
 	@Getter
 	private final Set<Hop<?>> knownHops;
+
 	private final Map<String, Object> utils;
 	private final Map<String, Object> variables;
 	private final Map<String, Function<String, File>> fileTypeSuppliers;
 
 	@Getter
 	private final RunHandler runHandler;
+
 	@Getter
 	private final Script script;
 
@@ -76,13 +74,7 @@ public class RunnerImpl implements Runner {
 		jexlBuilder.permissions(JexlPermissions.UNRESTRICTED);
 
 		final JexlEngine jexlEngine = jexlBuilder.create();
-		final HopContext context = new HopContextImpl(
-			this,
-			jexlEngine,
-			jexlEngine.createJxltEngine(),
-			jcrFunctions,
-			variables
-		);
+		final HopContext context = new HopContextImpl(this, jexlEngine, jexlEngine.createJxltEngine(), jcrFunctions, variables);
 
 		fillParameters(context, arguments);
 

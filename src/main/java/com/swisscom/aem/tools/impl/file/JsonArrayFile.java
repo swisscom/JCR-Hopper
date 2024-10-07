@@ -1,15 +1,14 @@
 package com.swisscom.aem.tools.impl.file;
 
+import com.google.gson.JsonArray;
 import java.util.Arrays;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import com.google.gson.JsonArray;
-
 @RequiredArgsConstructor
 public class JsonArrayFile extends JsonFile {
+
 	@Getter
 	private final String name;
 

@@ -1,31 +1,28 @@
 package com.swisscom.aem.tools.impl.hops;
 
+import com.swisscom.aem.tools.jcrhopper.HopperException;
+import com.swisscom.aem.tools.jcrhopper.config.Hop;
+import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
+import com.swisscom.aem.tools.jcrhopper.context.HopContext;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Nonnull;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.With;
-
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
 
-import com.swisscom.aem.tools.jcrhopper.config.Hop;
-import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
-import com.swisscom.aem.tools.jcrhopper.context.HopContext;
-import com.swisscom.aem.tools.jcrhopper.HopperException;
-
 @Component(service = Hop.class)
 public class ChildNodes implements Hop<ChildNodes.Config> {
+
 	@Override
 	public void run(Config config, Node node, HopContext context) throws RepositoryException, HopperException {
 		final NodeIterator childIterator;
@@ -74,12 +71,13 @@ public class ChildNodes implements Hop<ChildNodes.Config> {
 	@EqualsAndHashCode
 	@SuppressWarnings("PMD.ImmutableField")
 	public static final class Config implements HopConfig {
+
 		private String namePattern;
+
 		@Nonnull
 		private String counterName = "counter";
+
 		@Nonnull
 		private List<HopConfig> hops = Collections.emptyList();
-
 	}
 }
-

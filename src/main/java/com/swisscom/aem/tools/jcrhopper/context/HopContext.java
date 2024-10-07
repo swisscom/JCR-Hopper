@@ -1,15 +1,12 @@
 package com.swisscom.aem.tools.jcrhopper.context;
 
-import java.io.Writer;
-import java.util.Map;
-
-import javax.jcr.Node;
-import javax.jcr.RepositoryException;
-
-import org.slf4j.Logger;
-
 import com.swisscom.aem.tools.jcrhopper.HopperException;
 import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
+import java.io.Writer;
+import java.util.Map;
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
+import org.slf4j.Logger;
 
 public interface HopContext extends Logger {
 	/**
@@ -35,11 +32,7 @@ public interface HopContext extends Logger {
 	 * @throws HopperException     if one of the hops encounters a node it cannot handle and is configured to throw
 	 * @throws RepositoryException if an error occurs during JCR manipulation
 	 */
-	void runHops(
-		Node node,
-		Iterable<HopConfig> hops,
-		Map<String, Object> additionalVariables
-	) throws HopperException, RepositoryException;
+	void runHops(Node node, Iterable<HopConfig> hops, Map<String, Object> additionalVariables) throws HopperException, RepositoryException;
 
 	/**
 	 * Evaluates a string as JEXL template.

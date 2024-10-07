@@ -6,23 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import javax.jcr.Node;
-import javax.jcr.RepositoryException;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.sling.api.resource.Resource;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-
 import com.swisscom.aem.tools.impl.hops.ChildNodes;
 import com.swisscom.aem.tools.impl.hops.CopyNode;
 import com.swisscom.aem.tools.impl.hops.CreateChildNode;
@@ -39,13 +22,27 @@ import com.swisscom.aem.tools.impl.hops.SetProperty;
 import com.swisscom.aem.tools.impl.hops.Try;
 import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
 import com.swisscom.aem.tools.jcrhopper.config.Script;
-
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
 import io.wcm.testing.mock.aem.junit5.JcrOakAemContext;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.sling.api.resource.Resource;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(AemContextExtension.class)
 class RunnerTest {
+
 	public final AemContext context = new JcrOakAemContext();
 
 	public static final RunnerBuilder RUNNER_BUILDER = Runner.builder()
@@ -75,9 +72,13 @@ class RunnerTest {
 			new Script(
 				Arrays.asList(
 					new SetProperty.Config().withPropertyName("test").withValue("true"),
-					new CreateChildNode.Config().withName("cool-item").withHops(Collections.singletonList(
-						new SetProperty.Config().withPropertyName("TestProp").withValue("'TestValue'")
-					))
+					new CreateChildNode.Config()
+						.withName("cool-item")
+						.withHops(
+							Collections.singletonList(
+								new SetProperty.Config().withPropertyName("TestProp").withValue("'TestValue'")
+							)
+						)
 				),
 				LogLevel.TRACE
 			)
@@ -106,41 +107,94 @@ class RunnerTest {
 		final Runner runner = RUNNER_BUILDER.build(
 			new Script(
 				new SetProperty.Config().withPropertyName("prop1").withValue("33"),
-				new ResolveNode.Config().withName("child1").withHops(Arrays.asList(
-					new RenameProperty.Config().withPropertyName("prop1").withNewName("prop33"),
-					new CreateChildNode.Config().withName("some-child").withHops(Arrays.asList(
-						new MoveNode.Config().withNewName("some-other-child"),
-						new CreateChildNode.Config().withName("${node.name}-child1"),
-						new CreateChildNode.Config().withName("${node.name}-child2"),
-						new CreateChildNode.Config().withName("${node.name}-child3"),
-						new CreateChildNode.Config().withName("bastard-child").withHops(Collections.singletonList(
-							new ReorderNode.Config().withBefore("some-other-child-child3")
-						)),
-						new ChildNodes.Config().withNamePattern("${node.name}-*").withHops(Arrays.asList(
-							new SetProperty.Config().withPropertyName("node-tokens").withValue("str:splitPreserveAllTokens(node.name, '-', -1)"),
-							new SetProperty.Config().withPropertyName("node-index").withValue("counter"),
-							new SetProperty.Config().withPropertyName("node-name-number").withValue("str:replacePattern(node.name, '^.*([0-9]+)$', '$1')"),
-							new SetProperty.Config().withPropertyName("dummy").withValue("!true"),
-							new FilterNode.Config().withExpression("jcr:val(node, 'node-index') < 2").withHops(Arrays.asList(
-								new SetProperty.Config().withPropertyName("node-name-number").withValue("jcr:val(node, 'node-name-number')+20"),
-								new RenameProperty.Config().withPropertyName("dummy").withNewName("/dev/null")
-							))
-						)),
-						new CreateChildNode.Config().withName("${node.parent.name}-child6").withHops(Collections.singletonList(
-							new MoveNode.Config().withNewName("/dev/null")
-						))
-					))
-				))
+				new ResolveNode.Config()
+					.withName("child1")
+					.withHops(
+						Arrays.asList(
+							new RenameProperty.Config().withPropertyName("prop1").withNewName("prop33"),
+							new CreateChildNode.Config()
+								.withName("some-child")
+								.withHops(
+									Arrays.asList(
+										new MoveNode.Config().withNewName("some-other-child"),
+										new CreateChildNode.Config().withName("${node.name}-child1"),
+										new CreateChildNode.Config().withName("${node.name}-child2"),
+										new CreateChildNode.Config().withName("${node.name}-child3"),
+										new CreateChildNode.Config()
+											.withName("bastard-child")
+											.withHops(
+												Collections.singletonList(
+													new ReorderNode.Config()
+														.withBefore("some-other-child-child3")
+												)
+											),
+										new ChildNodes.Config()
+											.withNamePattern("${node.name}-*")
+											.withHops(
+												Arrays.asList(
+													new SetProperty.Config()
+														.withPropertyName("node-tokens")
+														.withValue(
+															"str:splitPreserveAllTokens(node.name, '-', -1)"
+														),
+													new SetProperty.Config()
+														.withPropertyName("node-index")
+														.withValue("counter"),
+													new SetProperty.Config()
+														.withPropertyName("node-name-number")
+														.withValue(
+															"str:replacePattern(node.name, '^.*([0-9]+)$', '$1')"
+														),
+													new SetProperty.Config()
+														.withPropertyName("dummy")
+														.withValue("!true"),
+													new FilterNode.Config()
+														.withExpression(
+															"jcr:val(node, 'node-index') < 2"
+														)
+														.withHops(
+															Arrays.asList(
+																new SetProperty.Config()
+																	.withPropertyName(
+																		"node-name-number"
+																	)
+																	.withValue(
+																		"jcr:val(node, 'node-name-number')+20"
+																	),
+																new RenameProperty.Config()
+																	.withPropertyName(
+																		"dummy"
+																	)
+																	.withNewName(
+																		"/dev/null"
+																	)
+															)
+														)
+												)
+											),
+										new CreateChildNode.Config()
+											.withName("${node.parent.name}-child6")
+											.withHops(
+												Collections.singletonList(
+													new MoveNode.Config().withNewName("/dev/null")
+												)
+											)
+									)
+								)
+						)
+					)
 			)
 		);
 
 		runner.run(root.adaptTo(Node.class), true);
 		verifyManipulation(root);
 
-		final Runner copier = RUNNER_BUILDER.build(new Script(
-			Collections.singletonList(new CopyNode.Config().withNewName("/root-${args.newNodeIndex}")),
-			Collections.singletonList(new Script.Parameter("newNodeIndex", "${1+1}", "text"))
-		));
+		final Runner copier = RUNNER_BUILDER.build(
+			new Script(
+				Collections.singletonList(new CopyNode.Config().withNewName("/root-${args.newNodeIndex}")),
+				Collections.singletonList(new Script.Parameter("newNodeIndex", "${1+1}", "text"))
+			)
+		);
 
 		copier.run(root.adaptTo(Node.class), true);
 		verifyManipulation(context.resourceResolver().getResource("/root-2"));
@@ -157,15 +211,19 @@ class RunnerTest {
 
 		Resource someOtherChild = child1.getChild("some-other-child");
 		assertNotNull(someOtherChild);
-		List<Resource> children = StreamSupport.stream(Spliterators.spliteratorUnknownSize(someOtherChild.listChildren(), Spliterator.ORDERED), false)
-			.collect(Collectors.toList());
+		List<Resource> children = StreamSupport.stream(
+			Spliterators.spliteratorUnknownSize(someOtherChild.listChildren(), Spliterator.ORDERED),
+			false
+		).collect(Collectors.toList());
 
 		assertEquals(4, children.size());
-		assertEquals(Arrays.asList("some-other-child-child1", "some-other-child-child2", "bastard-child", "some-other-child-child3"),
-			children.stream().map(Resource::getName).collect(Collectors.toList()));
+		assertEquals(
+			Arrays.asList("some-other-child-child1", "some-other-child-child2", "bastard-child", "some-other-child-child3"),
+			children.stream().map(Resource::getName).collect(Collectors.toList())
+		);
 
 		assertArrayEquals(
-			new String[]{"some", "other", "child", "child1"},
+			new String[] { "some", "other", "child", "child1" },
 			children.get(0).getValueMap().get("node-tokens", String[].class)
 		);
 		assertEquals(0, (long) children.get(0).getValueMap().get("node-index", -1));
@@ -173,7 +231,7 @@ class RunnerTest {
 		assertNull(children.get(0).getValueMap().get("dummy", Boolean.class));
 
 		assertArrayEquals(
-			new String[]{"some", "other", "child", "child2"},
+			new String[] { "some", "other", "child", "child2" },
 			children.get(1).getValueMap().get("node-tokens", String[].class)
 		);
 		assertEquals(1L, (long) children.get(1).getValueMap().get("node-index", -1));
@@ -186,7 +244,7 @@ class RunnerTest {
 		assertEquals(Boolean.FALSE, children.get(3).getValueMap().get("dummy", Boolean.class));
 
 		assertArrayEquals(
-			new String[]{"some", "other", "child", "child3"},
+			new String[] { "some", "other", "child", "child3" },
 			children.get(3).getValueMap().get("node-tokens", String[].class)
 		);
 		assertEquals(2L, (long) children.get(3).getValueMap().get("node-index", -1));
@@ -205,12 +263,19 @@ class RunnerTest {
 					new NodeQuery.Config()
 						.withQuery("SELECT * FROM [nt:unstructured] as n WHERE NAME(n) = 'test-item'")
 						.withCounterName("item")
-						.withHops(Arrays.asList(
-							new SetProperty.Config().withPropertyName("index").withValue("item"),
-							new ChildNodes.Config().withHops(Collections.singletonList(
-								new SetProperty.Config().withPropertyName("query").withValue("query")
-							))
-						))
+						.withHops(
+							Arrays.asList(
+								new SetProperty.Config().withPropertyName("index").withValue("item"),
+								new ChildNodes.Config()
+									.withHops(
+										Collections.singletonList(
+											new SetProperty.Config()
+												.withPropertyName("query")
+												.withValue("query")
+										)
+									)
+							)
+						)
 				),
 				LogLevel.TRACE
 			)

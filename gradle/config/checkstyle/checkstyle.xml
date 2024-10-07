@@ -20,11 +20,10 @@
 	<module name="Translation"/>
 	<module name="UniqueProperties"/>
 
-	<module name="LineLength">
+	<!-- <module name="LineLength">
 		<property name="max" value="150"/>
-		<!-- Exclude single-line comments and javadoc -->
 		<property name="ignorePattern" value="^(\s*//|\s+\*)"/>
-	</module>
+	</module> --> <!-- DISABLED: Covered by prettier-plugin-java -->
 
 	<module name="TreeWalker">
 		<property name="tabWidth" value="2"/>
@@ -127,7 +126,7 @@
 		<module name="StringLiteralEquality"/>
 		<!--<module name="SuperClone"/>-->
 		<!--<module name="SuperFinalize"/>-->
-		<module name="UnnecessaryParentheses"/>
+		<!-- <module name="UnnecessaryParentheses"/> --> <!-- DISABLED: Covered by prettier-plugin-java -->
 		<module name="UnnecessarySemicolonAfterOuterTypeDeclaration"/>
 		<module name="VariableDeclarationUsageDistance">
 			<property name="allowedDistance" value="5"/>
@@ -195,7 +194,7 @@
 		<module name="CommentsIndentation"/>
 		<module name="DescendantToken"/>
 		<!--<module name="FinalParameters"/>-->  <!-- DISABLED in favor of less restricted ParameterAssignment -->
-		<module name="Indentation">
+		<!-- <module name="Indentation">
 			<property name="basicOffset" value="2"/>
 			<property name="braceAdjustment" value="0"/>
 			<property name="caseIndent" value="0"/>
@@ -203,7 +202,7 @@
 			<property name="lineWrappingIndentation" value="2"/>
 			<property name="arrayInitIndent" value="2"/>
 			<property name="forceStrictCondition" value="false"/>
-		</module>
+		</module> --> <!-- DISABLED: Covered by prettier-plugin-java -->
 		<module name="OuterTypeFilename"/>
 		<!--<module name="TodoComment"/>-->
 		<!--<module name="TrailingComment"/>-->
@@ -268,10 +267,10 @@
 		<module name="GenericWhitespace"/>
 		<module name="MethodParamPad"/>
 		<module name="NoLineWrap"/>
-		<module name="NoWhitespaceAfter"/>
-		<module name="NoWhitespaceBefore"/>
-		<module name="OperatorWrap"/>
-		<module name="ParenPad"/>
+		<!-- <module name="NoWhitespaceAfter"/> --> <!-- DISABLED: Covered by prettier-plugin-java -->
+		<!-- <module name="NoWhitespaceBefore"/> --> <!-- DISABLED: Covered by prettier-plugin-java -->
+		<!-- <module name="OperatorWrap"/> --> <!-- DISABLED: Covered by prettier-plugin-java -->
+		<!-- <module name="ParenPad"/> --> <!-- DISABLED: Covered by prettier-plugin-java -->
 		<module name="SeparatorWrap">
 			<property name="tokens" value="COMMA"/>
 			<property name="option" value="eol"/>
@@ -282,7 +281,7 @@
 		</module>
 		<module name="SingleSpaceSeparator"/>
 		<module name="TypecastParenPad"/>
-		<module name="WhitespaceAfter"/>
-		<module name="WhitespaceAround"/>
+		<!-- <module name="WhitespaceAfter"/> --> <!-- DISABLED: Covered by prettier-plugin-java -->
+		<!-- <module name="WhitespaceAround"/> --> <!-- DISABLED: Covered by prettier-plugin-java -->
 	</module>
 </module>

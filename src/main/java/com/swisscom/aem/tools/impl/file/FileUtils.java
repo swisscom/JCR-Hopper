@@ -1,19 +1,18 @@
 package com.swisscom.aem.tools.impl.file;
 
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import com.swisscom.aem.tools.jcrhopper.config.File;
 import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
 import com.swisscom.aem.tools.jcrhopper.config.RunHandler;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Slf4j
 public class FileUtils {
+
 	private final Consumer<File> fileCreated;
 	private final Map<String, Function<String, File>> fileTypeSuppliers;
 	private final RunHandler runHandler;

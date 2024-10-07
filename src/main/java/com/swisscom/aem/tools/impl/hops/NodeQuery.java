@@ -1,10 +1,13 @@
 package com.swisscom.aem.tools.impl.hops;
 
+import com.swisscom.aem.tools.jcrhopper.HopperException;
+import com.swisscom.aem.tools.jcrhopper.config.Hop;
+import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
+import com.swisscom.aem.tools.jcrhopper.context.HopContext;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Nonnull;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
@@ -13,24 +16,18 @@ import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.With;
-
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 
-import com.swisscom.aem.tools.jcrhopper.HopperException;
-import com.swisscom.aem.tools.jcrhopper.config.Hop;
-import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
-import com.swisscom.aem.tools.jcrhopper.context.HopContext;
-
 @Component(service = Hop.class)
 public class NodeQuery implements Hop<NodeQuery.Config> {
+
 	@Override
 	public void run(Config config, Node node, HopContext context) throws RepositoryException, HopperException {
 		final Map<String, Object> resultVars = new HashMap<>();
@@ -62,8 +59,8 @@ public class NodeQuery implements Hop<NodeQuery.Config> {
 			selectorName = selectors[0];
 			if (selectors.length > 1) {
 				context.warn(
-					"There are {} selectors in the {} query. {} will be used for the sub-pipeline. "
-						+ "You should use an explicit config since the order is not guaranteed.",
+					"There are {} selectors in the {} query. {} will be used for the sub-pipeline. " +
+					"You should use an explicit config since the order is not guaranteed.",
 					selectors.length,
 					config.queryType,
 					selectorName
@@ -73,13 +70,7 @@ public class NodeQuery implements Hop<NodeQuery.Config> {
 		return selectorName;
 	}
 
-	private QueryResult getQueryResult(
-		Config config,
-		Node node,
-		HopContext context,
-		String statement
-	)
-		throws RepositoryException {
+	private QueryResult getQueryResult(Config config, Node node, HopContext context, String statement) throws RepositoryException {
 		final QueryManager qm = node.getSession().getWorkspace().getQueryManager();
 		final Query query = qm.createQuery(statement, config.queryType);
 		if (config.limit > 0) {
@@ -119,16 +110,20 @@ public class NodeQuery implements Hop<NodeQuery.Config> {
 	@EqualsAndHashCode
 	@SuppressWarnings("PMD.ImmutableField")
 	public static final class Config implements HopConfig {
+
 		private String query;
+
 		@Nonnull
 		private String queryType = Query.JCR_SQL2;
+
 		@Nonnull
 		private String counterName = "counter";
+
 		private String selectorName;
 		private int limit;
 		private int offset;
+
 		@Nonnull
 		private List<HopConfig> hops = Collections.emptyList();
 	}
 }
-

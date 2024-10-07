@@ -1,9 +1,7 @@
 package com.swisscom.aem.tools.jcrhopper.config;
 
 import java.util.stream.Stream;
-
 import javax.annotation.Nonnull;
-
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -39,10 +37,7 @@ public enum LogLevel {
 	 */
 	@Nonnull
 	public static LogLevel fromName(final String name) {
-		return Stream.of(values())
-			.filter(cr -> StringUtils.equalsIgnoreCase(cr.name(), name))
-			.findFirst()
-			.orElse(DEFAULT);
+		return Stream.of(values()).filter(cr -> StringUtils.equalsIgnoreCase(cr.name(), name)).findFirst().orElse(DEFAULT);
 	}
 
 	/**

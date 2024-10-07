@@ -1,27 +1,24 @@
 package com.swisscom.aem.tools.impl.http;
 
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import lombok.RequiredArgsConstructor;
-
-import org.slf4j.Marker;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.swisscom.aem.tools.jcrhopper.config.File;
 import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
 import com.swisscom.aem.tools.jcrhopper.config.RunHandler;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Marker;
 
 @RequiredArgsConstructor
 public class HttpChunkedResponseRunHandler implements RunHandler {
+
 	private final PrintWriter responseWriter;
 
 	private final Gson gson = new GsonBuilder().disableHtmlEscaping().create();
@@ -51,9 +48,7 @@ public class HttpChunkedResponseRunHandler implements RunHandler {
 				String.format(
 					"%s%n%s",
 					throwable,
-					Arrays.stream(throwable.getStackTrace())
-						.map(StackTraceElement::toString)
-						.collect(Collectors.joining("\n"))
+					Arrays.stream(throwable.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.joining("\n"))
 				)
 			);
 		}

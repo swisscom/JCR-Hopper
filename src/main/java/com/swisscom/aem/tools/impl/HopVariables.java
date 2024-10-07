@@ -1,5 +1,6 @@
 package com.swisscom.aem.tools.impl;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.HashMap;
@@ -7,20 +8,19 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.annotation.Nonnull;
 import javax.jcr.Node;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 @RequiredArgsConstructor
 public final class HopVariables implements Map<String, Object> {
+
 	public static final String NODE_VAR_NAME = "node";
+
 	@Nonnull
 	private final Map<String, Object> backing;
+
 	@Nonnull
 	@Getter
 	private final Node node;
@@ -49,7 +49,7 @@ public final class HopVariables implements Map<String, Object> {
 
 	@Override
 	@SuppressFBWarnings(
-		value = {"MUI_CONTAINSKEY_BEFORE_GET", "URV_INHERITED_METHOD_WITH_RELATED_TYPES"},
+		value = { "MUI_CONTAINSKEY_BEFORE_GET", "URV_INHERITED_METHOD_WITH_RELATED_TYPES" },
 		justification = "We need to account for null in the local map. Special-casing the node is necessary."
 	)
 	public Object get(Object key) {
@@ -95,20 +95,13 @@ public final class HopVariables implements Map<String, Object> {
 		return result;
 	}
 
-
 	@Override
 	public Collection<Object> values() {
-		return this.keySet()
-			.stream()
-			.map(this::get)
-			.collect(Collectors.toList());
+		return this.keySet().stream().map(this::get).collect(Collectors.toList());
 	}
 
 	@Override
 	public Set<Entry<String, Object>> entrySet() {
-		return this.keySet()
-			.stream()
-			.map(key -> new AbstractMap.SimpleEntry<>(key, this.get(key)))
-			.collect(Collectors.toSet());
+		return this.keySet().stream().map(key -> new AbstractMap.SimpleEntry<>(key, this.get(key))).collect(Collectors.toSet());
 	}
 }

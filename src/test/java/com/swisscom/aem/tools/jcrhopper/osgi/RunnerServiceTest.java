@@ -7,16 +7,6 @@ import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collections;
-
-import javax.jcr.Node;
-import javax.jcr.RepositoryException;
-import javax.jcr.Session;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-
 import com.swisscom.aem.tools.impl.extension.HopProviderExtension;
 import com.swisscom.aem.tools.impl.hops.ChildNodes;
 import com.swisscom.aem.tools.impl.hops.ResolveNode;
@@ -26,13 +16,20 @@ import com.swisscom.aem.tools.jcrhopper.RunnerBuilder;
 import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
 import com.swisscom.aem.tools.jcrhopper.config.RunHandler;
 import com.swisscom.aem.tools.jcrhopper.config.Script;
-
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
 import io.wcm.testing.mock.aem.junit5.JcrOakAemContext;
+import java.util.Collections;
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(AemContextExtension.class)
 class RunnerServiceTest {
+
 	public final AemContext context = new JcrOakAemContext();
 	private RunnerService runnerService;
 
@@ -50,12 +47,17 @@ class RunnerServiceTest {
 
 	@Test
 	public void builder_basic() throws HopperException, RepositoryException {
-
 		final RunHandler runHandler = mock(RunHandler.class);
 		final RunnerBuilder runnerBuilder = runnerService.builder().runHandler(runHandler);
 
 		final Runner runner = runnerBuilder.build(
-			new Script(Collections.singletonList(new ResolveNode.Config().withName("/test").withHops(Collections.singletonList(new ChildNodes.Config()))), LogLevel.DEBUG));
+			new Script(
+				Collections.singletonList(
+					new ResolveNode.Config().withName("/test").withHops(Collections.singletonList(new ChildNodes.Config()))
+				),
+				LogLevel.DEBUG
+			)
+		);
 
 		runner.run(context.resourceResolver().adaptTo(Session.class), false);
 
@@ -70,7 +72,10 @@ class RunnerServiceTest {
 	public void builder_trace() throws HopperException, RepositoryException {
 		final RunHandler runHandler = mock(RunHandler.class);
 
-		final Runner runner = runnerService.builder().runHandler(runHandler).build(new Script(Collections.singletonList(new ChildNodes.Config()), LogLevel.TRACE));
+		final Runner runner = runnerService
+			.builder()
+			.runHandler(runHandler)
+			.build(new Script(Collections.singletonList(new ChildNodes.Config()), LogLevel.TRACE));
 		runner.run(context.resourceResolver().getResource("/test").adaptTo(Node.class), true);
 
 		verify(runHandler).log(same(LogLevel.TRACE), startsWith("Starting JCR Hopper script on node /test at "), isNull(), isNull());

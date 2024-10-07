@@ -1,18 +1,16 @@
 package com.swisscom.aem.tools.jcrhopper.osgi;
 
+import com.swisscom.aem.tools.impl.extension.HopProviderExtension;
+import com.swisscom.aem.tools.jcrhopper.Runner;
+import com.swisscom.aem.tools.jcrhopper.RunnerBuilder;
+import com.swisscom.aem.tools.jcrhopper.config.Hop;
 import java.util.List;
-
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.FieldOption;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.component.annotations.ReferencePolicyOption;
-
-import com.swisscom.aem.tools.impl.extension.HopProviderExtension;
-import com.swisscom.aem.tools.jcrhopper.Runner;
-import com.swisscom.aem.tools.jcrhopper.RunnerBuilder;
-import com.swisscom.aem.tools.jcrhopper.config.Hop;
 
 /**
  * A service to create {@link RunnerBuilder}s extended with configs known to OSGi.
@@ -21,6 +19,7 @@ import com.swisscom.aem.tools.jcrhopper.config.Hop;
  */
 @Component(service = RunnerService.class)
 public class RunnerService {
+
 	@Reference(
 		service = RunnerBuilderExtension.class,
 		cardinality = ReferenceCardinality.MULTIPLE,

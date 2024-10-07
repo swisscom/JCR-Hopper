@@ -1,5 +1,7 @@
 package com.swisscom.aem.tools.impl.file;
 
+import com.swisscom.aem.tools.jcrhopper.config.File;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -11,21 +13,16 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.StringUtils;
-
-import com.swisscom.aem.tools.jcrhopper.config.File;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @RequiredArgsConstructor
 @Slf4j
 @SuppressFBWarnings(value = "OPM_OVERLY_PERMISSIVE_METHOD", justification = "API surface")
 public class CsvFile implements File {
+
 	private static final Predicate<String> REQUIRES_ESCAPING = Pattern.compile("\\R|\"|,|'").asPredicate();
 
 	@Getter

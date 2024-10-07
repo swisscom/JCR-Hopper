@@ -1,20 +1,5 @@
 package com.swisscom.aem.tools.jcrhopper;
 
-import java.io.Reader;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Stream;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
@@ -32,13 +17,26 @@ import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
 import com.swisscom.aem.tools.jcrhopper.config.RunHandler;
 import com.swisscom.aem.tools.jcrhopper.config.Script;
 import com.swisscom.aem.tools.jcrhopper.impl.NoopRunHandler;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.io.Reader;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Stream;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Accessors(fluent = true, chain = true)
 @SuppressFBWarnings(value = "OPM_OVERLY_PERMISSIVE_METHOD", justification = "API surface")
 @SuppressWarnings("PMD.CouplingBetweenObjects")
 public class RunnerBuilder {
+
 	private static final String JSON_TYPE_PROPERTY = "type";
 	private final Set<Hop<?>> knownHops = new HashSet<>();
 	private final Map<String, Object> utils = new HashMap<>();
@@ -82,7 +80,8 @@ public class RunnerBuilder {
 			if (type == null) {
 				throw new JsonParseException(String.format("Error parsing hop config %s, type missing", json));
 			}
-			final Class<?> configClass = knownHops.stream()
+			final Class<?> configClass = knownHops
+				.stream()
 				.filter(hop -> type.equals(hop.getConfigTypeName()))
 				.findFirst()
 				.map(Hop::getConfigType)
@@ -90,16 +89,15 @@ public class RunnerBuilder {
 
 			final HopConfig config = context.deserialize(json, configClass);
 			if (config == null) {
-				throw new JsonParseException(String.format(
-					"Config for action type %s (class %s) could not be parsed",
-					type,
-					configClass.getSimpleName()
-				));
+				throw new JsonParseException(
+					String.format("Config for action type %s (class %s) could not be parsed", type, configClass.getSimpleName())
+				);
 			}
 			return config;
 		};
 		final JsonSerializer<HopConfig> hopConfigJsonSerializer = (src, typeOfSrc, context) -> {
-			final Hop<?> hop = knownHops.stream()
+			final Hop<?> hop = knownHops
+				.stream()
 				.filter(h -> h.getConfigType() == src.getClass())
 				.findFirst()
 				.orElseThrow(() -> new JsonIOException(String.format("No known hop matches config %s", src.getClass().getName())));
@@ -112,10 +110,8 @@ public class RunnerBuilder {
 			ConflictResolution.fromName(json.getAsString());
 		final JsonSerializer<ConflictResolution> conflictResolutionJsonSerializer = (src, typeOfSrc, context) ->
 			context.serialize(src.toName());
-		final JsonDeserializer<LogLevel> logLevelJsonDeserializer = (json, typeOfT, context) ->
-			LogLevel.fromName(json.getAsString());
-		final JsonSerializer<LogLevel> logLevelJsonSerializer = (src, typeOfSrc, context) ->
-			context.serialize(src.toName());
+		final JsonDeserializer<LogLevel> logLevelJsonDeserializer = (json, typeOfT, context) -> LogLevel.fromName(json.getAsString());
+		final JsonSerializer<LogLevel> logLevelJsonSerializer = (src, typeOfSrc, context) -> context.serialize(src.toName());
 
 		final GsonBuilder builder = new GsonBuilder()
 			.registerTypeAdapter(HopConfig.class, hopConfigJsonDeserializer)
@@ -154,7 +150,6 @@ public class RunnerBuilder {
 		this.utils.putAll(utils);
 		return this;
 	}
-
 
 	/**
 	 * Sets an initial variable known to the EL expression engine and to scripts.
