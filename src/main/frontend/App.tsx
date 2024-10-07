@@ -1,23 +1,39 @@
-import React, { FC, createContext } from "react";
+import React, { FC, createContext } from 'react';
 
-import { styled } from "goober";
+import { styled } from 'goober';
+import { Toolbar } from './sections/Toolbar';
+import { RunControls } from './sections/RunControls';
+import { ScriptEditor } from './sections/ScriptEditor';
+import { Output } from './sections/Output';
+import { getInitialScript, Script, SESSION_STORAGE_KEY } from './model/Script';
+import { HistoryUpdater, useHistoryImmutable } from './hooks/useHistoryImmutable';
+import { useOnce } from './hooks/useOnce';
 
-export const RunEndpointContext = createContext("");
+export const RunEndpointContext = createContext('');
+export const ScriptContext = createContext<HistoryUpdater<Script>>(null!);
 
-const RootElement = styled("div")`
+const RootElement = styled('div')`
+	box-sizing: border-box;
 	height: 100%;
 	padding: 0.5em;
 	gap: 1em;
 	font-size: 12px;
 	display: grid;
 	grid-template-areas:
-		"toolbar toolbar run-controls output-controls"
-		"script-editor script-editor arguments arguments"
-		"script-editor script-editor output output"
-		"parameters parameters output output"
-		"log-level param-controls output output";
-	grid-template-rows: min-content min-content 1fr min-content min-content;
-	grid-template columns: 1fr 1fr 1fr 1fr;
+		'toolbar run-controls'
+		'script-editor run-controls'
+		'script-editor output';
+	grid-template-rows: min-content min-content 1fr;
+	grid-template-columns: 1fr 1fr;
+
+	.flex-spacer {
+		flex-grow: 1;
+	}
+
+	> * {
+		display: grid;
+		gap: 0.5em;
+	}
 
 	> .toolbar {
 		grid-area: toolbar;
@@ -25,54 +41,31 @@ const RootElement = styled("div")`
 	> .run-controls {
 		grid-area: run-controls;
 	}
-	> .output-controls {
-		grid-area: output-controls;
-	}
-	> .arguments {
-		grid-area: arguments;
+	> .script-editor {
+		grid-area: script-editor;
 	}
 	> .output {
 		grid-area: output;
 	}
-	> .parameters {
-		grid-area: parameters;
-	}
-	> .log-level {
-		grid-area: log-level;
-	}
-	> .param-controls {
-		grid-area: param-controls;
-	}
 `;
 
-export const App: FC<{ runEndpoint: string }> = (props) => {
+export const App: FC<{ runEndpoint: string }> = props => {
+	const initialScript = useOnce(getInitialScript);
+
+	const scriptContext = useHistoryImmutable(initialScript, current => {
+		window.sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(current));
+	});
+
 	return (
-		<React.StrictMode>
-			<RunEndpointContext.Provider value={props.runEndpoint}>
+		<RunEndpointContext.Provider value={props.runEndpoint}>
+			<ScriptContext.Provider value={scriptContext}>
 				<RootElement>
-					<div className="toolbar">
-						<button is="coral-button" icon="copy" iconsize="S">
-							Copy
-						</button>
-						<button is="coral-button" icon="paste" iconsize="S">
-							Paste
-						</button>
-					</div>
-					<div className="run-controls">
-						<coral-checkbox name="commit">Commit Changes</coral-checkbox>
-						<button is="coral-button" icon="playCircle" iconsize="S">
-							Run
-						</button>
-					</div>
-					<div className="output-controls"></div>
-					<div className="script-editor"></div>
-					<div className="arguments"></div>
-					<div className="output"></div>
-					<div className="parameters"></div>
-					<div className="log-level"></div>
-					<div className="param-controls"></div>
+					<Toolbar />
+					<RunControls />
+					<ScriptEditor />
+					<Output />
 				</RootElement>
-			</RunEndpointContext.Provider>
-		</React.StrictMode>
+			</ScriptContext.Provider>
+		</RunEndpointContext.Provider>
 	);
 };
