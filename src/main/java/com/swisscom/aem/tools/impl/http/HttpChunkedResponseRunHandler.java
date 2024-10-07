@@ -29,7 +29,7 @@ public class HttpChunkedResponseRunHandler implements RunHandler {
 		final JsonObject object = new JsonObject();
 		object.addProperty("type", "file");
 		object.addProperty("name", file.getName() + '.' + file.getExtension());
-		object.addProperty("type", file.getMimeType());
+		object.addProperty("mime", file.getMimeType());
 		object.addProperty("data", new String(base64Encoder.encode(file.getContents()), StandardCharsets.UTF_8));
 		gson.toJson(object, responseWriter);
 		flush();

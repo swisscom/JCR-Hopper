@@ -6,6 +6,7 @@ import com.swisscom.aem.tools.jcrhopper.osgi.ConfigInfo;
 import com.swisscom.aem.tools.jcrhopper.osgi.RunnerService;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
@@ -63,6 +64,7 @@ public class HopRunnerServlet extends SlingAllMethodsServlet implements ConfigIn
 	@SuppressFBWarnings(value = "REC_CATCH_EXCEPTION", justification = "All exception types should be sent to the caller")
 	protected void doPost(@Nonnull SlingHttpServletRequest request, @Nonnull SlingHttpServletResponse response) throws IOException {
 		response.setContentType("application/x-ndjson");
+		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 		response.setHeader("Transfer-Encoding", "chunked");
 		final HttpChunkedResponseRunHandler runHandler = new HttpChunkedResponseRunHandler(response.getWriter());
 
