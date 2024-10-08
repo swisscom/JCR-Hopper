@@ -1,0 +1,26 @@
+{
+	"type": "nodeQuery",
+	"queryType": "JCR-SQL2",
+	"query": "SELECT * FROM [nt:unstructured] AS component\nINNER JOIN [cq:PageContent] AS content\nON ISDESCENDANTNODE(component, content)\nINNER JOIN [cq:Page] AS page\nON ISCHILDNODE(content, page)\nWHERE component.[sling:resourceType] = 'foundation/components/parsys'\nAND content.[migrated] IS NULL",
+	"selectorName": "component",
+	"hops": [
+		{
+			"type": "moveNode",
+			"conflict": "ignore",
+			"newName": "${page.name}"
+		},
+		{
+			"type": "resolveNode",
+			"conflict": "ignore",
+			"name": "${content.path}",
+			"hops": [
+				{
+					"type": "setProperty",
+					"conflict": "ignore",
+					"value": "true",
+					"propertyName": "migrated"
+				}
+			]
+		}
+	]
+}

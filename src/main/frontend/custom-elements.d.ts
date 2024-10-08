@@ -781,11 +781,20 @@ declare module 'react' {
 	}
 	namespace JSX {
 		interface IntrinsicElements {
-			'coral-select': DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement> & {}, HTMLSelectElement>;
-			'coral-select-item': DetailedHTMLProps<OptionHTMLAttributes<HTMLOptionElement> & {}, HTMLSelectElement>;
-			'coral-checkbox': DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement> & {}, HTMLSelectElement>;
+			'coral-select': DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>;
+			'coral-select-item': DetailedHTMLProps<OptionHTMLAttributes<HTMLOptionElement>, HTMLSelectElement>;
+			'coral-checkbox': DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLSelectElement>;
 			'coral-checkbox-label': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
 			'coral-wait': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
+			'coral-icon': DetailedHTMLProps<HTMLAttributes<HTMLElement> & { icon: CoralIcon }, HTMLElement>;
+			'coral-selectlist': DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>;
+			'coral-selectlist-item': DetailedHTMLProps<OptionHTMLAttributes<HTMLOptionElement>, HTMLSelectElement>;
+			'coral-popover': DetailedHTMLProps<
+				HTMLAttributes<HTMLDialogElement> & { target?: string; placement?: 'top' | 'bottom' | 'left' | 'right' },
+				HTMLDialogElement
+			>;
+			'coral-popover-header': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
+			'coral-popover-content': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
 		}
 	}
 }

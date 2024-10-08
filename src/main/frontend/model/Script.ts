@@ -1,4 +1,5 @@
 import { LogLevel } from './LogLevel';
+import { Hop } from './hops';
 
 export interface Parameter {
 	name: string;
@@ -6,14 +7,10 @@ export interface Parameter {
 	type: string;
 }
 
-interface AnyHop {
-	type: string;
-}
-
 export interface Script {
 	logLevel: LogLevel;
 	parameters: Parameter[];
-	hops: AnyHop[];
+	hops: Hop[];
 }
 
 export const SESSION_STORAGE_KEY = 'jcr-hopper.script';

@@ -1,9 +1,12 @@
 import React, { FC, useContext, useEffect, useRef } from 'react';
 
 import { ScriptContext } from '../App';
+import type { CoralIcon } from '../custom-elements';
+
+export type Options = [value: string, label: string, icon?: CoralIcon][];
 
 export const Select: FC<{
-	list: [string, string][];
+	list: Options;
 	value: string;
 	onChange: (value: string) => void;
 }> = ({ list, value, onChange }) => {
@@ -30,8 +33,9 @@ export const Select: FC<{
 
 	return (
 		<coral-select ref={selectRef} value={value}>
-			{list.map(([val, label]) => (
+			{list.map(([val, label, icon]) => (
 				<coral-select-item key={val} value={val}>
+					{icon ? <coral-icon icon={icon} /> : undefined}
 					{label}
 				</coral-select-item>
 			))}

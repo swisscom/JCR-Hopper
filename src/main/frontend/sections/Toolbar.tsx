@@ -3,6 +3,8 @@ import React, { FC, useContext } from 'react';
 import { styled } from 'goober';
 import { ScriptContext } from '../App';
 import { INITIAL_SCRIPT } from '../model/Script';
+import { Picker } from '../widgets/Picker';
+import { SAMPLES } from '../model/samples';
 
 const Elm = styled('div')`
 	display: flex;
@@ -10,8 +12,7 @@ const Elm = styled('div')`
 
 export const Toolbar: FC = () => {
 	const scriptContext = useContext(ScriptContext);
-
-	console.log('Renderin toolbar with', [scriptContext.canUndo, scriptContext.canRedo]);
+	const script = scriptContext.draft;
 
 	return (
 		<Elm className="toolbar">
@@ -43,6 +44,16 @@ export const Toolbar: FC = () => {
 			>
 				Paste
 			</button>
+			<Picker
+				icon="addChildPanel"
+				buttonLabel="Add"
+				title="Add Hop to Pipeline"
+				picked={value => {
+					script.hops.push(SAMPLES[Number(value)]!.config);
+					scriptContext.commit();
+				}}
+				items={SAMPLES.map(({ label }, i) => [String(i), label])}
+			/>
 			<span className="flex-spacer"></span>
 			<button is="coral-button" icon="undo" disabled={scriptContext.canUndo ? undefined : true} onClick={scriptContext.undo}>
 				Undo

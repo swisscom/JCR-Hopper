@@ -4,6 +4,7 @@ import { styled } from 'goober';
 import { ScriptContext } from '../App';
 import { Select } from '../widgets/Select';
 import { Parameter } from './editor/Parameter';
+import { Pipeline } from './editor/Pipeline';
 
 const Elm = styled('div')`
 	grid-auto-rows: min-content 1fr min-content;
@@ -48,7 +49,9 @@ export const ScriptEditor: FC = () => {
 					/>
 				</label>
 			</fieldset>
-			<div className="script"></div>
+			<div className="script">
+				<Pipeline hops={script.hops} />
+			</div>
 			<fieldset className="parameters">
 				<legend>Parameters</legend>
 				{script.parameters.map((param, i) => (

@@ -1,13 +1,13 @@
 import { LogLevel } from './LogLevel';
 
-interface LogMessage {
+export interface LogMessage {
 	type: 'log';
 	level: LogLevel;
 	message: string;
 	exception?: string;
 }
 
-interface FileMessage {
+export interface FileMessage {
 	type: 'file';
 	name: string;
 	mime: string;
@@ -56,7 +56,7 @@ async function* streamingFetch<T>(response: Response) {
 
 type PrintMessage = string;
 
-type Message = LogMessage | FileMessage | PrintMessage;
+export type Message = LogMessage | FileMessage | PrintMessage;
 
 export class Run {
 	public readonly started = new Date();

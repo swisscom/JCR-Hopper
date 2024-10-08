@@ -1,0 +1,18 @@
+{
+	"type": "resolveNode",
+	"conflict": "ignore",
+	"hops": [
+		{
+			"type": "childNodes",
+			"namePattern": "pack_*",
+			"hops": [
+				{
+					"type": "moveNode",
+					"conflict": "ignore",
+					"newName": "/dev/null"
+				}
+			]
+		}
+	],
+	"name": "/etc/packages/temporary"
+}

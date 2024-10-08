@@ -13,6 +13,7 @@ export const RunEndpointContext = createContext('');
 export const ScriptContext = createContext<HistoryUpdater<Script>>(null!);
 
 const RootElement = styled('div')`
+	position: relative;
 	box-sizing: border-box;
 	height: 100%;
 	padding: 0.5em;

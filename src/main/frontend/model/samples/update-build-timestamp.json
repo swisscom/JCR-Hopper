@@ -1,0 +1,13 @@
+{
+	"type": "resolveNode",
+	"conflict": "throw",
+	"name": "/apps/base/clientlibs/build_timestamp.txt/jcr:content",
+	"hops": [
+		{
+			"type": "setProperty",
+			"conflict": "force",
+			"propertyName": "jcr:data",
+			"value": "str:replacePattern(date.time, '[\\\\W]', '-') + '-' + node.session.userID"
+		}
+	]
+}
