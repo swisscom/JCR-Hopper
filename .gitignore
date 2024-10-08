@@ -87,3 +87,4 @@ node_modules/
 /gradle.properties
 /.idea/
 /.parcel-cache/
+/.vscode/
