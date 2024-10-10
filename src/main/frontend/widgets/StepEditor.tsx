@@ -1,0 +1,231 @@
+import React, { FC, ReactNode, useContext } from 'react';
+
+import { AnyHop, Hop } from '../model/hops';
+import { styled } from 'goober';
+import { ScriptContext } from '../App';
+
+const Elm = styled('div')`
+	margin-top: 4px;
+	counter-increment: steps;
+	position: relative;
+	--accent-color: #5c5c5c;
+	--contrast-color: white;
+
+	> details > .edit .row {
+		flex-wrap: nowrap;
+		> :first-child {
+			flex-shrink: 1;
+		}
+	}
+
+	&.childNodes {
+		--accent-color: #0eaba9;
+	}
+	&.copyNode {
+		--accent-color: #db16a0;
+	}
+	&.createChildNode {
+		--accent-color: #086adb;
+	}
+	&.declare {
+		--accent-color: rgb(175, 175, 175);
+		--contrast-color: black;
+	}
+	&.each {
+		--accent-color: rgb(99, 28, 28);
+	}
+	&.filterNode {
+		--accent-color: #5944c6;
+	}
+	&.moveNode {
+		--accent-color: #a63297;
+	}
+	&.nodeQuery {
+		--accent-color: #e61e64;
+	}
+	&.renameProperty {
+		--accent-color: #ff8b2e;
+		--contrast-color: black;
+	}
+	&.reorderNode {
+		--accent-color: #f7fa31;
+		--contrast-color: black;
+	}
+	&.resolveNode {
+		--accent-color: #1b8712;
+	}
+	&.runScript {
+		--accent-color: #3a6677;
+	}
+	&.setProperty {
+		--accent-color: #a2cdf4;
+		--contrast-color: black;
+	}
+	&.try {
+		--accent-color: #b1b9be;
+		--contrast-color: black;
+	}
+
+	details {
+		border-radius: 4px;
+		background-color: var(--accent-color);
+
+		summary {
+			display: grid;
+			grid-template-columns: auto 1fr auto auto auto;
+			color: var(--contrast-color);
+			cursor: pointer;
+
+			&::-webkit-details-marker {
+				display: none;
+			}
+
+			&::before {
+				font-weight: 600;
+				display: inline-block;
+				content: counter(steps);
+				color: var(--contrast-color);
+				min-width: 2em;
+				align-self: center;
+				text-align: center;
+			}
+
+			h3 {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				padding: 2px 5px;
+				margin: 0;
+				overflow: hidden;
+
+				span {
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					overflow: hidden;
+				}
+			}
+
+			.menu {
+				display: grid;
+				grid-auto-flow: column;
+				gap: 6px;
+				margin: 6px;
+			}
+		}
+		.edit {
+			margin-left: 4px;
+			background-color: rgba(255, 255, 255, 0.9);
+			padding: 10px;
+		}
+
+		&[open] {
+			summary {
+				/* with multiple color stop lengths */
+				background-image: repeating-linear-gradient(-45deg, transparent 0 8px, rgba(255, 255, 255, 0.2) 8px 16px);
+				.menu .remove {
+					border-radius: 0 4px 0 0;
+				}
+			}
+		}
+	}
+
+	&.has-pipeline {
+		> details {
+			border-bottom-left-radius: 0;
+		}
+	}
+
+	.sub-pipeline {
+		padding-left: 2em;
+		margin-top: -4px;
+		padding-top: 4px;
+		border-left: solid 4px var(--accent-color);
+		border-radius: 0 0 0 4px;
+
+		.add-more {
+			display: inline-block;
+			margin: 16px 0 0 ~'calc(-2em - 4px)';
+			background-color: var(--accent-color);
+			border-radius: 0 4px 4px 4px;
+			color: white;
+			cursor: pointer;
+
+			sdx-menu-flyout-toggle {
+				background-color: rgba(196, 196, 196, 0.4);
+				display: inline-block;
+				padding: 4px;
+
+				i {
+					color: var(--contrast-color);
+				}
+			}
+
+			&:hover sdx-menu-flyout-toggle {
+				background-color: rgba(255, 255, 255, 0.7);
+			}
+		}
+	}
+`;
+
+export const StepEditor: FC<{ parentHops: Hop[]; hop: AnyHop; title: string; children: ReactNode; pipeline?: ReactNode }> = ({
+	parentHops,
+	hop,
+	title,
+	children,
+	pipeline,
+}) => {
+	const scriptContext = useContext(ScriptContext);
+
+	const hopIndex = parentHops.indexOf(hop as Hop);
+
+	function moveHop(isUp = false) {
+		parentHops.splice(hopIndex, 1);
+		parentHops.splice(hopIndex + (isUp ? -1 : 1), 0, hop as Hop);
+		scriptContext.commit();
+	}
+
+	return (
+		<Elm className={`hop-config ${hop.type}`}>
+			<details>
+				<summary draggable="true">
+					<h3>
+						<span>{title}</span>
+					</h3>
+					<div className="menu">
+						<button
+							is="coral-button"
+							icon="arrowUp"
+							disabled={hopIndex === 0 ? true : undefined}
+							onClick={moveHop.bind(null, true)}
+						></button>
+						<button
+							is="coral-button"
+							icon="arrowDown"
+							disabled={hopIndex >= parentHops.length - 1 ? true : undefined}
+							onClick={moveHop.bind(null, false)}
+						></button>
+						<button
+							is="coral-button"
+							icon="duplicate"
+							onClick={() => {
+								parentHops.splice(hopIndex, 0, hop as Hop);
+								scriptContext.commit();
+							}}
+						></button>
+						<button
+							is="coral-button"
+							variant="warning"
+							icon="delete"
+							onClick={() => {
+								parentHops.splice(hopIndex, 1);
+								scriptContext.commit();
+							}}
+						></button>
+					</div>
+				</summary>
+				<div className="edit">{children}</div>
+			</details>
+			{pipeline ? <div className="pipeline">{pipeline}</div> : undefined}
+		</Elm>
+	);
+};

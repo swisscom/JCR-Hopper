@@ -778,6 +778,8 @@ declare module 'react' {
 	interface ButtonHTMLAttributes<T> {
 		icon?: CoralIcon;
 		iconsize?: CoralIconSize;
+		size?: 'M' | 'L';
+		variant?: 'cta' | 'primary' | 'quiet' | 'warning' | 'minimal';
 	}
 	namespace JSX {
 		interface IntrinsicElements {
