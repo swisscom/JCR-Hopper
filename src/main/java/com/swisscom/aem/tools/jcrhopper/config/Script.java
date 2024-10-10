@@ -4,10 +4,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -81,33 +79,5 @@ public class Script {
 		this.hops = hops;
 		this.logLevel = logLevel;
 		this.parameters = parameters;
-	}
-
-	/**
-	 * A script parameter definition.
-	 */
-	@Getter
-	@ToString
-	@EqualsAndHashCode
-	@NoArgsConstructor
-	@AllArgsConstructor
-	public static final class Parameter {
-
-		/**
-		 * The parameter name.
-		 * Used both as the name of the argument that needs to be passed to the script as well as the name of the variable inside the script.
-		 */
-		private String name;
-
-		/**
-		 * The default value to use if the argument wasn’t passed.
-		 * Will be evaluated as a template.
-		 */
-		private String defaultValue;
-
-		/**
-		 * A type hint to render the argument input, e.g. in HTML.
-		 */
-		private String type;
 	}
 }

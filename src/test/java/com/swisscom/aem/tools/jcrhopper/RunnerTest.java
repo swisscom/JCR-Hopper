@@ -21,6 +21,7 @@ import com.swisscom.aem.tools.impl.hops.RunScript;
 import com.swisscom.aem.tools.impl.hops.SetProperty;
 import com.swisscom.aem.tools.impl.hops.Try;
 import com.swisscom.aem.tools.jcrhopper.config.LogLevel;
+import com.swisscom.aem.tools.jcrhopper.config.Parameter;
 import com.swisscom.aem.tools.jcrhopper.config.Script;
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
@@ -192,7 +193,7 @@ class RunnerTest {
 		final Runner copier = RUNNER_BUILDER.build(
 			new Script(
 				Collections.singletonList(new CopyNode.Config().withNewName("/root-${args.newNodeIndex}")),
-				Collections.singletonList(new Script.Parameter("newNodeIndex", "${1+1}", "text"))
+				Collections.singletonList(new Parameter("newNodeIndex", "${1+1}", "text", Parameter.ArgumentEvaluation.TEMPLATE))
 			)
 		);
 

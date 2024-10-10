@@ -6,17 +6,22 @@ import com.swisscom.aem.tools.jcrhopper.Runner;
 import com.swisscom.aem.tools.jcrhopper.config.File;
 import com.swisscom.aem.tools.jcrhopper.config.Hop;
 import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
+import com.swisscom.aem.tools.jcrhopper.config.Parameter;
 import com.swisscom.aem.tools.jcrhopper.config.RunHandler;
 import com.swisscom.aem.tools.jcrhopper.config.Script;
 import com.swisscom.aem.tools.jcrhopper.context.HopContext;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
@@ -25,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.jexl3.JexlBuilder;
 import org.apache.commons.jexl3.JexlEngine;
 import org.apache.commons.jexl3.introspection.JexlPermissions;
+import org.apache.commons.lang3.StringUtils;
 
 @RequiredArgsConstructor
 @SuppressFBWarnings(value = "OPM_OVERLY_PERMISSIVE_METHOD", justification = "API surface")
@@ -113,14 +119,35 @@ public class RunnerImpl implements Runner {
 	}
 
 	private void fillParameters(HopContext context, Map<String, String> arguments) {
-		final List<Script.Parameter> parameters = script.getParameters();
-		final Map<String, String> argumentMap = new HashMap<>(parameters.size());
-		for (Script.Parameter parameter : parameters) {
+		final List<Parameter> parameters = script.getParameters();
+		final Map<String, Object> argumentMap = new HashMap<>(parameters.size());
+		for (Parameter parameter : parameters) {
 			String argument = arguments.get(parameter.getName());
 			if (argument == null) {
-				argument = context.evaluateTemplate(parameter.getDefaultValue());
+				argument = parameter.getDefaultValue();
 			}
-			argumentMap.put(parameter.getName(), argument);
+			final Object argumentValue;
+			switch (Optional.ofNullable(parameter.getEvaluation()).orElse(Parameter.ArgumentEvaluation.STRING)) {
+				case LINES:
+					argumentValue = Optional.ofNullable(argument)
+						.map(str -> str.split("\\R"))
+						.map(Arrays::stream)
+						.orElseGet(Stream::empty)
+						.filter(StringUtils::isNotBlank)
+						.collect(Collectors.toList());
+					break;
+				case TEMPLATE:
+					argumentValue = Optional.ofNullable(argument).map(context::evaluateTemplate).orElse(null);
+					break;
+				case EXPRESSION:
+					argumentValue = Optional.ofNullable(argument).map(context::evaluate).orElse(null);
+					break;
+				case STRING:
+				// Fall through
+				default:
+					argumentValue = argument;
+			}
+			argumentMap.put(parameter.getName(), argumentValue);
 		}
 		context.setVariable("args", argumentMap);
 	}
