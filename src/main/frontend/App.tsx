@@ -25,7 +25,7 @@ const RootElement = styled('div')`
 		'script-editor run-controls'
 		'script-editor output';
 	grid-template-rows: min-content min-content 1fr;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 2fr 1fr;
 
 	.flex-spacer {
 		flex-grow: 1;

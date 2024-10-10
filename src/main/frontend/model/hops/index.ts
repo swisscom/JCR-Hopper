@@ -32,10 +32,10 @@ export const HOP_DEFINITIONS = {
 
 export type ConflictResolutionStrategy = 'ignore' | 'force' | 'throw';
 
-export type ActionType = keyof typeof HOP_DEFINITIONS;
+export type HopType = keyof typeof HOP_DEFINITIONS;
 
 export interface AnyHop {
-	type: ActionType;
+	type: HopType;
 }
 export type Hop =
 	| childNodes.Type

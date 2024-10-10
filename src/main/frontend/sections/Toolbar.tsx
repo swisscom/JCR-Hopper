@@ -45,9 +45,9 @@ export const Toolbar: FC = () => {
 				Paste
 			</button>
 			<Picker
-				icon="addChildPanel"
 				buttonLabel="Add"
 				title="Add Hop to Script"
+				buttonAttributes={{ icon: 'addChildPanel', is: 'coral-button' }}
 				picked={value => {
 					const sampleScript = SAMPLES[Number(value)]!.config;
 					script.hops.push(...sampleScript.hops);

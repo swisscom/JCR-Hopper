@@ -1,4 +1,5 @@
 import React, { FC, Fragment, useContext } from 'react';
+import { styled } from 'goober';
 
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
@@ -7,7 +8,6 @@ import { ScriptContext } from '../../../App';
 import { shortDescription, Type } from '../../../model/hops/declare';
 import { Help } from '../../../widgets/Help';
 import { Input } from '../../../widgets/Input';
-import { styled } from 'goober';
 
 const Elm = styled('fieldset')`
 	display: grid;

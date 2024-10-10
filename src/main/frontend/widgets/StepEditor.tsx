@@ -131,12 +131,6 @@ const Elm = styled('div')`
 		}
 	}
 
-	&.has-pipeline {
-		> details {
-			border-bottom-left-radius: 0;
-		}
-	}
-
 	.sub-pipeline {
 		padding-left: 2em;
 		margin-top: -4px;
@@ -144,27 +138,15 @@ const Elm = styled('div')`
 		border-left: solid 4px var(--accent-color);
 		border-radius: 0 0 0 4px;
 
-		.add-more {
+		> .add-hop {
 			display: inline-block;
-			margin: 16px 0 0 ~'calc(-2em - 4px)';
+			padding-top: 3px;
+			margin: 16px 0 0 calc(-2em - 4px);
 			background-color: var(--accent-color);
+			border: none;
 			border-radius: 0 4px 4px 4px;
 			color: white;
 			cursor: pointer;
-
-			sdx-menu-flyout-toggle {
-				background-color: rgba(196, 196, 196, 0.4);
-				display: inline-block;
-				padding: 4px;
-
-				i {
-					color: var(--contrast-color);
-				}
-			}
-
-			&:hover sdx-menu-flyout-toggle {
-				background-color: rgba(255, 255, 255, 0.7);
-			}
 		}
 	}
 `;
@@ -225,7 +207,7 @@ export const StepEditor: FC<{ parentHops: Hop[]; hop: Hop; title: string; childr
 				</summary>
 				<div className="edit">{children}</div>
 			</details>
-			{pipeline ? <div className="pipeline">{pipeline}</div> : undefined}
+			{pipeline ? <div className="pipeline sub-pipeline">{pipeline}</div> : undefined}
 		</Elm>
 	);
 };

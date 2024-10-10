@@ -1,14 +1,14 @@
-import React, { FC, useEffect, useId, useRef } from 'react';
+import React, { ButtonHTMLAttributes, FC, ReactNode, useEffect, useId, useRef } from 'react';
 import { Options } from './Select';
 import type { CoralIcon } from '../coral/custom-elements';
 
 export const Picker: FC<{
 	items: Options;
-	buttonLabel: string;
-	icon: CoralIcon | undefined;
+	buttonLabel?: ReactNode;
+	buttonAttributes?: ButtonHTMLAttributes<HTMLButtonElement>;
 	title: string;
 	picked(value: string): void;
-}> = ({ items, buttonLabel, icon, title, picked }) => {
+}> = ({ items, buttonLabel, buttonAttributes, title, picked }) => {
 	const popoverRef = useRef<HTMLDialogElement>(null);
 	const selectlistRef = useRef<HTMLSelectElement>(null);
 	const buttonId = useId();
@@ -34,13 +34,13 @@ export const Picker: FC<{
 
 	return (
 		<>
-			<button is="coral-button" id={buttonId} {...(icon ? { icon } : {})}>
+			<button id={buttonId} is={buttonAttributes?.is ? buttonAttributes?.is : undefined} {...buttonAttributes}>
 				{buttonLabel}
 			</button>
 			<coral-popover ref={popoverRef} target={`#${CSS.escape(buttonId)}`} placement="bottom">
 				<coral-popover-header>{title}</coral-popover-header>
 				<coral-popover-content>
-					<coral-selectlist ref={selectlistRef}>
+					<coral-selectlist ref={selectlistRef} style={{ maxHeight: '50vh', overflow: 'auto', border: 'none' }}>
 						{items.map(([value, label, icon]) => (
 							<coral-selectlist-item key={value} value={value}>
 								{icon ? <coral-icon icon={icon} /> : undefined}

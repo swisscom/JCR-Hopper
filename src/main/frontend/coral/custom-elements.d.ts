@@ -779,7 +779,7 @@ declare module 'react' {
 		icon?: CoralIcon;
 		iconsize?: CoralIconSize;
 		size?: 'M' | 'L';
-		variant?: 'cta' | 'primary' | 'quiet' | 'warning' | 'minimal';
+		variant?: 'cta' | 'primary' | 'quiet' | 'warning' | 'minimal' | undefined;
 	}
 	namespace JSX {
 		interface IntrinsicElements {

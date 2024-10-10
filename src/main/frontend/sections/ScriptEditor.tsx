@@ -57,7 +57,7 @@ export const ScriptEditor: FC = () => {
 				</label>
 			</fieldset>
 			<div className="script">
-				<Pipeline hops={script.hops} />
+				<Pipeline hops={script.hops} addButton={false} />
 			</div>
 			<fieldset className="parameters">
 				<legend>Parameters</legend>
