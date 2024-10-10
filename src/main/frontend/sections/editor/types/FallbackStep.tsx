@@ -1,48 +1,32 @@
-import React, { FC, useContext, useEffect, useRef, useState } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { AnyHop, Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
 import { ScriptContext } from '../../../App';
+import { CodeEditor } from '../../../widgets/CodeEditor';
 
 export const FallbackStep: FC<{ parentHops: Hop[]; hop: AnyHop }> = ({ parentHops, hop }) => {
 	const scriptContext = useContext(ScriptContext);
 
-	const { type: _, ...hopWithoutType } = hop;
-	const cleaned = JSON.stringify(hopWithoutType, null, '  ');
-
-	const [code, setCode] = useState(cleaned);
-	const updated = useRef(false);
-
-	useEffect(() => {
-		setCode(cleaned);
-		updated.current = false;
-	}, [hop]);
+	const { type: hopType, ...hopWithoutType } = hop;
+	const code = JSON.stringify(hopWithoutType, null, '  ');
 
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={`Unknown hop type ${hop.type}`}>
-			<textarea
-				cols={120}
-				rows={10}
-				onInput={e => {
-					updated.current = true;
-					setCode(e.currentTarget.value);
-				}}
+		<StepEditor parentHops={parentHops} hop={hop} title={`Unknown Hop (${hopType})`}>
+			<CodeEditor
 				value={code}
-				onBlur={() => {
-					if (!updated.current) {
-						// No change since last set
+				changed={(value, hasError) => {
+					if (hasError) {
 						return;
 					}
 					try {
-						const editedSettings = JSON.parse(code);
-
-						Object.assign(hop, editedSettings, { type: hop.type });
+						Object.assign(hop, JSON.parse(value), { type: hopType });
 						scriptContext.commit();
 					} catch (e) {
-						// Not currently valid JSON
+						// Invalid JSON
 					}
 				}}
-				style={{ fontFamily: 'monospace' }}
+				language="json"
 			/>
 		</StepEditor>
 	);

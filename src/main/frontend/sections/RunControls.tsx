@@ -1,4 +1,4 @@
-import React, { FC, FormEvent, useContext, useId, useRef } from 'react';
+import React, { FC, FormEvent, useContext, useRef } from 'react';
 
 import { styled } from 'goober';
 import { RunEndpointContext, ScriptContext } from '../App';
@@ -32,18 +32,17 @@ export const RunControls: FC<{ runWith: (data: FormData) => Promise<void> }> = (
 		await runWith(data);
 	}
 
-	const id = useId();
-
 	return (
 		<Elm className="run-controls" ref={formRef} method="POST" action={endpoint} encType="multipart/form-data" onSubmit={run}>
 			{script.parameters.length ? (
 				<fieldset>
 					<legend>Arguments</legend>
 					<div className="arguments">
-						{script.parameters.map(({ name, type }, i) => (
+						{script.parameters.map(({ name, type }) => (
 							<React.Fragment key={name}>
-								<label htmlFor={`${id}_${i}`}>{name}: </label>
-								<input id={`${id}_${i}`} is="coral-textfield" type={type} name={name} />
+								<label>
+									{name}:<input is="coral-textfield" type={type} name={name} />
+								</label>
 							</React.Fragment>
 						))}
 					</div>

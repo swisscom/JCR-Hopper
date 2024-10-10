@@ -72,37 +72,36 @@ const Elm = styled('div')`
 
 		summary {
 			display: grid;
-			grid-template-columns: auto 1fr auto auto auto;
+			grid-template-columns: auto 1fr auto;
 			color: var(--contrast-color);
 			cursor: pointer;
+
+			font-size: 18px;
+			> * {
+				font-size: inherit;
+			}
 
 			&::-webkit-details-marker {
 				display: none;
 			}
 
 			&::before {
-				font-weight: 600;
 				display: inline-block;
+				align-self: center;
 				content: counter(steps);
 				color: var(--contrast-color);
 				min-width: 2em;
-				align-self: center;
 				text-align: center;
 			}
 
-			h3 {
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
+			h2 {
+				display: inline-block;
+				font-weight: normal;
+				align-self: center;
 				padding: 2px 5px;
-				margin: 0;
 				overflow: hidden;
-
-				span {
-					white-space: nowrap;
-					text-overflow: ellipsis;
-					overflow: hidden;
-				}
+				margin: 0;
+				text-overflow: ellipsis;
 			}
 
 			.menu {
@@ -114,8 +113,9 @@ const Elm = styled('div')`
 		}
 		.edit {
 			margin-left: 4px;
-			background-color: rgba(255, 255, 255, 0.9);
 			padding: 10px;
+			padding-right: 10%;
+			background: #ffffffce;
 		}
 
 		&[open] {
@@ -186,11 +186,9 @@ export const StepEditor: FC<{ parentHops: Hop[]; hop: AnyHop; title: string; chi
 
 	return (
 		<Elm className={`hop-config ${hop.type}`}>
-			<details>
+			<details open={false}>
 				<summary draggable="true">
-					<h3>
-						<span>{title}</span>
-					</h3>
+					<h2>{title}</h2>
 					<div className="menu">
 						<button
 							is="coral-button"

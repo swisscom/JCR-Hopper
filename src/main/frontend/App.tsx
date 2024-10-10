@@ -48,6 +48,12 @@ const RootElement = styled('div')`
 	> .output {
 		grid-area: output;
 	}
+
+	label:not(coral-checkbox label) {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 6px;
+	}
 `;
 
 export const App: FC<{ runEndpoint: string }> = props => {
