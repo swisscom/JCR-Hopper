@@ -1,0 +1,16 @@
+/* 
+ * Note: download AdobeSpectrumIcons18.woff2 and AdobeSpectrumIcons24.woff2 manually and place them next to this file.
+ */
+@font-face {
+	font-family: 'AdobeSpectrumIcons18';
+	src: url('./AdobeSpectrumIcons18.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'AdobeSpectrumIcons24';
+	src: url('./AdobeSpectrumIcons24.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}

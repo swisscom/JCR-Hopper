@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>JCR Hopper Script Builder</title>
+		<script src="https://developer.adobe.com/experience-manager/reference-materials/6-5/coral-ui/coralui3/js/libs/jquery.js"></script>
+		<script src="https://developer.adobe.com/experience-manager/reference-materials/6-5/coral-ui/coralui3/js/coral.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://developer.adobe.com/experience-manager/reference-materials/6-5/coral-ui/coralui3/css/coral.css"
+		/>
+		<link rel="stylesheet" href="/mock/icons.css" />
+		<script src="/build/frontend/jcr_root/apps/jcr-hopper/script-builder/clientlib/editor.js"></script>
+	</head>
+	<body class="coral--light">
+		<coral-shell>
+			<coral-shell-header role="region" aria-label="Header Bar" class="coral--dark granite-shell-header">
+				<coral-shell-header-home
+					class="globalnav-toggle"
+					data-globalnav-toggle-href="/mnt/overlay/granite/ui/content/shell/globalnav.html"
+				>
+					<a
+						is="coral-shell-homeanchor"
+						icon="data:image/svg+xml,%3Csvg%20clip-rule%3D%22evenodd%22%20fill-rule%3D%22evenodd%22%20stroke-linejoin%3D%22round%22%20stroke-miterlimit%3D%222%22%20viewBox%3D%220%200%20818%20706%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20transform%3D%22matrix(.966741%200%200%20.875186%20-72.9131%20-67.3356)%22%3E%3Cpath%20d%3D%22m75.422%2076.939h845.217v806.521h-845.217z%22%20fill%3D%22none%22%2F%3E%3Cg%20stroke%3D%22%23000%22%20transform%3D%22matrix(3.57298%200%200%203.94675%20-14.21%20-187.734)%22%3E%3Cpath%20d%3D%22m51.561%20149.433c-.943-28.333%2027.095-66.263%2027.095-66.263s24.739-11.424%2063.614-11.424c38.876%200%2068.327%2013.024%2068.327%2013.024s27.566%2042.728%2027.566%2063.977c0%2021.25-39.818%2040.672-39.818%2040.672l-56.782%207.54-71.86-19.193z%22%20fill%3D%22%23f2f2f2%22%20fill-rule%3D%22nonzero%22%20stroke-width%3D%22.87%22%2F%3E%3Cpath%20d%3D%22m143.39%20114.254c36.915%200%2083.746%2027.458%2083.746%2027.458l-23.492%2039.661-46.525%2015.254-33.407-1.83-38.288-13.729-21.051-28.983-4.729-10.221s41.034-27.61%2083.746-27.61z%22%20fill%3D%22%23ffd42a%22%20fill-rule%3D%22nonzero%22%20stroke-width%3D%22.87%22%2F%3E%3Cpath%20d%3D%22m195.97%20146.241c2.291-1.773%204.608-3.661%206.952-5.663%2012.77%203.508%2020.463%207.312%2020.463%207.312s-24.408%2044.661-80.238%2044.465c-65.211-.228-78.406-45.991-78.406-45.991s6.24-2.508%2016.89-5.306c1.968%201.542%203.916%203.02%205.848%204.433v-26.519c0-7.129%202.832-16.861%207.872-21.902%205.041-5.04%2017.201-18.383%2045.266-18.383%2028.066%200%2042.44%2013.343%2047.48%2018.383%205.041%205.041%207.873%2014.773%207.873%2021.902z%22%20fill%3D%22%23333%22%20stroke-width%3D%22.87%22%2F%3E%3Cpath%20d%3D%22m165.661%20222.102%205.492%2043.017-41.492-32.95z%22%20fill%3D%22%230e0e0e%22%20fill-rule%3D%22nonzero%22%20stroke-width%3D%221.45%22%2F%3E%3Cg%20stroke-width%3D%22.87%22%3E%3Cpath%20d%3D%22m123.459%20229.149c-89.474-5.56-96.062-48.087-96.062-59.371%200-12.081%2011.865-43.577%2020.063-43.577%2020.278%200%2016.687%2065.507%2095.428%2065.507%2073.994%200%2078.88-64.86%2097.864-64.86%203.667%200%2018.768%2028.476%2018.768%2044.655%200%2015.141-6.234%2052.953-96.139%2057.745-7.403%2020.065-51.11%2037.701-51.11%2037.701s9.136-19.714%2011.188-37.8z%22%20fill%3D%22%231a1a42%22%2F%3E%3Cpath%20d%3D%22m77.872%20145.949c5.034.153%204.425%202.288%2010.832%2012.356%202.734%204.296%207.438%206.394%2011.936%207.392-9.04-3.256-11.711-12.035-11.479-12.73.305-.915%203.203-1.832%204.729-.764%201.525%201.068.609%204.882%204.88%209.764%201.703%201.946%204.037%203.091%206.227%203.765%204.823-1.767%2012.219-1.431%2013.758-1.021%202.288.61%201.373%202.136%202.898%202.746%201.526.61%201.525-.761%203.508.459s.916%201.983%202.441%202.898c1.526.916%204.576%203.202%206.864%205.643s2.289%202.746%202.289%202.746l-1.526%202.289s-4.577-6.713-7.933-6.865c-3.356-.153-4.88%203.203-7.016%203.203-2.135%200-1.678-4.271-1.678-4.271s-1.372%2011.135-9%206.101c-5.862-3.869-.741-6.469%201.948-7.469-3.233%201.007-11.161%202.98-10.795-2.14.092-1.295.795-2.305%201.867-3.094-2.101-.261-3.699-.566-3.699-.566s-4.423%202.439-8.389%201.218c-2.927-.9-2.033-2.545-1.363-3.347-.899.767-3.109%201.826-6.112-2.448-4.647-6.613-2.464-6.725-.804-6.171-3.377-2.221-9.097-9.837-4.383-9.694z%22%20fill%3D%22%23ffd42a%22%20fill-rule%3D%22nonzero%22%20transform%3D%22translate(.432816%20.253917)%22%2F%3E%3Cpath%20d%3D%22m208.967%20145.949c-5.034.153-4.425%202.288-10.832%2012.356-2.734%204.296-7.439%206.394-11.936%207.392%209.04-3.256%2011.71-12.035%2011.479-12.73-.305-.915-3.203-1.832-4.729-.764-1.525%201.068-.609%204.882-4.881%209.764-1.703%201.946-4.036%203.091-6.226%203.765-4.823-1.767-12.22-1.431-13.758-1.021-2.288.61-1.373%202.136-2.898%202.746-1.526.61-1.525-.761-3.508.459s-.916%201.983-2.442%202.898c-1.525.916-4.575%203.202-6.863%205.643s-2.289%202.746-2.289%202.746l1.525%202.289s4.578-6.713%207.934-6.865c3.356-.153%204.88%203.203%207.016%203.203%202.135%200%201.677-4.271%201.677-4.271s1.373%2011.135%209%206.101c5.863-3.869.742-6.469-1.947-7.469%203.233%201.007%2011.161%202.98%2010.795-2.14-.092-1.295-.795-2.305-1.867-3.094%202.101-.261%203.699-.566%203.699-.566s4.423%202.439%208.389%201.218c2.927-.9%202.033-2.545%201.363-3.347.899.767%203.108%201.826%206.111-2.448%204.648-6.613%202.465-6.725.805-6.171%203.377-2.221%209.097-9.837%204.383-9.694z%22%20fill%3D%22%23ffd42a%22%20fill-rule%3D%22nonzero%22%20transform%3D%22translate(-1.47035%20-.053846)%22%2F%3E%3Cpath%20d%3D%22m143.243%20198.254c-33.006%200-32.143-3.668-48.97-3.668s-31.496%202.805-31.496%207.335%2011.002%2025.24%2080.466%2025.24%2078.956-19.2%2078.956-24.161c0-4.962-15.964-8.63-26.103-8.63s-22.651%203.884-52.853%203.884z%22%20fill%3D%22%23333%22%20fill-rule%3D%22nonzero%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22m126.983671923%2094.610318203h27.822780728v27.822780728h-27.822780728z%22%20fill%3D%22%231566eb%22%20stroke-miterlimit%3D%221%22%20stroke-width%3D%22.868521%22%2F%3E%3Cpath%20d%3D%22m140.730561923%20122.402218203h27.822780728v27.822780728h-27.822780728z%22%20fill%3D%22%234cbe00%22%20stroke-miterlimit%3D%221%22%20stroke-width%3D%22.868521%22%2F%3E%3Cpath%20d%3D%22m112.853961923%20122.402218203h27.822780728v27.822780728h-27.822780728z%22%20fill%3D%22%23ffb00b%22%20stroke-miterlimit%3D%221%22%20stroke-width%3D%22.868521%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+						href="#"
+						id="globalNavHeader"
+						aria-expanded="false"
+					>
+						JCR Hopper Mock
+					</a>
+				</coral-shell-header-home>
+			</coral-shell-header>
+
+			<coral-shell-content class="foundation-content" role="main">
+				<div class="foundation-content-current foundation-layout-util-maximized-alt">
+					<div class="foundation-layout-panel">
+						<div class="foundation-layout-panel-bodywrapper">
+							<div class="foundation-layout-panel-body">
+								<div class="foundation-layout-panel-content" style="height: calc(100vh - 52px)">
+									<div class="coral-FixedColumn foundation-layout-util-vmargin">
+										<div
+											class="jcr-hopper-builder"
+											data-run-endpoint="/mock/mock-response.jsonl"
+										></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</coral-shell-content>
+		</coral-shell>
+		<a
+			class="foundation-toggleable-control u-coral-screenReaderOnly"
+			aria-hidden="true"
+			data-foundation-command="?"
+			data-foundation-toggleable-control-src="/mnt/overlay/granite/ui/content/shell/shortcutsdialog.html"
+		></a>
+	</body>
+</html>

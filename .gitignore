@@ -88,3 +88,4 @@ node_modules/
 /.idea/
 /.parcel-cache/
 /.vscode/
+/mock/*.woff2
