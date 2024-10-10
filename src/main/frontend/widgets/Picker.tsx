@@ -39,7 +39,7 @@ export const Picker: FC<{
 			</button>
 			<coral-popover ref={popoverRef} target={`#${CSS.escape(buttonId)}`} placement="bottom">
 				<coral-popover-header>{title}</coral-popover-header>
-				<coral-popover-content onChange={console.log}>
+				<coral-popover-content>
 					<coral-selectlist ref={selectlistRef}>
 						{items.map(([value, label, icon]) => (
 							<coral-selectlist-item key={value} value={value}>

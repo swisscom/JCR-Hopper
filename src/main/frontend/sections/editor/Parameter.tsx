@@ -1,9 +1,10 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { styled } from 'goober';
 import { ScriptContext } from '../../App';
 import { Script } from '../../model/Script';
 import { Select } from '../../widgets/Select';
+import { Input } from '../../widgets/Input';
 
 const Elm = styled('div')`
 	display: flex;
@@ -18,44 +19,15 @@ export const Parameter: FC<{ param: Script['parameters'][0]; i: number }> = ({ i
 	const scriptContext = useContext(ScriptContext);
 	const script = scriptContext.draft;
 
-	const [name, setName] = useState(param.name || '');
-	useEffect(() => {
-		setName(param.name);
-	}, [param.name]);
-
-	const [defaultValue, setDefaultValue] = useState(param.defaultValue || '');
-	useEffect(() => {
-		setDefaultValue(param.defaultValue);
-	}, [param.defaultValue]);
-
 	return (
 		<Elm>
-			<input
-				is="coral-textfield"
-				placeholder="Name"
-				name="name"
-				value={name}
-				onChange={e => {
-					setName(e.target.value);
-				}}
-				onBlur={e => {
-					param.name = e.target.value;
-					scriptContext.commit();
-				}}
-			></input>
-			<input
-				is="coral-textfield"
-				placeholder="Default Value"
+			<Input name="name" placeholder="Name" onChange={name => (param.name = name)} value={param.name} />
+			<Input
 				name="defaultValue"
-				value={defaultValue}
-				onChange={e => {
-					setDefaultValue(e.target.value);
-				}}
-				onBlur={e => {
-					param.defaultValue = e.target.value;
-					scriptContext.commit();
-				}}
-			></input>
+				placeholder="Default Value"
+				onChange={defaultValue => (param.defaultValue = defaultValue)}
+				value={param.defaultValue}
+			/>
 			<Select
 				list={[
 					['text', 'Text'],

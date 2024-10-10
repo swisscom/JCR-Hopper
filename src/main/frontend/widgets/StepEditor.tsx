@@ -116,6 +116,8 @@ const Elm = styled('div')`
 			padding: 10px;
 			padding-right: 10%;
 			background: #ffffffce;
+			display: grid;
+			gap: 6px;
 		}
 
 		&[open] {
