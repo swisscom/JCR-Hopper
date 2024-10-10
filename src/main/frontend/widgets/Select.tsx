@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useRef } from 'react';
 
 import { ScriptContext } from '../App';
-import type { CoralIcon } from '../custom-elements';
+import type { CoralIcon } from '../coral/custom-elements';
 
 export type Options = [value: string, label: string, icon?: CoralIcon][];
 

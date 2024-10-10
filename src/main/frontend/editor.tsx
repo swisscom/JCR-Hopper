@@ -3,7 +3,11 @@ import { createRoot } from 'react-dom/client';
 import { setup } from 'goober';
 import { App } from './App';
 
+import { patchCoralUiCreateElement } from './coral/patchCoralUiCreateElement';
+
 setup(React.createElement);
+
+patchCoralUiCreateElement();
 
 function init() {
 	const target = document.querySelector<HTMLElement>('.jcr-hopper-builder')!;

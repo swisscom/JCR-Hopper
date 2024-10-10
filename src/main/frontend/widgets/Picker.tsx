@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useId, useRef } from 'react';
 import { Options } from './Select';
-import type { CoralIcon } from '../custom-elements';
+import type { CoralIcon } from '../coral/custom-elements';
 
 export const Picker: FC<{
 	items: Options;
