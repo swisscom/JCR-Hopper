@@ -1,13 +1,25 @@
 {
-	"type": "resolveNode",
-	"conflict": "throw",
-	"name": "/apps/base/clientlibs/build_timestamp.txt/jcr:content",
 	"hops": [
 		{
-			"type": "setProperty",
-			"conflict": "force",
-			"propertyName": "jcr:data",
-			"value": "str:replacePattern(date.time, '[\\\\W]', '-') + '-' + node.session.userID"
+			"type": "resolveNode",
+			"conflict": "throw",
+			"name": "${args.timestampFilePath}/jcr:content",
+			"hops": [
+				{
+					"type": "setProperty",
+					"conflict": "force",
+					"propertyName": "jcr:data",
+					"value": "str:replacePattern(date.time, '[\\\\W]', '-') + '-' + node.session.userID"
+				}
+			]
+		}
+	],
+	"logLevel": "warn",
+	"parameters": [
+		{
+			"name": "timestampFilePath",
+			"defaultValue": "/apps/base/clientlibs/build_timestamp.txt",
+			"evaluation": "STRING"
 		}
 	]
 }

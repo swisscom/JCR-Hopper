@@ -49,7 +49,9 @@ export const Toolbar: FC = () => {
 				buttonLabel="Add"
 				title="Add Hop to Script"
 				picked={value => {
-					script.hops.push(SAMPLES[Number(value)]!.config);
+					const sampleScript = SAMPLES[Number(value)]!.config;
+					script.hops.push(...sampleScript.hops);
+					script.parameters.push(...sampleScript.parameters);
 					scriptContext.commit();
 				}}
 				items={SAMPLES.map(({ label }, i) => [String(i), label])}

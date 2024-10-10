@@ -1,21 +1,27 @@
 {
-	"type": "nodeQuery",
-	"queryType": "JCR-SQL2",
-	"query": "SELECT * FROM [cq:Page] AS page",
-	"selectorName": "page",
 	"hops": [
 		{
-			"type": "filterNode",
-			"expression": "jcr:resolve(node, 'jcr:content') == null",
+			"type": "nodeQuery",
+			"queryType": "JCR-SQL2",
+			"query": "SELECT * FROM [cq:Page] AS page",
+			"selectorName": "page",
 			"hops": [
 				{
-					"type": "createChildNode",
-					"conflict": "throw",
-					"name": "jcr:content",
-					"primaryType": "cq:PageContent",
-					"hops": []
+					"type": "filterNode",
+					"expression": "jcr:resolve(node, 'jcr:content') == null",
+					"hops": [
+						{
+							"type": "createChildNode",
+							"conflict": "throw",
+							"name": "jcr:content",
+							"primaryType": "cq:PageContent",
+							"hops": []
+						}
+					]
 				}
 			]
 		}
-	]
+	],
+	"logLevel": "warn",
+	"parameters": []
 }

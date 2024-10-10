@@ -1,18 +1,24 @@
 {
-	"type": "resolveNode",
-	"conflict": "ignore",
 	"hops": [
 		{
-			"type": "childNodes",
-			"namePattern": "pack_*",
+			"type": "resolveNode",
+			"conflict": "ignore",
 			"hops": [
 				{
-					"type": "moveNode",
-					"conflict": "ignore",
-					"newName": "/dev/null"
+					"type": "childNodes",
+					"namePattern": "pack_*",
+					"hops": [
+						{
+							"type": "moveNode",
+							"conflict": "ignore",
+							"newName": "/dev/null"
+						}
+					]
 				}
-			]
+			],
+			"name": "/etc/packages/temporary"
 		}
 	],
-	"name": "/etc/packages/temporary"
+	"logLevel": "warn",
+	"parameters": []
 }
