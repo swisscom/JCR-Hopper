@@ -7,9 +7,17 @@ const Elm = styled('form', React.forwardRef)`
 	grid-auto-flow: row;
 	.arguments {
 		display: grid;
-		grid-template-columns: 1fr 3fr;
-		> input {
-			width: auto;
+		gap: 6px;
+		grid-template-columns: 1fr 2fr;
+		grid-auto-flow: row;
+		> label {
+			display: contents;
+			> span {
+				align-content: center;
+			}
+			> input {
+				width: auto;
+			}
 		}
 	}
 	> .options {
@@ -41,7 +49,8 @@ export const RunControls: FC<{ runWith: (data: FormData) => Promise<void> }> = (
 						{script.parameters.map(({ name, type }) => (
 							<React.Fragment key={name}>
 								<label>
-									{name}:<input is="coral-textfield" type={type} name={name} />
+									<span>{name}:</span>
+									<input is="coral-textfield" type={type} name={name} />
 								</label>
 							</React.Fragment>
 						))}

@@ -10,9 +10,15 @@ const Elm = styled('div')`
 	grid-auto-rows: min-content 1fr min-content;
 	overflow: auto;
 	.parameters {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
 		> .param {
 			display: flex;
 			gap: 6px;
+		}
+		> button {
+			align-self: end;
 		}
 	}
 `;
@@ -26,6 +32,7 @@ export const ScriptEditor: FC = () => {
 			name: `param_${script.parameters.length + 1}`,
 			defaultValue: '',
 			type: 'text',
+			evaluation: 'STRING',
 		});
 		scriptContext.commit();
 	}

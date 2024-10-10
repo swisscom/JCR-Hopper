@@ -1,10 +1,12 @@
 import { LogLevel } from './LogLevel';
 import { Hop } from './hops';
 
+type ParameterEvaluation = 'STRING' | 'LINES' | 'TEMPLATE' | 'EXPRESSION';
 export interface Parameter {
 	name: string;
 	defaultValue: string;
 	type: string;
+	evaluation: ParameterEvaluation;
 }
 
 export interface Script {

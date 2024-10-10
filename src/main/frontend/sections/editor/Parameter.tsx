@@ -30,22 +30,19 @@ export const Parameter: FC<{ param: Script['parameters'][0]; i: number }> = ({ i
 
 	return (
 		<Elm>
-			<label>
-				<span>Param {i + 1}: </span>
-				<input
-					is="coral-textfield"
-					placeholder="Name"
-					name="name"
-					value={name}
-					onChange={e => {
-						setName(e.target.value);
-					}}
-					onBlur={e => {
-						param.name = e.target.value;
-						scriptContext.commit();
-					}}
-				></input>
-			</label>
+			<input
+				is="coral-textfield"
+				placeholder="Name"
+				name="name"
+				value={name}
+				onChange={e => {
+					setName(e.target.value);
+				}}
+				onBlur={e => {
+					param.name = e.target.value;
+					scriptContext.commit();
+				}}
+			></input>
 			<input
 				is="coral-textfield"
 				placeholder="Default Value"
@@ -66,6 +63,16 @@ export const Parameter: FC<{ param: Script['parameters'][0]; i: number }> = ({ i
 				]}
 				value={param.type}
 				onChange={val => (param.type = val)}
+			/>
+			<Select
+				list={[
+					['STRING', 'String'],
+					['LINES', 'Array of Lines'],
+					['TEMPLATE', 'JEXL String Template'],
+					['EXPRESSION', 'JEXL Expression'],
+				]}
+				value={param.evaluation}
+				onChange={val => (param.evaluation = val as typeof param.evaluation)}
 			/>
 			<button
 				is="coral-button"

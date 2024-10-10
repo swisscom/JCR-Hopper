@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useContext } from 'react';
 
-import { AnyHop, Hop } from '../model/hops';
+import { Hop } from '../model/hops';
 import { styled } from 'goober';
 import { ScriptContext } from '../App';
 
@@ -167,7 +167,7 @@ const Elm = styled('div')`
 	}
 `;
 
-export const StepEditor: FC<{ parentHops: Hop[]; hop: AnyHop; title: string; children: ReactNode; pipeline?: ReactNode }> = ({
+export const StepEditor: FC<{ parentHops: Hop[]; hop: Hop; title: string; children: ReactNode; pipeline?: ReactNode }> = ({
 	parentHops,
 	hop,
 	title,
@@ -176,11 +176,11 @@ export const StepEditor: FC<{ parentHops: Hop[]; hop: AnyHop; title: string; chi
 }) => {
 	const scriptContext = useContext(ScriptContext);
 
-	const hopIndex = parentHops.indexOf(hop as Hop);
+	const hopIndex = parentHops.indexOf(hop);
 
 	function moveHop(isUp = false) {
 		parentHops.splice(hopIndex, 1);
-		parentHops.splice(hopIndex + (isUp ? -1 : 1), 0, hop as Hop);
+		parentHops.splice(hopIndex + (isUp ? -1 : 1), 0, hop);
 		scriptContext.commit();
 	}
 
@@ -206,7 +206,7 @@ export const StepEditor: FC<{ parentHops: Hop[]; hop: AnyHop; title: string; chi
 							is="coral-button"
 							icon="duplicate"
 							onClick={() => {
-								parentHops.splice(hopIndex, 0, hop as Hop);
+								parentHops.splice(hopIndex, 0, hop);
 								scriptContext.commit();
 							}}
 						></button>
