@@ -41,10 +41,10 @@ export const RunControls: FC<{ runWith: (data: FormData) => Promise<void> }> = (
 					<legend>Arguments</legend>
 					<div className="arguments">
 						{script.parameters.map(({ name, type }, i) => (
-							<>
+							<React.Fragment key={name}>
 								<label htmlFor={`${id}_${i}`}>{name}: </label>
 								<input id={`${id}_${i}`} is="coral-textfield" type={type} name={name} />
-							</>
+							</React.Fragment>
 						))}
 					</div>
 				</fieldset>
