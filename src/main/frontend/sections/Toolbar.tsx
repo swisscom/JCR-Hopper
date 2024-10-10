@@ -47,7 +47,7 @@ export const Toolbar: FC = () => {
 			<Picker
 				icon="addChildPanel"
 				buttonLabel="Add"
-				title="Add Hop to Pipeline"
+				title="Add Hop to Script"
 				picked={value => {
 					script.hops.push(SAMPLES[Number(value)]!.config);
 					scriptContext.commit();
