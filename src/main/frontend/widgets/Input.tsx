@@ -8,7 +8,7 @@ export type Options = [value: string, label: string, icon?: CoralIcon][];
 export const Input: FC<{
 	value: string;
 	name?: string;
-	placeholder: string;
+	placeholder?: string;
 	onChange: (value: string) => void;
 }> = ({ value: outsideValue, name, placeholder, onChange }) => {
 	const scriptContext = useContext(ScriptContext);
