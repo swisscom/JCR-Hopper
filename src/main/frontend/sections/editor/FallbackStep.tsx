@@ -1,9 +1,9 @@
 import React, { FC, useContext } from 'react';
 
-import { Hop } from '../../../model/hops';
-import { StepEditor } from '../../../widgets/StepEditor';
-import { ScriptContext } from '../../../App';
-import { CodeEditor } from '../../../widgets/CodeEditor';
+import { Hop } from '../../model/hops';
+import { StepEditor } from '../../widgets/StepEditor';
+import { ScriptContext } from '../../App';
+import { CodeEditor } from '../../widgets/CodeEditor';
 
 export const FallbackStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, hop }) => {
 	const scriptContext = useContext(ScriptContext);

@@ -6,7 +6,7 @@ import { ChildNodesStep } from './types/ChildNodesStep';
 import { CopyNodeStep } from './types/CopyNodeStep';
 import { DeclareStep } from './types/DeclareStep';
 
-import { FallbackStep } from './types/FallbackStep';
+import { FallbackStep } from './FallbackStep';
 import { CreateChildNodeStep } from './types/CreateChildNodeStep';
 
 export const PipelineStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, hop }) => {
