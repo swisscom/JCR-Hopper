@@ -28,13 +28,12 @@ export const ChildNodesStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHop
 				<p>
 					Gets all child nodes of this node accessible through the current Session that match namePattern. The pattern
 					may be a full name, a partial name with one or more wildcard characters (*), or a disjunction of those (using
-					the <code className="code font--serif">|</code> character).
+					the <code>|</code> character).
 				</p>
 				<p>
-					For example, <code className="code font--serif">jcr:* | myapp:report | my doc</code> will run the pipeline
-					actions for each accessible child node that is either called{' '}
-					<code className="code font--serif">myapp:report</code>, <code className="code font--serif">my doc</code>, or
-					whose name begins with the prefix <code className="code font--serif">jcr:</code>.
+					For example, <code>jcr:* | myapp:report | my doc</code> will run the pipeline actions for each accessible
+					child node that is either called <code>myapp:report</code>, <code>my doc</code>, or whose name begins with the
+					prefix <code>jcr:</code>.
 				</p>
 				<p>
 					For more information, see <a href="https://adobe.ly/2YrfG1G">Node#getNodes(String)</a>

@@ -33,15 +33,13 @@ export const CreateChildNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ pare
 					non-existing parents will throw an exception.
 				</p>
 				<p>
-					For example, a value of <code className="code font--serif">node1/newNodeName</code> will create the node{' '}
-					<code className="code font--serif">newNodeName</code> as a child of the existing{' '}
-					<code className="code font--serif">node1</code> child of the current node and throw if{' '}
-					<code className="code font--serif">node1</code> doesn’t exist.
+					For example, a value of <code>node1/newNodeName</code> will create the node <code>newNodeName</code> as a
+					child of the existing <code>node1</code> child of the current node and throw if <code>node1</code> doesn’t
+					exist.
 				</p>
 				<h5>jcr:primaryType of new node</h5>
 				<p>
-					The primary type to set on the new node. If left empty, defaults to{' '}
-					<code className="code font--serif">nt:unstructured</code>
+					The primary type to set on the new node. If left empty, defaults to <code>nt:unstructured</code>
 				</p>
 				<h5>If the target node exists</h5>
 				<p>

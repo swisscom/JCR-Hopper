@@ -24,7 +24,7 @@ export const FilterNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHop
 				</p>
 				<p>This field expects an expression, thus surrounding the expression with {'${}'} is invalid.</p>
 				<p>
-					With the word <code className="code font--serif">node</code> you can reference the current node.
+					With the word <code>node</code> you can reference the current node.
 				</p>
 			</Help>
 		</StepEditor>

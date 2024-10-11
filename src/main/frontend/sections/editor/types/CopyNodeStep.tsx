@@ -29,25 +29,20 @@ export const CopyNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops,
 					<br />
 					The last path segment will be the name of the new node, the rest will point to its parent.
 					<br />
-					Thus, <code className="code font--serif">newNodeName</code>,{' '}
-					<code className="code font--serif">./newNodeName</code>,{' '}
-					<code className="code font--serif">/absolute/path/to/newNodeName</code>,{' '}
-					<code className="code font--serif">relative/path/to/newNodeName</code>, and{' '}
-					<code className="code font--serif">./relative/path/to/newNodeName</code> are all valid values.
+					Thus, <code>newNodeName</code>, <code>./newNodeName</code>, <code>/absolute/path/to/newNodeName</code>,{' '}
+					<code>relative/path/to/newNodeName</code>, and <code>./relative/path/to/newNodeName</code> are all valid
+					values.
 				</p>
 				<p>
-					The effective parent must already exist. Example: Target is{' '}
-					<code className="code font--serif">node1/newNodeName</code>
+					The effective parent must already exist. Example: Target is <code>node1/newNodeName</code>
 				</p>
 				<ul className="list">
 					<li>
-						If the path <code className="code font--serif">{'${node.parent.path}'}/node1</code> exists ,{' '}
-						<code className="code font--serif">newNodeName</code> will be created as a child of the{' '}
-						<code className="code font--serif">node1</code> sibling of the source
+						If the path <code>{'${node.parent.path}'}/node1</code> exists , <code>newNodeName</code> will be
+						created as a child of the <code>node1</code> sibling of the source
 					</li>
 					<li>
-						If <code className="code font--serif">{'${node.parent.path}'}/node1</code> does not exist, the
-						operation will throw.
+						If <code>{'${node.parent.path}'}/node1</code> does not exist, the operation will throw.
 					</li>
 				</ul>
 			</Help>
