@@ -1,6 +1,6 @@
 import { AnyHop, Hop } from '.';
 
-const SCRIPT_LANGUAGES = {
+export const SCRIPT_LANGUAGES = {
 	jexl: 'JEXL',
 	js: 'JavaScript',
 };
@@ -9,12 +9,13 @@ export interface Type extends AnyHop {
 	type: 'runScript';
 	code: string;
 	extension: keyof typeof SCRIPT_LANGUAGES;
-	hops?: Hop[];
+	putLocalsBackIntoScope?: boolean;
 }
 
 export const defaultConfig: Partial<Type> = {
 	code: '',
 	extension: 'js',
+	putLocalsBackIntoScope: true,
 };
 
 export const title = 'Run a script';

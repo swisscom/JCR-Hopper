@@ -31,9 +31,9 @@ export const ChildNodesStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHop
 					the <code>|</code> character).
 				</p>
 				<p>
-					For example, <code>jcr:* | myapp:report | my doc</code> will run the pipeline actions for each accessible
-					child node that is either called <code>myapp:report</code>, <code>my doc</code>, or whose name begins with the
-					prefix <code>jcr:</code>.
+					For example, <code>jcr:* | myapp:report | my doc</code> will run the hops for each accessible child node that
+					is either called <code>myapp:report</code>, <code>my doc</code>, or whose name begins with the prefix{' '}
+					<code>jcr:</code>.
 				</p>
 				<p>
 					For more information, see <a href="https://adobe.ly/2YrfG1G">Node#getNodes(String)</a>

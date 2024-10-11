@@ -15,6 +15,7 @@ import { NodeQueryStep } from './types/NodeQueryStep';
 import { RenamePropertyStep } from './types/RenamePropertyStep';
 import { ReorderNodeStep } from './types/ReorderNodeStep';
 import { ResolveNodeStep } from './types/ResolveNodeStep';
+import { RunScriptStep } from './types/RunScriptStep';
 
 export const PipelineStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, hop }) => {
 	switch (hop.type) {
@@ -40,6 +41,8 @@ export const PipelineStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, 
 			return <ReorderNodeStep parentHops={parentHops} hop={hop} />;
 		case 'resolveNode':
 			return <ResolveNodeStep parentHops={parentHops} hop={hop} />;
+		case 'runScript':
+			return <RunScriptStep parentHops={parentHops} hop={hop} />;
 		default:
 			return <FallbackStep parentHops={parentHops} hop={hop} />;
 	}

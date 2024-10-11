@@ -37,7 +37,7 @@ export const CodeEditor: React.FC<{
 		<Editor
 			onMount={ed => (editorRef.current = ed)}
 			defaultValue={value}
-			defaultLanguage={language}
+			language={language === 'js' ? 'javascript' : language}
 			defaultPath={`inmemory://model/${useId()}.${language}`}
 			theme="light"
 			options={{
