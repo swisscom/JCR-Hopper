@@ -9,6 +9,7 @@ import { CopyNodeStep } from './types/CopyNodeStep';
 import { CreateChildNodeStep } from './types/CreateChildNodeStep';
 import { DeclareStep } from './types/DeclareStep';
 import { EachStep } from './types/EachStep';
+import { FilterNodeStep } from './types/FilterNodeStep';
 
 export const PipelineStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, hop }) => {
 	switch (hop.type) {
@@ -22,6 +23,8 @@ export const PipelineStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, 
 			return <DeclareStep parentHops={parentHops} hop={hop} />;
 		case 'each':
 			return <EachStep parentHops={parentHops} hop={hop} />;
+		case 'filterNode':
+			return <FilterNodeStep parentHops={parentHops} hop={hop} />;
 		default:
 			return <FallbackStep parentHops={parentHops} hop={hop} />;
 	}
