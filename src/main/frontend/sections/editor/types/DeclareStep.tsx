@@ -29,29 +29,25 @@ export const DeclareStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, 
 					.sort()
 					.map(([varName, varValue]) => (
 						<Fragment key={varName}>
-							<label>
-								Name:{' '}
-								<Input
-									placeholder="Variable Name"
-									value={varName}
-									onChange={newVar => {
-										delete declarations[varName];
-										if (newVar) {
-											declarations[newVar] = varValue;
-										}
-									}}
-								/>
-							</label>
-							<label>
-								Value:
-								<Input
-									placeholder="Variable Value"
-									value={varValue}
-									onChange={newValue => {
-										declarations[varName] = newValue;
-									}}
-								/>
-							</label>
+							<Input
+								label="Name"
+								placeholder="Variable Name"
+								value={varName}
+								onChange={newVar => {
+									delete declarations[varName];
+									if (newVar) {
+										declarations[newVar] = varValue;
+									}
+								}}
+							/>
+							<Input
+								label="Value"
+								placeholder="Variable Value"
+								value={varValue}
+								onChange={newValue => {
+									declarations[varName] = newValue;
+								}}
+							/>
 						</Fragment>
 					))}
 			</Elm>

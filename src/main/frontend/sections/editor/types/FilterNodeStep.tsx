@@ -11,10 +11,12 @@ import { Pipeline } from '../Pipeline';
 export const FilterNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop }) => {
 	return (
 		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} pipeline={<Pipeline hops={(hop.hops ??= [])} />}>
-			<label>
-				JEXL Expression:{' '}
-				<Input value={hop.expression ?? ''} onChange={expression => (hop.expression = expression)} placeholder="[]" />
-			</label>
+			<Input
+				label="JEXL Expression"
+				value={hop.expression ?? ''}
+				onChange={expression => (hop.expression = expression)}
+				placeholder="[]"
+			/>
 			<Help title={title}>
 				<h5>Filter Expression</h5>
 				<p>

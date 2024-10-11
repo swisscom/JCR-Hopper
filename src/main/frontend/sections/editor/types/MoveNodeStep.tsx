@@ -12,10 +12,12 @@ import { DEV_NULL } from '../../../model/hops/renameProperty';
 export const MoveNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop }) => {
 	return (
 		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)}>
-			<label>
-				New Name (use <code>/dev/null</code> to delete):{' '}
-				<Input value={hop.newName ?? ''} onChange={newName => (hop.newName = newName)} placeholder="[]" />
-			</label>
+			<Input
+				label="New Name (use <code>/dev/null</code> to delete)"
+				value={hop.newName ?? ''}
+				onChange={newName => (hop.newName = newName)}
+				placeholder="[]"
+			/>
 			<Conflict
 				label="If the target node exists"
 				forceLabel="Replace the target node"

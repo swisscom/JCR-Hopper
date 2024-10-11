@@ -6,11 +6,13 @@ import type { CoralIcon } from '../coral/custom-elements';
 export type Options = [value: string, label: string, icon?: CoralIcon][];
 
 export const Input: FC<{
+	label?: string;
 	value: string;
 	name?: string;
 	placeholder?: string;
+	type?: HTMLInputElement['type'];
 	onChange: (value: string) => void;
-}> = ({ value: outsideValue, name, placeholder, onChange }) => {
+}> = ({ label, value: outsideValue, name, placeholder, type = 'text', onChange }) => {
 	const scriptContext = useContext(ScriptContext);
 
 	const hasChanged = useRef(false);
@@ -20,10 +22,11 @@ export const Input: FC<{
 		setValue(outsideValue);
 	}, [outsideValue]);
 
-	return (
+	const input = (
 		<input
 			is="coral-textfield"
 			name={name}
+			type={type}
 			placeholder={placeholder}
 			value={value}
 			onChange={e => {
@@ -39,4 +42,14 @@ export const Input: FC<{
 			}}
 		></input>
 	);
+
+	if (label) {
+		return (
+			<label>
+				{label}: {input}
+			</label>
+		);
+	}
+
+	return input;
 };

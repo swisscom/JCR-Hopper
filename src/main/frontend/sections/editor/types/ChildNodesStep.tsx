@@ -11,14 +11,8 @@ import { Pipeline } from '../Pipeline';
 export const ChildNodesStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop }) => {
 	return (
 		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} pipeline={<Pipeline hops={(hop.hops ??= [])} />}>
-			<label>
-				Name Pattern:{' '}
-				<Input value={hop.namePattern ?? ''} onChange={namePattern => (hop.namePattern = namePattern)} placeholder="*" />
-			</label>
-			<label>
-				Counter Name:{' '}
-				<Input value={hop.counterName ?? ''} onChange={counterName => (hop.counterName = counterName)} placeholder="index" />
-			</label>
+			<Input label='Name Pattern' value={hop.namePattern ?? ''} onChange={namePattern => (hop.namePattern = namePattern)} placeholder="*" />
+			<Input label="Counter Name" value={hop.counterName ?? ''} onChange={counterName => (hop.counterName = counterName)} placeholder="index" />
 			<Help title={title}>
 				<h5>Name Pattern</h5>
 				<p>

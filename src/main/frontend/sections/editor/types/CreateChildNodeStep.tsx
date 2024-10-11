@@ -12,17 +12,13 @@ import { Conflict } from '../../../widgets/Conflict';
 export const CreateChildNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop }) => {
 	return (
 		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} pipeline={<Pipeline hops={(hop.hops ??= [])} />}>
-			<label>
-				Child Name: <Input value={hop.name ?? ''} onChange={name => (hop.name = name)} placeholder="name" />
-			</label>
-			<label>
-				JCR Primary Type:{' '}
-				<Input
-					value={hop.primaryType ?? ''}
-					onChange={primaryType => (hop.primaryType = primaryType)}
-					placeholder="nt:unstructured"
-				/>
-			</label>
+			<Input label="Child Name" value={hop.name ?? ''} onChange={name => (hop.name = name)} placeholder="name" />
+			<Input
+				label="JCR Primary Type"
+				value={hop.primaryType ?? ''}
+				onChange={primaryType => (hop.primaryType = primaryType)}
+				placeholder="nt:unstructured"
+			/>
 			<Conflict
 				label="If the target node exists"
 				forceLabel="Replace the target node"

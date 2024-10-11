@@ -12,9 +12,7 @@ import { Conflict } from '../../../widgets/Conflict';
 export const CopyNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop }) => {
 	return (
 		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} pipeline={<Pipeline hops={(hop.hops ??= [])} />}>
-			<label>
-				New Name: <Input value={hop.newName ?? ''} onChange={newName => (hop.newName = newName)} />
-			</label>
+			<Input label="New Name" value={hop.newName ?? ''} onChange={newName => (hop.newName = newName)} />
 			<Conflict
 				label="If the target node exists"
 				forceLabel="Replace the target node"

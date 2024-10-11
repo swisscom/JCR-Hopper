@@ -13,14 +13,13 @@ export const EachStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop
 	return (
 		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} pipeline={<Pipeline hops={(hop.hops ??= [])} />}>
 			<Switch value={hop.assumeNodes ?? false} label="Iterate Nodes" onChange={assumeNodes => (hop.assumeNodes = assumeNodes)} />
-			<label>
-				JEXL Expression:{' '}
-				<Input value={hop.expression ?? ''} onChange={expression => (hop.expression = expression)} placeholder="[]" />
-			</label>
-			<label>
-				Iterator Name:{' '}
-				<Input value={hop.iterator ?? ''} onChange={iterator => (hop.iterator = iterator)} placeholder="item" />
-			</label>
+			<Input
+				label="JEXL Expression"
+				value={hop.expression ?? ''}
+				onChange={expression => (hop.expression = expression)}
+				placeholder="[]"
+			/>
+			<Input label="Iterator Name" value={hop.iterator ?? ''} onChange={iterator => (hop.iterator = iterator)} placeholder="item" />
 			<Help title={title}>
 				<h5>Iterate Nodes</h5>
 				<p>
