@@ -71,7 +71,7 @@ export const DeclareStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, 
 				}}
 			/>
 			<Help title="Declarations">
-				<p className="u-coral-margin">
+				<p>
 					Makes the declared variables available in the descendant pipeline. Useful if you use the same expression many
 					times. Note that the values are JEXL expressions already so you should not use <code>{'${}'}</code>.
 				</p>

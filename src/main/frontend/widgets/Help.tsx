@@ -14,7 +14,7 @@ export const Help: FC<React.PropsWithChildren<{ title: string }>> = ({ title, ch
 			<button is="coral-button" id={buttonId} icon="helpCircle"></button>
 			<coral-popover ref={popoverRef} target={`#${CSS.escape(buttonId)}`} placement="bottom">
 				<coral-popover-header>{title}</coral-popover-header>
-				<coral-popover-content style={{ maxWidth: '400px' }}>{children}</coral-popover-content>
+				<coral-popover-content style={{ maxWidth: '400px' }} class="u-coral-padding">{children}</coral-popover-content>
 			</coral-popover>
 		</Elm>
 	);

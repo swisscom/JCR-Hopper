@@ -783,20 +783,24 @@ declare module 'react' {
 	}
 	namespace JSX {
 		interface IntrinsicElements {
-			'coral-select': DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>;
-			'coral-select-item': DetailedHTMLProps<OptionHTMLAttributes<HTMLOptionElement>, HTMLSelectElement>;
-			'coral-checkbox': DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLSelectElement>;
-			'coral-checkbox-label': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-			'coral-wait': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-			'coral-icon': DetailedHTMLProps<HTMLAttributes<HTMLElement> & { icon: CoralIcon }, HTMLElement>;
-			'coral-selectlist': DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>;
-			'coral-selectlist-item': DetailedHTMLProps<OptionHTMLAttributes<HTMLOptionElement>, HTMLSelectElement>;
+			'coral-select': DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement> & { class?: string }, HTMLSelectElement>;
+			'coral-select-item': DetailedHTMLProps<OptionHTMLAttributes<HTMLOptionElement> & { class?: string }, HTMLSelectElement>;
+			'coral-checkbox': DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement> & { class?: string }, HTMLSelectElement>;
+			'coral-checkbox-label': DetailedHTMLProps<HTMLAttributes<HTMLElement> & { class?: string }, HTMLElement>;
+			'coral-wait': DetailedHTMLProps<HTMLAttributes<HTMLElement> & { class?: string }, HTMLElement>;
+			'coral-icon': DetailedHTMLProps<HTMLAttributes<HTMLElement> & { icon: CoralIcon; class?: string }, HTMLElement>;
+			'coral-selectlist': DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement> & { class?: string }, HTMLSelectElement>;
+			'coral-selectlist-item': DetailedHTMLProps<OptionHTMLAttributes<HTMLOptionElement> & { class?: string }, HTMLSelectElement>;
 			'coral-popover': DetailedHTMLProps<
-				HTMLAttributes<HTMLDialogElement> & { target?: string; placement?: 'top' | 'bottom' | 'left' | 'right' },
+				HTMLAttributes<HTMLDialogElement> & {
+					target?: string;
+					placement?: 'top' | 'bottom' | 'left' | 'right';
+					class?: string;
+				},
 				HTMLDialogElement
 			>;
-			'coral-popover-header': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-			'coral-popover-content': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
+			'coral-popover-header': DetailedHTMLProps<HTMLAttributes<HTMLElement> & { class?: string }, HTMLElement>;
+			'coral-popover-content': DetailedHTMLProps<HTMLAttributes<HTMLElement> & { class?: string }, HTMLElement>;
 		}
 	}
 }
