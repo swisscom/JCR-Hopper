@@ -1,4 +1,4 @@
-import { AnyHop, Hop } from '.';
+import { AnyHop } from '.';
 
 export const SCRIPT_LANGUAGES = {
 	jexl: 'JEXL',

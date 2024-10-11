@@ -17,6 +17,7 @@ import { ReorderNodeStep } from './types/ReorderNodeStep';
 import { ResolveNodeStep } from './types/ResolveNodeStep';
 import { RunScriptStep } from './types/RunScriptStep';
 import { SetPropertyStep } from './types/SetPropertyStep';
+import { TryStep } from './types/TryStep';
 
 export const PipelineStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, hop }) => {
 	switch (hop.type) {
@@ -46,6 +47,8 @@ export const PipelineStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, 
 			return <RunScriptStep parentHops={parentHops} hop={hop} />;
 		case 'setProperty':
 			return <SetPropertyStep parentHops={parentHops} hop={hop} />;
+		case 'try':
+			return <TryStep parentHops={parentHops} hop={hop} />;
 		default:
 			return <FallbackStep parentHops={parentHops} hop={hop} />;
 	}

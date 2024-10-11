@@ -15,7 +15,7 @@ export const FilterNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHop
 				label="JEXL Expression"
 				value={hop.expression ?? ''}
 				onChange={expression => (hop.expression = expression)}
-				placeholder="[]"
+				placeholder="false"
 			/>
 			<Help title={title}>
 				<h5>Filter Expression</h5>
