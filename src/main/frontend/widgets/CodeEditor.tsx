@@ -8,8 +8,9 @@ import type * as monaco from 'monaco-editor';
 export const CodeEditor: React.FC<{
 	value: string;
 	onChange(val: string, hasErrors: boolean): void;
-	language: 'json' | 'groovy' | 'jexl';
-}> = ({ value: outsideValue, onChange, language }) => {
+	language: 'json' | 'groovy' | 'jexl' | 'sql' | 'js';
+	lines?: number;
+}> = ({ value: outsideValue, onChange, language, lines = 13 }) => {
 	const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
 	const hasError = useRef(false);
@@ -45,8 +46,9 @@ export const CodeEditor: React.FC<{
 				minimap: {
 					enabled: false,
 				},
+				lineNumbers: 'off',
 			}}
-			height={250}
+			height={lines * 20}
 			onValidate={markers => {
 				hasError.current = markers.length > 0;
 			}}

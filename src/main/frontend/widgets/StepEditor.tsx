@@ -96,6 +96,7 @@ const Elm = styled('div')`
 
 			h2 {
 				display: inline-block;
+				white-space: nowrap;
 				font-weight: normal;
 				align-self: center;
 				padding: 2px 5px;
