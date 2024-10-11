@@ -3,13 +3,21 @@ import React, { FC, useContext, useEffect, useRef } from 'react';
 import { ScriptContext } from '../App';
 import type { CoralIcon } from '../coral/custom-elements';
 
-export type Options = [value: string, label: string, icon?: CoralIcon][];
+export type Options<V extends string = string> = [value: V, label: string, icon?: CoralIcon][];
 
-export const Select: FC<{
-	list: Options;
-	value: string;
-	onChange: (value: string) => void;
-}> = ({ list, value, onChange }) => {
+type SelectFC<V extends string = string> = FC<{
+	label?: string;
+	list: Options<V>;
+	value: V;
+	onChange: (value: V) => void;
+}>;
+
+export const Select: <V extends string = string>(...args: Parameters<SelectFC<V>>) => ReturnType<SelectFC<V>> = ({
+	label,
+	list,
+	value,
+	onChange,
+}) => {
 	const scriptContext = useContext(ScriptContext);
 
 	const selectRef = useRef<HTMLSelectElement>(null);
@@ -20,7 +28,7 @@ export const Select: FC<{
 		}
 
 		const changed = () => {
-			onChange(sel.value);
+			onChange(sel.value as typeof value);
 			scriptContext.commit();
 		};
 
@@ -31,7 +39,7 @@ export const Select: FC<{
 		};
 	}, [selectRef.current, scriptContext]);
 
-	return (
+	const select = (
 		<coral-select ref={selectRef} value={value}>
 			{list.map(([val, label, icon]) => (
 				<coral-select-item key={val} value={val}>
@@ -41,4 +49,13 @@ export const Select: FC<{
 			))}
 		</coral-select>
 	);
+
+	if (label) {
+		return (
+			<label>
+				{label}: {select}
+			</label>
+		);
+	}
+	return select;
 };

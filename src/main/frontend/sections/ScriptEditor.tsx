@@ -5,6 +5,7 @@ import { ScriptContext } from '../App';
 import { Select } from '../widgets/Select';
 import { Parameter } from './editor/Parameter';
 import { Pipeline } from './editor/Pipeline';
+import { LogLevel } from '../model/LogLevel';
 
 const Elm = styled('div')`
 	grid-auto-rows: min-content 1fr min-content;
@@ -22,6 +23,14 @@ const Elm = styled('div')`
 		}
 	}
 `;
+
+const LOG_LEVEL_LABELS: [LogLevel, string][] = [
+	['trace', 'TRACE'],
+	['debug', 'DEBUG'],
+	['info', 'INFO'],
+	['warn', 'WARN'],
+	['error', 'ERROR'],
+];
 
 export const ScriptEditor: FC = () => {
 	const scriptContext = useContext(ScriptContext);
@@ -41,20 +50,7 @@ export const ScriptEditor: FC = () => {
 		<Elm className="script-editor">
 			<fieldset className="options">
 				<legend>Options</legend>
-				<label>
-					Log Level:{' '}
-					<Select
-						list={[
-							['trace', 'TRACE'],
-							['debug', 'DEBUG'],
-							['info', 'INFO'],
-							['warn', 'WARN'],
-							['error', 'ERROR'],
-						]}
-						value={script.logLevel}
-						onChange={val => (script.logLevel = val as typeof script.logLevel)}
-					/>
-				</label>
+				<Select label="Log Level" list={LOG_LEVEL_LABELS} value={script.logLevel} onChange={val => (script.logLevel = val)} />
 			</fieldset>
 			<div className="script">
 				<Pipeline hops={script.hops} addButton={false} />

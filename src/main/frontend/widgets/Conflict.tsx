@@ -13,17 +13,15 @@ export const Conflict: FC<{
 	changed(newValue: ConflictResolutionStrategy): void;
 }> = ({ label = 'Conflict Resolution', forceLabel = 'Force the given action', value, changed }) => {
 	return (
-		<label>
-			{label}:{' '}
-			<Select
-				value={value}
-				onChange={v => changed(v as ConflictResolutionStrategy)}
-				list={[
-					['ignore', 'Ignore conflict, abort the current action'],
-					['throw', 'Throw an exception, stop pipeline'],
-					['force', forceLabel],
-				]}
-			/>
-		</label>
+		<Select
+			value={value}
+			label={label}
+			onChange={v => changed(v)}
+			list={[
+				['ignore', 'Ignore conflict, abort the current action'],
+				['throw', 'Throw an exception, stop pipeline'],
+				['force', forceLabel],
+			]}
+		/>
 	);
 };
