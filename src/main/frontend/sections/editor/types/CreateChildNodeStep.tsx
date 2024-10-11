@@ -27,7 +27,7 @@ export const CreateChildNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ pare
 				label="If the target node exists"
 				forceLabel="Replace the target node"
 				value={hop.conflict ?? 'ignore'}
-				changed={conflict => (hop.conflict = conflict)}
+				onChange={conflict => (hop.conflict = conflict)}
 			/>
 			<Help title={title}>
 				<h5>Name of New Child Node</h5>

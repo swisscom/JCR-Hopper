@@ -7,9 +7,9 @@ import type * as monaco from 'monaco-editor';
 
 export const CodeEditor: React.FC<{
 	value: string;
-	changed(val: string, hasErrors: boolean): void;
+	onChange(val: string, hasErrors: boolean): void;
 	language: 'json' | 'groovy' | 'jexl';
-}> = ({ value: outsideValue, changed, language }) => {
+}> = ({ value: outsideValue, onChange, language }) => {
 	const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
 	const hasError = useRef(false);
@@ -20,7 +20,7 @@ export const CodeEditor: React.FC<{
 	// Call the change listener when the debounced value changes
 	useEffect(() => {
 		if (outsideValue !== debouncedValue) {
-			changed(debouncedValue, hasError.current);
+			onChange(debouncedValue, hasError.current);
 		}
 	}, [debouncedValue, hasError.current]);
 

@@ -15,7 +15,7 @@ export const FallbackStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, 
 		<StepEditor parentHops={parentHops} hop={hop} title={`Unknown Hop (${hopType})`}>
 			<CodeEditor
 				value={code}
-				changed={(value, hasError) => {
+				onChange={(value, hasError) => {
 					if (hasError) {
 						return;
 					}
