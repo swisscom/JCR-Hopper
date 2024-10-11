@@ -785,8 +785,9 @@ declare module 'react' {
 		interface IntrinsicElements {
 			'coral-select': DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement> & { class?: string }, HTMLSelectElement>;
 			'coral-select-item': DetailedHTMLProps<OptionHTMLAttributes<HTMLOptionElement> & { class?: string }, HTMLSelectElement>;
-			'coral-checkbox': DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement> & { class?: string }, HTMLSelectElement>;
+			'coral-checkbox': DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement> & { class?: string }, HTMLInputElement>;
 			'coral-checkbox-label': DetailedHTMLProps<HTMLAttributes<HTMLElement> & { class?: string }, HTMLElement>;
+			'coral-switch': DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement> & { class?: string }, HTMLInputElement>;
 			'coral-wait': DetailedHTMLProps<HTMLAttributes<HTMLElement> & { class?: string }, HTMLElement>;
 			'coral-icon': DetailedHTMLProps<HTMLAttributes<HTMLElement> & { icon: CoralIcon; class?: string }, HTMLElement>;
 			'coral-selectlist': DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement> & { class?: string }, HTMLSelectElement>;

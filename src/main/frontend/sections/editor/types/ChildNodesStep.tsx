@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
 
-import { shortDescription, Type } from '../../../model/hops/childNodes';
+import { shortDescription, title, Type } from '../../../model/hops/childNodes';
 import { Help } from '../../../widgets/Help';
 import { Input } from '../../../widgets/Input';
 import { Pipeline } from '../Pipeline';
@@ -19,7 +19,7 @@ export const ChildNodesStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHop
 				Counter Name:{' '}
 				<Input value={hop.counterName ?? ''} onChange={counterName => (hop.counterName = counterName)} placeholder="index" />
 			</label>
-			<Help title="Child Nodes">
+			<Help title={title}>
 				<h5>Name Pattern</h5>
 				<p>
 					Gets all child nodes of this node accessible through the current Session that match namePattern. The pattern

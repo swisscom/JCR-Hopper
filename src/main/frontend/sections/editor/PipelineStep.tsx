@@ -2,12 +2,13 @@ import React, { FC } from 'react';
 
 import { Hop } from '../../model/hops';
 
+import { FallbackStep } from './FallbackStep';
+
 import { ChildNodesStep } from './types/ChildNodesStep';
 import { CopyNodeStep } from './types/CopyNodeStep';
-import { DeclareStep } from './types/DeclareStep';
-
-import { FallbackStep } from './FallbackStep';
 import { CreateChildNodeStep } from './types/CreateChildNodeStep';
+import { DeclareStep } from './types/DeclareStep';
+import { EachStep } from './types/EachStep';
 
 export const PipelineStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, hop }) => {
 	switch (hop.type) {
@@ -19,6 +20,8 @@ export const PipelineStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, 
 			return <CreateChildNodeStep parentHops={parentHops} hop={hop} />;
 		case 'declare':
 			return <DeclareStep parentHops={parentHops} hop={hop} />;
+		case 'each':
+			return <EachStep parentHops={parentHops} hop={hop} />;
 		default:
 			return <FallbackStep parentHops={parentHops} hop={hop} />;
 	}

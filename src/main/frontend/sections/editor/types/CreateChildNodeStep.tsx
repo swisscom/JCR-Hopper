@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
 
-import { shortDescription, Type } from '../../../model/hops/createChildNode';
+import { shortDescription, title, Type } from '../../../model/hops/createChildNode';
 import { Help } from '../../../widgets/Help';
 import { Input } from '../../../widgets/Input';
 import { Pipeline } from '../Pipeline';
@@ -29,7 +29,7 @@ export const CreateChildNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ pare
 				value={hop.conflict ?? 'ignore'}
 				changed={conflict => (hop.conflict = conflict)}
 			/>
-			<Help title="Child Nodes">
+			<Help title={title}>
 				<h5>Name of New Child Node</h5>
 				<p>The name of the child node to be created.</p>
 				<p>

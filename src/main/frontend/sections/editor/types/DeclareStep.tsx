@@ -5,7 +5,7 @@ import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
 import { ScriptContext } from '../../../App';
 
-import { shortDescription, Type } from '../../../model/hops/declare';
+import { shortDescription, title, Type } from '../../../model/hops/declare';
 import { Help } from '../../../widgets/Help';
 import { Input } from '../../../widgets/Input';
 
@@ -70,7 +70,7 @@ export const DeclareStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, 
 					scriptContext.commit();
 				}}
 			/>
-			<Help title="Declarations">
+			<Help title={title}>
 				<p>
 					Makes the declared variables available in the descendant pipeline. Useful if you use the same expression many
 					times. Note that the values are JEXL expressions already so you should not use <code>{'${}'}</code>.

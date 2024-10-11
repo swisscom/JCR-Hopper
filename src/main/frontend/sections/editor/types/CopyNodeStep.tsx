@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
 
-import { shortDescription, Type } from '../../../model/hops/copyNode';
+import { title, shortDescription, Type } from '../../../model/hops/copyNode';
 import { Help } from '../../../widgets/Help';
 import { Input } from '../../../widgets/Input';
 import { Pipeline } from '../Pipeline';
@@ -21,7 +21,7 @@ export const CopyNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops,
 				value={hop.conflict ?? 'ignore'}
 				changed={conflict => (hop.conflict = conflict)}
 			/>
-			<Help title="Child Nodes">
+			<Help title={title}>
 				<p>Copy the current node recursively to a new destination</p>
 				<h5>New Name</h5>
 				<p>The target name you want to copy the current node to.</p>
