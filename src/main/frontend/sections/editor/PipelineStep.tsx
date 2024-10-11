@@ -13,6 +13,7 @@ import { FilterNodeStep } from './types/FilterNodeStep';
 import { MoveNodeStep } from './types/MoveNodeStep';
 import { NodeQueryStep } from './types/NodeQueryStep';
 import { RenamePropertyStep } from './types/RenamePropertyStep';
+import { ReorderNodeStep } from './types/ReorderNodeStep';
 
 export const PipelineStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, hop }) => {
 	switch (hop.type) {
@@ -34,6 +35,8 @@ export const PipelineStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, 
 			return <NodeQueryStep parentHops={parentHops} hop={hop} />;
 		case 'renameProperty':
 			return <RenamePropertyStep parentHops={parentHops} hop={hop} />;
+		case 'reorderNode':
+			return <ReorderNodeStep parentHops={parentHops} hop={hop} />;
 		default:
 			return <FallbackStep parentHops={parentHops} hop={hop} />;
 	}
