@@ -1,14 +1,15 @@
-import React, { ButtonHTMLAttributes, FC, ReactNode, useEffect, useId, useRef } from 'react';
+import React, { ButtonHTMLAttributes, FC, ReactNode, useEffect, useId, useRef, JSX } from 'react';
 import { Options } from './Select';
 import type { CoralIcon } from '../coral/custom-elements';
 
 export const Picker: FC<{
 	items: Options;
 	buttonLabel?: ReactNode;
+	placement?: JSX.IntrinsicElements['coral-popover']['placement'];
 	buttonAttributes?: ButtonHTMLAttributes<HTMLButtonElement>;
 	title: string;
 	picked(value: string): void;
-}> = ({ items, buttonLabel, buttonAttributes, title, picked }) => {
+}> = ({ items, buttonLabel, placement = 'bottom', buttonAttributes, title, picked }) => {
 	const popoverRef = useRef<HTMLDialogElement>(null);
 	const selectlistRef = useRef<HTMLSelectElement>(null);
 	const buttonId = useId();
@@ -37,7 +38,12 @@ export const Picker: FC<{
 			<button id={buttonId} is={buttonAttributes?.is ? buttonAttributes?.is : undefined} {...buttonAttributes}>
 				{buttonLabel}
 			</button>
-			<coral-popover ref={popoverRef} target={`#${CSS.escape(buttonId)}`} placement="bottom">
+			<coral-popover
+				ref={popoverRef}
+				target={`#${CSS.escape(buttonId)}`}
+				placement={placement}
+				style={{ marginLeft: '2em', marginRight: '2em' }}
+			>
 				<coral-popover-header>{title}</coral-popover-header>
 				<coral-popover-content>
 					<coral-selectlist ref={selectlistRef} style={{ maxHeight: '50vh', overflow: 'auto', border: 'none' }}>

@@ -53,7 +53,8 @@ export const Select: <V extends string = string>(...args: Parameters<SelectFC<V>
 	if (label) {
 		return (
 			<label>
-				{label}: {select}
+				<span>{label}: </span>
+				{select}
 			</label>
 		);
 	}

@@ -46,7 +46,8 @@ export const Input: FC<{
 	if (label) {
 		return (
 			<label>
-				{label}: {input}
+				<span>{label}: </span>
+				{input}
 			</label>
 		);
 	}

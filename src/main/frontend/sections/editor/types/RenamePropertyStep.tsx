@@ -15,9 +15,10 @@ export const RenamePropertyStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ paren
 			<Input
 				label={
 					<>
-						New Name of Property{' '}
+						New Name of Property
+						<br />
 						<small>
-							(use <code>/dev/null</code> to delete)
+							(use <code>{DEV_NULL}</code> to delete)
 						</small>
 					</>
 				}

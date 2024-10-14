@@ -5,18 +5,11 @@ import { styled } from 'goober';
 import { ScriptContext } from '../App';
 
 const Elm = styled('div')`
-	margin-top: 4px;
+	margin-top: 6px;
 	counter-increment: steps;
 	position: relative;
 	--accent-color: #5c5c5c;
 	--contrast-color: white;
-
-	> details > .edit .row {
-		flex-wrap: nowrap;
-		> :first-child {
-			flex-shrink: 1;
-		}
-	}
 
 	&.childNodes {
 		--accent-color: #0eaba9;
@@ -86,7 +79,6 @@ const Elm = styled('div')`
 			}
 
 			&::before {
-				display: inline-block;
 				align-self: center;
 				content: counter(steps);
 				color: var(--contrast-color);
@@ -95,7 +87,6 @@ const Elm = styled('div')`
 			}
 
 			h2 {
-				display: inline-block;
 				white-space: nowrap;
 				font-weight: normal;
 				align-self: center;
@@ -115,10 +106,8 @@ const Elm = styled('div')`
 		.edit {
 			margin-left: 4px;
 			padding: 10px;
-			padding-right: 10%;
+			padding-right: 30px;
 			background: #ffffffce;
-			display: grid;
-			gap: 6px;
 		}
 
 		&[open] {
@@ -206,7 +195,7 @@ export const StepEditor: FC<{ parentHops: Hop[]; hop: Hop; title: string; childr
 						></button>
 					</div>
 				</summary>
-				<div className="edit">{children}</div>
+				<div className="edit field-container">{children}</div>
 			</details>
 			{pipeline ? <div className="pipeline sub-pipeline">{pipeline}</div> : undefined}
 		</Elm>

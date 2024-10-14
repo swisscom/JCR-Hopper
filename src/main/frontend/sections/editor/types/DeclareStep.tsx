@@ -10,10 +10,7 @@ import { Help } from '../../../widgets/Help';
 import { Input } from '../../../widgets/Input';
 
 const Elm = styled('fieldset')`
-	display: grid;
-	gap: 6px;
-	grid-auto-flow: row;
-	grid-template-columns: 1fr 2fr;
+	grid-template-columns: 1fr 2fr 1fr 2fr !important;
 `;
 
 export const DeclareStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop }) => {
@@ -23,7 +20,7 @@ export const DeclareStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, 
 
 	return (
 		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)}>
-			<Elm>
+			<Elm className="field-container">
 				<legend>Declarations</legend>
 				{Object.entries(declarations)
 					.sort()

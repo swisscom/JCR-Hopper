@@ -49,10 +49,24 @@ const RootElement = styled('div')`
 		grid-area: output;
 	}
 
-	label:not(coral-checkbox label) {
-		display: inline-flex;
-		align-items: baseline;
+	.field-container {
+		display: grid;
+		grid-template-columns: max-content 1fr;
 		gap: 6px;
+		> label {
+			display: contents;
+			> span {
+				align-content: center;
+			}
+			> input,
+			> coral-select {
+				width: auto;
+			}
+		}
+		> section,
+		> fieldset {
+			grid-column: span 2;
+		}
 	}
 `;
 

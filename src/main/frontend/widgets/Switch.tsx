@@ -32,11 +32,9 @@ export const Switch: FC<{
 	}, [switchRef.current, scriptContext]);
 
 	return (
-		<div className="coral-Form-fieldwrapper">
-			<label className="coral-Form-fieldlabel">
-				{label}:
-				<coral-switch ref={switchRef} checked={value ? true : undefined} />
-			</label>
-		</div>
+		<label>
+			<span>{label}: </span>
+			<coral-switch ref={switchRef} checked={value ? true : undefined} />
+		</label>
 	);
 };

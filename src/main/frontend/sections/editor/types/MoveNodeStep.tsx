@@ -15,9 +15,10 @@ export const MoveNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops,
 			<Input
 				label={
 					<>
-						New Name{' '}
+						New Name
+						<br />
 						<small>
-							(use <code>/dev/null</code> to delete)
+							(use <code>{DEV_NULL}</code> to delete)
 						</small>
 					</>
 				}

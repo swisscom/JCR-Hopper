@@ -18,6 +18,7 @@ export const Pipeline: FC<{ hops: Hop[]; addButton?: boolean }> = ({ hops, addBu
 					<Picker
 						buttonAttributes={{ className: 'add-hop' }}
 						buttonLabel={<coral-icon icon="addCircle"></coral-icon>}
+						placement="right"
 						title="Hop"
 						items={Object.entries(HOP_DEFINITIONS).map(([type, definition]) => [type, definition.title])}
 						picked={(type: HopType) => {
