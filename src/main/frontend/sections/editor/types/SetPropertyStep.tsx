@@ -27,24 +27,24 @@ export const SetPropertyStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHo
 				<h5>Value</h5>
 				<p>
 					The value of the new property as a JEXL expression. Property type will be chosen to best match the resulting
-					value. The following types (or arrays/lists thereof) are supported:
-					<ul className="list">
-						<li>Value (value will be stored as-is)</li>
-						<li>String</li>
-						<li>Boolean</li>
-						<li>Double</li>
-						<li>Long</li>
-						<li>Binary</li>
-						<li>Integer (value type will be LONG)</li>
-						<li>Float (value type will be DOUBLE)</li>
-						<li>Byte (value type will be LONG)</li>
-						<li>BigDecimal (value type will be DECIMAL)</li>
-						<li>Node (value type will be REFERENCE)</li>
-						<li>Calendar (value type will be DATE)</li>
-						<li>InputStream (value type will be BINARY)</li>
-					</ul>
-					If the value is of none of the above types, its string representation will be used.
+					value. The following types (or arrays/lists thereof) are supported: If the value is of none of the above
+					types, its string representation will be used.
 				</p>
+				<ul className="list">
+					<li>Value (value will be stored as-is)</li>
+					<li>String</li>
+					<li>Boolean</li>
+					<li>Double</li>
+					<li>Long</li>
+					<li>Binary</li>
+					<li>Integer (value type will be LONG)</li>
+					<li>Float (value type will be DOUBLE)</li>
+					<li>Byte (value type will be LONG)</li>
+					<li>BigDecimal (value type will be DECIMAL)</li>
+					<li>Node (value type will be REFERENCE)</li>
+					<li>Calendar (value type will be DATE)</li>
+					<li>InputStream (value type will be BINARY)</li>
+				</ul>
 			</Help>
 		</StepEditor>
 	);
