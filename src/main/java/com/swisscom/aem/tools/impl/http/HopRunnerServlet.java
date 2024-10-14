@@ -45,7 +45,10 @@ public class HopRunnerServlet extends SlingAllMethodsServlet implements ConfigIn
 	private RunnerService runnerService;
 
 	@ObjectClassDefinition(name = "JCR Hopper: Runner Servlet")
-	@interface HopRunnerServletDelegate {
+	public @interface HopRunnerServletDelegate {
+		/**
+		 * @return the servlet path config
+		 */
 		@SuppressWarnings("PMD.MethodNamingConventions")
 		@AttributeDefinition(
 			name = "Path",
@@ -65,7 +68,11 @@ public class HopRunnerServlet extends SlingAllMethodsServlet implements ConfigIn
 	protected void doPost(@Nonnull SlingHttpServletRequest request, @Nonnull SlingHttpServletResponse response) throws IOException {
 		response.setContentType("application/x-ndjson");
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+
+		// Ensure response gets chunked
 		response.setHeader("Transfer-Encoding", "chunked");
+		response.setBufferSize(128);
+
 		final HttpChunkedResponseRunHandler runHandler = new HttpChunkedResponseRunHandler(response.getWriter());
 
 		final String script = request.getParameter("_script");
@@ -83,6 +90,7 @@ public class HopRunnerServlet extends SlingAllMethodsServlet implements ConfigIn
 		try {
 			final Runner runner = runnerService
 				.builder()
+				.addDefaultUtils(true)
 				.addUtil("req", request.getRequestParameterMap())
 				.runHandler(runHandler)
 				.build(script);

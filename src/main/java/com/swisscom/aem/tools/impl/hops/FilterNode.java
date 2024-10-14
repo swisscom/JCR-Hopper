@@ -22,10 +22,10 @@ public class FilterNode implements Hop<FilterNode.Config> {
 	@Override
 	public void run(Config config, Node node, HopContext context) throws RepositoryException, HopperException {
 		if (context.expressionMatches(config.expression)) {
-			context.info("Node {} matches filter expression {}", node.getPath(), config.expression);
+			context.debug("Node {} matches filter expression {}", node.getPath(), config.expression);
 			context.runHops(node, config.hops);
 		} else {
-			context.debug("Node {} does not match filter expression {}", node.getPath(), config.expression);
+			context.trace("Node {} does not match filter expression {}", node.getPath(), config.expression);
 		}
 	}
 
