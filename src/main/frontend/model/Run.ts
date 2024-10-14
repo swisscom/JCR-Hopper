@@ -31,6 +31,18 @@ function decodeBase64(base64: string) {
 }
 
 const DECODER = new TextDecoder();
+const LINE_SEPARATOR = '\n'.charCodeAt(0);
+
+function concat(...arrs: Uint8Array[]) {
+	const length = arrs.reduce((len, arr) => len + arr.byteLength, 0);
+	const result = new Uint8Array(length);
+	let offset = 0;
+	for (const arr of arrs) {
+		result.set(arr, offset);
+		offset += arr.byteLength;
+	}
+	return result;
+}
 
 async function* streamingFetch<T>(response: Response) {
 	const { body } = response;
@@ -40,20 +52,38 @@ async function* streamingFetch<T>(response: Response) {
 	}
 	// Attach Reader
 	const reader = body.getReader();
+	let currentChunk = Uint8Array.from([]);
+	// Iterate over HTTP chunks
 	while (true) {
-		// wait for next encoded chunk
+		// wait for next chunk
 		const { done, value } = await reader.read();
-		// check if stream is done
-		if (done) break;
-		try {
-			// Decodes data chunk and yields it
-			const text = DECODER.decode(value).split('\n');
-			for (const t of text) {
-				const data = JSON.parse(t) as T;
-				yield data;
+		if (value) {
+			// Add the value we have just received
+			currentChunk = concat(currentChunk, value);
+		}
+		// Iterate over JSON lines
+		while (true) {
+			// Search for the next line break
+			let newlineIndex = currentChunk.indexOf(LINE_SEPARATOR);
+			if (newlineIndex === -1 && done) {
+				// If the stream is done, there may not be a line break at the end
+				newlineIndex = currentChunk.byteLength - 1;
 			}
-		} catch (e) {
-			console.error('Handling the response value', value, 'failed with', e);
+			if (newlineIndex === -1) {
+				// The current chunk does not end in a line break, await the next chunk before proceeding.
+				break;
+			}
+			// Dec
+			const text = DECODER.decode(currentChunk.subarray(0, newlineIndex + 1));
+			currentChunk = currentChunk.slice(newlineIndex + 1);
+			try {
+				yield JSON.parse(text) as T;
+			} catch (e) {
+				console.error('Handling the response value', text, 'failed with', e);
+			}
+		}
+		if (done) {
+			break;
 		}
 	}
 }
