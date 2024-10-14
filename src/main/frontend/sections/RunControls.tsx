@@ -20,6 +20,11 @@ export const RunControls: FC<{ runWith: (data: FormData) => Promise<void> }> = (
 	async function run(e: FormEvent) {
 		e.preventDefault();
 		const data = new FormData(formRef.current!);
+		data.forEach((val, key) => {
+			if (!val || (val instanceof File && !val.name)) {
+				data.delete(key);
+			}
+		});
 		data.append('_script', JSON.stringify(script));
 
 		await runWith(data);

@@ -2,7 +2,7 @@
 	"hops": [
 		{
 			"type": "nodeQuery",
-			"query": "SELECT * FROM [nt:unstructured] as text WHERE text.[sling:resourceType] = ${args.resourceType}",
+			"query": "SELECT * FROM [nt:unstructured] as text WHERE text.[sling:resourceType] = '${args.resourceType}'",
 			"queryType": "JCR-SQL2",
 			"hops": [
 				{
