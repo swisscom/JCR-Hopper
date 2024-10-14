@@ -1,6 +1,8 @@
 import React, { FC, useContext } from 'react';
 
 import { styled } from 'goober';
+import { useCopyToClipboard } from '@uidotdev/usehooks';
+
 import { ScriptContext } from '../App';
 import { INITIAL_SCRIPT } from '../model/Script';
 import { Picker } from '../widgets/Picker';
@@ -14,13 +16,15 @@ export const Toolbar: FC = () => {
 	const scriptContext = useContext(ScriptContext);
 	const script = scriptContext.draft;
 
+	const [, copy] = useCopyToClipboard();
+
 	return (
 		<Elm className="toolbar">
 			<button
 				is="coral-button"
 				icon="copy"
 				onClick={() => {
-					navigator.clipboard.writeText(JSON.stringify(scriptContext.current));
+					copy(JSON.stringify(scriptContext.current));
 				}}
 			>
 				Copy
