@@ -15,5 +15,5 @@ export const defaultConfig: Partial<Type> = {
 export const title = 'Iterate';
 
 export function shortDescription(config: Type) {
-	return `Iterate over ${config.assumeNodes ? 'nodes' : 'values'} produced by ${config.expression}`;
+	return `${title} Over ${config.assumeNodes ? 'Nodes' : 'Values'}${config.expression ? ` Produced by ${config.expression}` : ''}`;
 }

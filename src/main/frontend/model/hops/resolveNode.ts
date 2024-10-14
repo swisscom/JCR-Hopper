@@ -12,7 +12,7 @@ export const defaultConfig: Partial<Type> = {
 	name: 'child-name',
 };
 
-export const title = 'Resolve specific node';
+export const title = 'Resolve Specific Node';
 
 export function shortDescription(config: Type) {
 	return `${title} ${config.name ? config.name : ''}`;

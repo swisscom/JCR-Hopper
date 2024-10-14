@@ -13,8 +13,9 @@ export const defaultConfig: Partial<Type> = {
 	name: 'child-name',
 };
 
-export const title = 'Create child node';
+export const title = 'Create Node';
 
 export function shortDescription(config: Type) {
-	return `${title}${config.name ? ' ' + config.name : ''} with type: ${config.primaryType || 'nt:unstructured'}`;
+	const isChild = !config.name?.startsWith('/');
+	return `${isChild ? 'Create Child Node' : title}${config.name ? ' ' + config.name : ''} With Type: ${config.primaryType || 'nt:unstructured'}`;
 }

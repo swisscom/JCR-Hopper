@@ -13,5 +13,5 @@ export const defaultConfig: Partial<Type> = {
 export const title = 'Catch thrown errors';
 
 export function shortDescription(config: Type) {
-	return `${config.catchGeneric ? 'Catch all thrown Errors' : 'Catch Pipeline Errors'}`;
+	return `${config.catchGeneric ? 'Catch All Thrown Errors' : 'Catch Pipeline Errors'}`;
 }

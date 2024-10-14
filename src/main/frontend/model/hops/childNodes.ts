@@ -11,12 +11,12 @@ export const defaultConfig: Partial<Type> = {
 	namePattern: 'prefix*',
 };
 
-export const title = 'Get child nodes';
+export const title = 'Get Child Nodes';
 
 export function shortDescription(config: Type) {
 	if (config.namePattern) {
-		return `${title} matching pattern ${config.namePattern}`;
+		return `${title} Matching Pattern ${config.namePattern}`;
 	}
 
-	return 'Select all child nodes';
+	return 'Select All Child Nodes';
 }

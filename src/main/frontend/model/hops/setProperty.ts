@@ -13,12 +13,12 @@ export const defaultConfig: Partial<Type> = {
 	value: '"new-name-"+node.parent.parent.primaryNodeType.name',
 };
 
-export const title = 'Set a property';
+export const title = 'Set a Property';
 
 export function shortDescription(config: Type) {
 	if (!config.propertyName || !config.value) {
 		return title;
 	}
 
-	return `Set property ${config.propertyName} to ${config.value}`;
+	return `Set Property ${config.propertyName} to ${config.value}`;
 }

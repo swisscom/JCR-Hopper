@@ -26,5 +26,5 @@ export const QUERY_TYPE_LABELS = {
 export function shortDescription(config: Type) {
 	const method = QUERY_TYPE_LABELS[config.queryType || defaultConfig.queryType];
 
-	return `${title} using ${method}${config.query ? ' for ' + config.query : ''}`;
+	return `${title} Using ${method}${config.query ? ' for ' + config.query : ''}`;
 }

@@ -12,12 +12,12 @@ export const defaultConfig: Partial<Type> = {
 	newName: '${node.name}-new-suffix',
 };
 
-export const title = 'Copy node';
+export const title = 'Copy Node';
 
 export function shortDescription(config: Type) {
 	if (!config.newName) {
 		return title;
 	}
 
-	return `${title} to ${config.newName}${config.newName[0] === '/' ? '' : ' of parent'}`;
+	return `${title} to ${config.newName}${config.newName[0] === '/' ? '' : ' of Parent'}`;
 }

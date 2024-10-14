@@ -11,12 +11,12 @@ export const defaultConfig: Partial<Type> = {
 	conflict: 'ignore',
 };
 
-export const title = 'Reorder node';
+export const title = 'Reorder Node';
 
 export function shortDescription(config: Type) {
 	if (!config.before?.trim()) {
-		return 'Order node last';
+		return 'Order Node Last';
 	}
 
-	return `${title} before ${config.before}`;
+	return `${title} Before ${config.before}`;
 }

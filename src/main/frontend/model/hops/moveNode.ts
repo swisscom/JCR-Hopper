@@ -20,8 +20,8 @@ export function shortDescription(config: Type) {
 	}
 
 	if (config.newName === DEV_NULL) {
-		return 'Remove current node';
+		return 'Remove Current Node';
 	}
 
-	return `${title} to ${config.newName}${config.newName[0] === '/' ? '' : ' of parent'}`;
+	return `${title} to ${config.newName}${config.newName[0] === '/' ? '' : ' of Parent'}`;
 }

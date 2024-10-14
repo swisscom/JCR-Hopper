@@ -13,7 +13,7 @@ export const defaultConfig: Partial<Type> = {
 	propertyName: 'some-property',
 };
 
-export const title = 'Rename property';
+export const title = 'Rename Property';
 
 export const DEV_NULL = '/dev/null';
 
@@ -23,7 +23,7 @@ export function shortDescription(config: Type) {
 	}
 
 	if (config.newName === DEV_NULL) {
-		return `Delete property ${config.propertyName}`;
+		return `Delete Property ${config.propertyName}`;
 	}
 
 	return `${title} ${config.propertyName} to ${config.newName}`;

@@ -18,7 +18,7 @@ export const defaultConfig: Partial<Type> = {
 	putLocalsBackIntoScope: true,
 };
 
-export const title = 'Run a script';
+export const title = 'Run a Script';
 
 export function shortDescription(config: Type) {
 	const lang = config.extension ?? 'js';
@@ -29,5 +29,5 @@ export function shortDescription(config: Type) {
 		return `Run ${name}`;
 	}
 
-	return `Run ${lines} line${lines === 1 ? '' : 's'} of ${name}`;
+	return `Run ${lines} Line${lines === 1 ? '' : 's'} of ${name}`;
 }
