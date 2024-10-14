@@ -1,9 +1,10 @@
 {
+	"logLevel": "info",
 	"hops": [
 		{
 			"type": "nodeQuery",
 			"queryType": "JCR-SQL2",
-			"query": "SELECT * FROM [cq:Page] AS page",
+			"query": "SELECT * FROM [cq:Page] AS page WHERE ISDESCENDANTNODE('/content')",
 			"selectorName": "page",
 			"hops": [
 				{
@@ -22,6 +23,5 @@
 			]
 		}
 	],
-	"logLevel": "warn",
 	"parameters": []
 }
