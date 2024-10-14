@@ -59,7 +59,7 @@ const Elm = styled('div')`
 		--contrast-color: black;
 	}
 
-	details {
+	> details {
 		border-radius: 4px;
 		background-color: var(--accent-color);
 

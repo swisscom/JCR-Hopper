@@ -68,6 +68,10 @@ const RootElement = styled('div')`
 			grid-column: span 2;
 		}
 	}
+
+	fieldset {
+		border-radius: 6px;
+	}
 `;
 
 export const App: FC<{ runEndpoint: string }> = props => {

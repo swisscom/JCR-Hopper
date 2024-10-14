@@ -11,7 +11,7 @@ export const Runner: FC = () => {
 	const [runs, setRuns] = useState<Run[]>([]);
 
 	async function runWith(data: FormData) {
-		const response = await fetch(endpoint, {
+		const response = fetch(endpoint, {
 			method: 'POST',
 			body: data,
 		});

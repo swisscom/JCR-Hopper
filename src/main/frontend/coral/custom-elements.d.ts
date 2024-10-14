@@ -789,7 +789,10 @@ declare module 'react' {
 			'coral-checkbox-label': DetailedHTMLProps<HTMLAttributes<HTMLElement> & { class?: string }, HTMLElement>;
 			'coral-switch': DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement> & { class?: string }, HTMLInputElement>;
 			'coral-wait': DetailedHTMLProps<HTMLAttributes<HTMLElement> & { class?: string }, HTMLElement>;
-			'coral-icon': DetailedHTMLProps<HTMLAttributes<HTMLElement> & { icon: CoralIcon; class?: string }, HTMLElement>;
+			'coral-icon': DetailedHTMLProps<
+				HTMLAttributes<HTMLElement> & { icon: CoralIcon; size?: CoralIconSize; class?: string },
+				HTMLElement
+			>;
 			'coral-selectlist': DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement> & { class?: string }, HTMLSelectElement>;
 			'coral-selectlist-item': DetailedHTMLProps<OptionHTMLAttributes<HTMLOptionElement> & { class?: string }, HTMLSelectElement>;
 			'coral-popover': DetailedHTMLProps<

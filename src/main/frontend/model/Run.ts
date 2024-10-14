@@ -7,13 +7,17 @@ export interface LogMessage {
 	exception?: string;
 }
 
+export type MimeType = `${'text' | 'application' | 'image' | 'video' | 'audio'}/${string}` | `text/${string};charset=utf-8`;
+
 export interface FileMessage {
 	type: 'file';
 	name: string;
-	mime: string;
+	mime: MimeType;
 	data?: string;
 	blob?: Blob;
 }
+
+export type PrintMessage = string;
 
 function decodeBase64(base64: string) {
 	const raw = window.atob(base64);
@@ -54,8 +58,6 @@ async function* streamingFetch<T>(response: Response) {
 	}
 }
 
-type PrintMessage = string;
-
 export type Message = LogMessage | FileMessage | PrintMessage;
 
 export class Run {
@@ -65,12 +67,12 @@ export class Run {
 
 	public messageHandler?: (message: Message | null) => void;
 
-	constructor(response: Response) {
+	constructor(response: Promise<Response>) {
 		this.loadMessages(response).catch(e => console.error('Error loading messages', e));
 	}
 
-	private async loadMessages(response: Response) {
-		for await (const message of streamingFetch<Message>(response)) {
+	private async loadMessages(response: Promise<Response>) {
+		for await (const message of streamingFetch<Message>(await response)) {
 			if (typeof message !== 'string') {
 				if (message.type === 'file' && message.data) {
 					message.blob = new Blob([decodeBase64(message.data)], { type: message.mime });
