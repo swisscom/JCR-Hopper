@@ -48,7 +48,7 @@ export const ScriptEditor: FC = () => {
 
 	return (
 		<Elm className="script-editor">
-			<fieldset className="options">
+			<fieldset className="field-container">
 				<legend>Options</legend>
 				<Select label="Log Level" list={LOG_LEVEL_LABELS} value={script.logLevel} onChange={val => (script.logLevel = val)} />
 			</fieldset>

@@ -36,7 +36,14 @@ export const Toolbar: FC = () => {
 						if (typeof state !== 'object') {
 							throw new Error(`Pasted JSON is not an object: ${json}`);
 						}
-						scriptContext.replace({ ...INITIAL_SCRIPT, ...state });
+						if (Array.isArray(state)) {
+							// Assume steps were pasted in
+							script.hops.push(...state);
+							scriptContext.commit();
+						} else {
+							// Otherwise, it’s likely a complete script
+							scriptContext.replace({ ...INITIAL_SCRIPT, ...state });
+						}
 					} catch (e) {
 						console.error('Could not paste script', e);
 					}
