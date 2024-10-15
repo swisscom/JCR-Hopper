@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import React, { forwardRef, useContext } from 'react';
 
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
@@ -11,11 +11,17 @@ import { Input } from '../../../widgets/Input';
 import { CodeEditor } from '../../../widgets/CodeEditor';
 import { ScriptContext } from '../../../App';
 
-export const NodeQueryStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop }) => {
+export const NodeQueryStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function NodeQueryStep({ parentHops, hop }, ref) {
 	const scriptContext = useContext(ScriptContext);
 
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} pipeline={<Pipeline hops={(hop.hops ??= [])} />}>
+		<StepEditor
+			parentHops={parentHops}
+			hop={hop}
+			title={shortDescription(hop)}
+			pipeline={<Pipeline hops={(hop.hops ??= [])} />}
+			ref={ref}
+		>
 			<CodeEditor
 				language="sql"
 				lines={5}
@@ -79,4 +85,4 @@ export const NodeQueryStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops
 			</Help>
 		</StepEditor>
 	);
-};
+});

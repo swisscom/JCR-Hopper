@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useContext } from 'react';
+import React, { forwardRef, Fragment, useContext } from 'react';
 import { styled } from 'goober';
 
 import { Hop } from '../../../model/hops';
@@ -13,13 +13,13 @@ const Elm = styled('fieldset')`
 	grid-template-columns: 1fr 2fr 1fr 2fr !important;
 `;
 
-export const DeclareStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop }) => {
+export const DeclareStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function DeclareStep({ parentHops, hop }, ref) {
 	const scriptContext = useContext(ScriptContext);
 
 	const declarations = (hop.declarations ??= {});
 
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)}>
+		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} ref={ref}>
 			<Elm className="field-container">
 				<legend>Declarations</legend>
 				{Object.entries(declarations)
@@ -71,4 +71,4 @@ export const DeclareStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, 
 			</Help>
 		</StepEditor>
 	);
-};
+});

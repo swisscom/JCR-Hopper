@@ -1,18 +1,18 @@
-import React, { FC, useContext } from 'react';
+import React, { forwardRef, useContext } from 'react';
 
 import { Hop } from '../../model/hops';
 import { StepEditor } from '../../widgets/StepEditor';
 import { ScriptContext } from '../../App';
 import { CodeEditor } from '../../widgets/CodeEditor';
 
-export const FallbackStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, hop }) => {
+export const FallbackStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Hop }>(function FallbackStep({ parentHops, hop }, ref) {
 	const scriptContext = useContext(ScriptContext);
 
 	const { type: hopType, ...hopWithoutType } = hop;
 	const code = JSON.stringify(hopWithoutType, null, '  ');
 
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={`Unknown Hop (${hopType})`}>
+		<StepEditor parentHops={parentHops} hop={hop} title={`Unknown Hop (${hopType})`} ref={ref}>
 			<CodeEditor
 				value={code}
 				onChange={(value, hasError) => {
@@ -30,4 +30,4 @@ export const FallbackStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, 
 			/>
 		</StepEditor>
 	);
-};
+});

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { forwardRef } from 'react';
 
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
@@ -9,9 +9,15 @@ import { Input } from '../../../widgets/Input';
 import { Pipeline } from '../Pipeline';
 import { Switch } from '../../../widgets/Switch';
 
-export const EachStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop }) => {
+export const EachStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function EachStep({ parentHops, hop }, ref) {
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} pipeline={<Pipeline hops={(hop.hops ??= [])} />}>
+		<StepEditor
+			parentHops={parentHops}
+			hop={hop}
+			title={shortDescription(hop)}
+			pipeline={<Pipeline hops={(hop.hops ??= [])} />}
+			ref={ref}
+		>
 			<Switch value={hop.assumeNodes ?? false} label="Iterate Nodes" onChange={assumeNodes => (hop.assumeNodes = assumeNodes)} />
 			<Input
 				label="JEXL Expression"
@@ -33,4 +39,4 @@ export const EachStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop
 			</Help>
 		</StepEditor>
 	);
-};
+});

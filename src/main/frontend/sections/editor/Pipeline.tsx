@@ -1,18 +1,29 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, forwardRef, useContext } from 'react';
+
+import { styled } from 'goober';
 
 import { Hop, HOP_DEFINITIONS, HopType } from '../../model/hops';
 import { PipelineStep } from './PipelineStep';
 import { Picker } from '../../widgets/Picker';
 import { ScriptContext } from '../../App';
+import { useDropTarget } from '../../hooks/useDropTarget';
+
+const Elm = styled('div', forwardRef)`
+	position: relative;
+	min-height: 1.5em;
+`;
 
 export const Pipeline: FC<{ hops: Hop[]; addButton?: boolean }> = ({ hops, addButton = true }) => {
 	const scriptContext = useContext(ScriptContext);
+	const [ref] = useDropTarget<HTMLDivElement>(hops, 0);
 
 	return (
 		<>
-			{hops.map((hop, i) => (
-				<PipelineStep parentHops={hops} key={i} hop={hop} />
-			))}
+			<Elm className="hop-list" ref={ref}>
+				{hops.map((hop, i) => (
+					<PipelineStep parentHops={hops} key={i} hop={hop} />
+				))}
+			</Elm>
 			{addButton ? (
 				<>
 					<Picker

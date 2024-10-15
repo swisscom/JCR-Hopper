@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import React, { forwardRef, useContext } from 'react';
 
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
@@ -10,11 +10,11 @@ import { CodeEditor } from '../../../widgets/CodeEditor';
 import { ScriptContext } from '../../../App';
 import { Switch } from '../../../widgets/Switch';
 
-export const RunScriptStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop }) => {
+export const RunScriptStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function RunScriptStep({ parentHops, hop }, ref) {
 	const scriptContext = useContext(ScriptContext);
 
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)}>
+		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} ref={ref}>
 			<Select
 				label="Language"
 				list={Object.entries(SCRIPT_LANGUAGES) as [keyof typeof SCRIPT_LANGUAGES, string][]}
@@ -96,4 +96,4 @@ export const RunScriptStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops
 			</Help>
 		</StepEditor>
 	);
-};
+});

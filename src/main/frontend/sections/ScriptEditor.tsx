@@ -6,6 +6,7 @@ import { Select } from '../widgets/Select';
 import { Parameter } from './editor/Parameter';
 import { Pipeline } from './editor/Pipeline';
 import { LogLevel } from '../model/LogLevel';
+import { DropZone } from '../widgets/DropZone';
 
 const Elm = styled('div')`
 	grid-auto-rows: min-content 1fr min-content;
@@ -48,20 +49,27 @@ export const ScriptEditor: FC = () => {
 
 	return (
 		<Elm className="script-editor">
-			<fieldset className="field-container">
-				<legend>Options</legend>
-				<Select label="Log Level" list={LOG_LEVEL_LABELS} value={script.logLevel} onChange={val => (script.logLevel = val)} />
-			</fieldset>
-			<div className="script">
-				<Pipeline hops={script.hops} addButton={false} />
-			</div>
-			<fieldset className="parameters">
-				<legend>Parameters</legend>
-				{script.parameters.map((param, i) => (
-					<Parameter key={i} i={i} param={param} />
-				))}
-				<button is="coral-button" icon="add" onClick={addParameter} />
-			</fieldset>
+			<DropZone dropZoneClass="hop-list">
+				<fieldset className="field-container">
+					<legend>Options</legend>
+					<Select
+						label="Log Level"
+						list={LOG_LEVEL_LABELS}
+						value={script.logLevel}
+						onChange={val => (script.logLevel = val)}
+					/>
+				</fieldset>
+				<div className="script">
+					<Pipeline hops={script.hops} addButton={false} />
+				</div>
+				<fieldset className="parameters">
+					<legend>Parameters</legend>
+					{script.parameters.map((param, i) => (
+						<Parameter key={i} i={i} param={param} />
+					))}
+					<button is="coral-button" icon="add" onClick={addParameter} />
+				</fieldset>
+			</DropZone>
 		</Elm>
 	);
 };

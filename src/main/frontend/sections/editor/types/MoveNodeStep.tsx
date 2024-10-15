@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { forwardRef } from 'react';
 
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
@@ -9,9 +9,9 @@ import { Input } from '../../../widgets/Input';
 import { Conflict } from '../../../widgets/Conflict';
 import { DEV_NULL } from '../../../model/hops/renameProperty';
 
-export const MoveNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop }) => {
+export const MoveNodeStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function MoveNodeStep({ parentHops, hop }, ref) {
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)}>
+		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} ref={ref}>
 			<Input
 				label={
 					<>
@@ -63,4 +63,4 @@ export const MoveNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops,
 			</Help>
 		</StepEditor>
 	);
-};
+});

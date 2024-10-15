@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { forwardRef } from 'react';
 
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
@@ -8,9 +8,15 @@ import { Help } from '../../../widgets/Help';
 import { Pipeline } from '../Pipeline';
 import { Switch } from '../../../widgets/Switch';
 
-export const TryStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop }) => {
+export const TryStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function TryStep({ parentHops, hop }, ref) {
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} pipeline={<Pipeline hops={(hop.hops ??= [])} />}>
+		<StepEditor
+			parentHops={parentHops}
+			hop={hop}
+			title={shortDescription(hop)}
+			pipeline={<Pipeline hops={(hop.hops ??= [])} />}
+			ref={ref}
+		>
 			<Switch
 				value={hop.catchGeneric ?? false}
 				label="Catch Generic"
@@ -31,4 +37,4 @@ export const TryStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop 
 			</Help>
 		</StepEditor>
 	);
-};
+});

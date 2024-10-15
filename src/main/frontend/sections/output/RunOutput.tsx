@@ -53,9 +53,9 @@ export const RunOutput: FC<{ run: Run }> = ({ run }) => {
 						<span className="finished">✅</span>
 					) : (
 						<>
-							<coral-wait></coral-wait>{' '}
+							<coral-wait></coral-wait>
 						</>
-					)}
+					)}{' '}
 					{run.started.toLocaleString()}
 				</h3>
 			</summary>

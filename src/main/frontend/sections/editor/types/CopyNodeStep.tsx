@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { forwardRef } from 'react';
 
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
@@ -9,9 +9,15 @@ import { Input } from '../../../widgets/Input';
 import { Pipeline } from '../Pipeline';
 import { Conflict } from '../../../widgets/Conflict';
 
-export const CopyNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop }) => {
+export const CopyNodeStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function CopyNodeStep({ parentHops, hop }, ref) {
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} pipeline={<Pipeline hops={(hop.hops ??= [])} />}>
+		<StepEditor
+			parentHops={parentHops}
+			hop={hop}
+			title={shortDescription(hop)}
+			pipeline={<Pipeline hops={(hop.hops ??= [])} />}
+			ref={ref}
+		>
 			<Input label="New Name" value={hop.newName ?? ''} onChange={newName => (hop.newName = newName)} />
 			<Conflict
 				label="If the target node exists"
@@ -48,4 +54,4 @@ export const CopyNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops,
 			</Help>
 		</StepEditor>
 	);
-};
+});

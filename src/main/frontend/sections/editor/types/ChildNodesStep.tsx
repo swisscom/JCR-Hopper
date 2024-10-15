@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { forwardRef } from 'react';
 
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
@@ -8,9 +8,15 @@ import { Help } from '../../../widgets/Help';
 import { Input } from '../../../widgets/Input';
 import { Pipeline } from '../Pipeline';
 
-export const ChildNodesStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop }) => {
+export const ChildNodesStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function ChildNodesStep({ parentHops, hop }, ref) {
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} pipeline={<Pipeline hops={(hop.hops ??= [])} />}>
+		<StepEditor
+			parentHops={parentHops}
+			hop={hop}
+			title={shortDescription(hop)}
+			pipeline={<Pipeline hops={(hop.hops ??= [])} />}
+			ref={ref}
+		>
 			<Input
 				label="Name Pattern"
 				value={hop.namePattern ?? ''}
@@ -48,4 +54,4 @@ export const ChildNodesStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHop
 			</Help>
 		</StepEditor>
 	);
-};
+});

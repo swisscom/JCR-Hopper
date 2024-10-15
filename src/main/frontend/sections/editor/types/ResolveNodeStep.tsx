@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { forwardRef } from 'react';
 
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
@@ -9,9 +9,15 @@ import { Input } from '../../../widgets/Input';
 import { Pipeline } from '../Pipeline';
 import { Conflict } from '../../../widgets/Conflict';
 
-export const ResolveNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHops, hop }) => {
+export const ResolveNodeStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function ResolveNodeStep({ parentHops, hop }, ref) {
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} pipeline={<Pipeline hops={(hop.hops ??= [])} />}>
+		<StepEditor
+			parentHops={parentHops}
+			hop={hop}
+			title={shortDescription(hop)}
+			pipeline={<Pipeline hops={(hop.hops ??= [])} />}
+			ref={ref}
+		>
 			<Input label="Path" value={hop.name ?? ''} onChange={name => (hop.name = name)} />
 			<Conflict
 				value={hop.conflict ?? 'ignore'}
@@ -25,4 +31,4 @@ export const ResolveNodeStep: FC<{ parentHops: Hop[]; hop: Type }> = ({ parentHo
 			</Help>
 		</StepEditor>
 	);
-};
+});

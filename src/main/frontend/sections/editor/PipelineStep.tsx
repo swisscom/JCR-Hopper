@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import { useDropTarget } from '../../hooks/useDropTarget';
+
 import { Hop } from '../../model/hops';
 
 import { FallbackStep } from './FallbackStep';
@@ -20,36 +22,38 @@ import { SetPropertyStep } from './types/SetPropertyStep';
 import { TryStep } from './types/TryStep';
 
 export const PipelineStep: FC<{ parentHops: Hop[]; hop: Hop }> = ({ parentHops, hop }) => {
+	const [ref] = useDropTarget<HTMLDivElement>(parentHops, parentHops.indexOf(hop) + 1);
+
 	switch (hop.type) {
 		case 'childNodes':
-			return <ChildNodesStep parentHops={parentHops} hop={hop} />;
+			return <ChildNodesStep parentHops={parentHops} hop={hop} ref={ref} />;
 		case 'copyNode':
-			return <CopyNodeStep parentHops={parentHops} hop={hop} />;
+			return <CopyNodeStep parentHops={parentHops} hop={hop} ref={ref} />;
 		case 'createChildNode':
-			return <CreateChildNodeStep parentHops={parentHops} hop={hop} />;
+			return <CreateChildNodeStep parentHops={parentHops} hop={hop} ref={ref} />;
 		case 'declare':
-			return <DeclareStep parentHops={parentHops} hop={hop} />;
+			return <DeclareStep parentHops={parentHops} hop={hop} ref={ref} />;
 		case 'each':
-			return <EachStep parentHops={parentHops} hop={hop} />;
+			return <EachStep parentHops={parentHops} hop={hop} ref={ref} />;
 		case 'filterNode':
-			return <FilterNodeStep parentHops={parentHops} hop={hop} />;
+			return <FilterNodeStep parentHops={parentHops} hop={hop} ref={ref} />;
 		case 'moveNode':
-			return <MoveNodeStep parentHops={parentHops} hop={hop} />;
+			return <MoveNodeStep parentHops={parentHops} hop={hop} ref={ref} />;
 		case 'nodeQuery':
-			return <NodeQueryStep parentHops={parentHops} hop={hop} />;
+			return <NodeQueryStep parentHops={parentHops} hop={hop} ref={ref} />;
 		case 'renameProperty':
-			return <RenamePropertyStep parentHops={parentHops} hop={hop} />;
+			return <RenamePropertyStep parentHops={parentHops} hop={hop} ref={ref} />;
 		case 'reorderNode':
-			return <ReorderNodeStep parentHops={parentHops} hop={hop} />;
+			return <ReorderNodeStep parentHops={parentHops} hop={hop} ref={ref} />;
 		case 'resolveNode':
-			return <ResolveNodeStep parentHops={parentHops} hop={hop} />;
+			return <ResolveNodeStep parentHops={parentHops} hop={hop} ref={ref} />;
 		case 'runScript':
-			return <RunScriptStep parentHops={parentHops} hop={hop} />;
+			return <RunScriptStep parentHops={parentHops} hop={hop} ref={ref} />;
 		case 'setProperty':
-			return <SetPropertyStep parentHops={parentHops} hop={hop} />;
+			return <SetPropertyStep parentHops={parentHops} hop={hop} ref={ref} />;
 		case 'try':
-			return <TryStep parentHops={parentHops} hop={hop} />;
+			return <TryStep parentHops={parentHops} hop={hop} ref={ref} />;
 		default:
-			return <FallbackStep parentHops={parentHops} hop={hop} />;
+			return <FallbackStep parentHops={parentHops} hop={hop} ref={ref} />;
 	}
 };
