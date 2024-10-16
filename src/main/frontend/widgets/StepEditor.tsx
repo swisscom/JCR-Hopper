@@ -114,6 +114,11 @@ const Elm = styled('div', forwardRef)`
 				grid-auto-flow: column;
 				gap: 6px;
 				margin: 6px;
+				> button {
+					&[disabled] {
+						color: #bebebe;
+					}
+				}
 			}
 		}
 		.edit {

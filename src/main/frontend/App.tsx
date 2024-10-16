@@ -72,6 +72,10 @@ const RootElement = styled('div')`
 	fieldset {
 		border-radius: 6px;
 	}
+
+	coral-popover {
+		position: fixed !important;
+	}
 `;
 
 export const App: FC<{ runEndpoint: string }> = props => {
