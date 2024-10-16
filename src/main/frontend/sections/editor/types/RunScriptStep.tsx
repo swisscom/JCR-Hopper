@@ -92,7 +92,14 @@ export const RunScriptStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop
 					</li>
 				</ul>
 				<h5>Put Locals Back Into Scope</h5>
-				<p>If this is set, all local variables your script creates will be available in subsequent hops.</p>
+				<p>
+					If this is set, all local variables your script creates will be available in subsequent hops.
+					<br />
+					<small>
+						Note: For JEXL scripts, that means variables not declared with `var` or `let` but implicitly created
+						by assignment without a previous declaration.
+					</small>
+				</p>
 			</Help>
 		</StepEditor>
 	);
