@@ -19,3 +19,8 @@ export function shortDescription(config: Type) {
 	const isChild = !config.name?.startsWith('/');
 	return `${isChild ? 'Create Child Node' : title}${config.name ? ' ' + config.name : ''} With Type: ${config.primaryType || 'nt:unstructured'}`;
 }
+
+import icon from 'data-url:../../../../../docs/icons/sparkler.svg';
+export function iconFor(_config: Type) {
+	return icon;
+}

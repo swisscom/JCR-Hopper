@@ -31,3 +31,18 @@ export function shortDescription(config: Type) {
 
 	return `Run ${lines} Line${lines === 1 ? '' : 's'} of ${name}`;
 }
+
+import defaultIcon from 'data-url:../../../../../docs/icons/pink_potion.svg';
+import jsIcon from 'data-url:../../../../../docs/icons/yellow_potion.svg';
+import jexlIcon from 'data-url:../../../../../docs/icons/blue_potion.svg';
+
+export function iconFor(config: Type) {
+	let result = defaultIcon;
+	if (config.extension === 'js') {
+		result = jsIcon;
+	}
+	if (config.extension === 'jexl') {
+		result = jexlIcon;
+	}
+	return result;
+}

@@ -19,6 +19,8 @@
 	},
 	"license": "MIT",
 	"devDependencies": {
+		"@parcel/optimizer-data-url": "^2.12.0",
+		"@parcel/transformer-inline-string": "^2.12.0",
 		"@prettier/plugin-xml": "^3.4.1",
 		"@types/react": "^18.3.11",
 		"@types/react-dom": "^18.3.0",

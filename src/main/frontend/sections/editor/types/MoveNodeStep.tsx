@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react';
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
 
-import { shortDescription, title, Type } from '../../../model/hops/moveNode';
+import { shortDescription, title, Type, iconFor } from '../../../model/hops/moveNode';
 import { Help } from '../../../widgets/Help';
 import { Input } from '../../../widgets/Input';
 import { Conflict } from '../../../widgets/Conflict';
@@ -11,7 +11,7 @@ import { DEV_NULL } from '../../../model/hops/renameProperty';
 
 export const MoveNodeStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function MoveNodeStep({ parentHops, hop }, ref) {
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} ref={ref}>
+		<StepEditor icon={iconFor(hop)} parentHops={parentHops} hop={hop} title={shortDescription(hop)} ref={ref}>
 			<Input
 				label={
 					<>

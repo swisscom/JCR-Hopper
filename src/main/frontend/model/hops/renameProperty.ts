@@ -28,3 +28,9 @@ export function shortDescription(config: Type) {
 
 	return `${title} ${config.propertyName} to ${config.newName}`;
 }
+
+import icon from 'data-url:../../../../../docs/icons/speech_bubble.svg';
+import iconDelete from 'data-url:../../../../../docs/icons/bomb.svg';
+export function iconFor(config: Type) {
+	return config.newName === DEV_NULL ? iconDelete : icon;
+}

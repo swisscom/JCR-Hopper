@@ -20,3 +20,8 @@ export function shortDescription(config: Type) {
 
 	return 'Select All Child Nodes';
 }
+
+import icon from 'data-url:../../../../../docs/icons/arrow_curve_down.svg';
+export function iconFor(_config: Type) {
+	return icon;
+}

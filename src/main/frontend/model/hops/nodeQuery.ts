@@ -28,3 +28,9 @@ export function shortDescription(config: Type) {
 
 	return `${title} Using ${method}${config.query ? ' for ' + config.query : ''}`;
 }
+
+import icon from 'data-url:../../../../../docs/icons/magnifying_glass_right.svg';
+import iconWeird from 'data-url:../../../../../docs/icons/magnifying_glass_left.svg';
+export function iconFor(config: Type) {
+	return config.queryType === 'JCR-SQL2' ? icon : iconWeird;
+}

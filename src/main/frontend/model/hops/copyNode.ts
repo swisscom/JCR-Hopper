@@ -21,3 +21,8 @@ export function shortDescription(config: Type) {
 
 	return `${title} to ${config.newName}${config.newName[0] === '/' ? '' : ' of Parent'}`;
 }
+
+import icon from 'data-url:../../../../../docs/icons/pirate_flag.svg';
+export function iconFor(_config: Type) {
+	return icon;
+}

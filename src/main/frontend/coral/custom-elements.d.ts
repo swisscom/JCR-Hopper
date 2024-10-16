@@ -771,7 +771,10 @@ type CoralIcon =
 	| 'wrench'
 	| 'youTube'
 	| 'zoomIn'
-	| 'zoomOut';
+	| 'zoomOut'
+	| `http://${string}`
+	| `https://${string}`
+	| `data:${string}`;
 type CoralIconSize = 'XS' | 'S' | 'M' | 'L';
 
 declare module 'react' {

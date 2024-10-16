@@ -15,3 +15,8 @@ export const title = 'Filter Node';
 export function shortDescription(config: Type) {
 	return `Check if Node Matches ${config.expression || 'an Expression'}`;
 }
+
+import icon from 'data-url:../../../../../docs/icons/hole.svg';
+export function iconFor(_config: Type) {
+	return icon;
+}

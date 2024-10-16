@@ -20,3 +20,8 @@ export function shortDescription(config: Type) {
 
 	return `${title} Before ${config.before}`;
 }
+
+import icon from 'data-url:../../../../../docs/icons/arrow_up_down.svg';
+export function iconFor(_config: Type) {
+	return icon;
+}

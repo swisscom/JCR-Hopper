@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react';
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
 
-import { shortDescription, title, Type } from '../../../model/hops/resolveNode';
+import { shortDescription, title, Type, iconFor } from '../../../model/hops/resolveNode';
 import { Help } from '../../../widgets/Help';
 import { Input } from '../../../widgets/Input';
 import { Pipeline } from '../Pipeline';
@@ -12,6 +12,7 @@ import { Conflict } from '../../../widgets/Conflict';
 export const ResolveNodeStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function ResolveNodeStep({ parentHops, hop }, ref) {
 	return (
 		<StepEditor
+			icon={iconFor(hop)}
 			parentHops={parentHops}
 			hop={hop}
 			title={shortDescription(hop)}

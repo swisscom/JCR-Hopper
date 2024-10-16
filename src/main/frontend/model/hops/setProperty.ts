@@ -22,3 +22,8 @@ export function shortDescription(config: Type) {
 
 	return `Set Property ${config.propertyName} to ${config.value}`;
 }
+
+import icon from 'data-url:../../../../../docs/icons/pencil.svg';
+export function iconFor(_config: Type) {
+	return icon;
+}

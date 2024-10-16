@@ -25,3 +25,9 @@ export function shortDescription(config: Type) {
 
 	return `${title} to ${config.newName}${config.newName[0] === '/' ? '' : ' of Parent'}`;
 }
+
+import icon from 'data-url:../../../../../docs/icons/desert_island.svg';
+import iconDelete from 'data-url:../../../../../docs/icons/bomb.svg';
+export function iconFor(config: Type) {
+	return config.newName === DEV_NULL ? iconDelete : icon;
+}

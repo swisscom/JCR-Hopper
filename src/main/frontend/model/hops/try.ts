@@ -15,3 +15,8 @@ export const title = 'Catch thrown errors';
 export function shortDescription(config: Type) {
 	return `${config.catchGeneric ? 'Catch All Thrown Errors' : 'Catch Pipeline Errors'}`;
 }
+
+import icon from 'data-url:../../../../../docs/icons/bang.svg';
+export function iconFor(_config: Type) {
+	return icon;
+}

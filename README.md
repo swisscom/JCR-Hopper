@@ -14,9 +14,13 @@ JCR Hopper also comes with a visual tool to create, preview and run the scripts.
 
 ## Usage
 
-### Use the Script Builder
+### Java API
 
-### Run the Script Manually
+### HTTP API
+
+#### Use the Script Builder
+
+#### Run the Script Manually
 
 ## Expression Syntax
 
@@ -40,7 +44,7 @@ Consult the [JEXL syntax reference](https://commons.apache.org/proper/commons-je
 
 ### <img src="./docs/icons/desert_island.svg" width=20 height=20 alt=""> Move Node
 
-### <img src="./docs/icons/magnifying_glass_left.svg" width=20 height=20 alt=""> Query JCR
+### <img src="./docs/icons/magnifying_glass_right.svg" width=20 height=20 alt=""> Query JCR
 
 ### <img src="./docs/icons/speech_bubble.svg" width=20 height=20 alt=""> Rename Property
 
@@ -50,7 +54,7 @@ Consult the [JEXL syntax reference](https://commons.apache.org/proper/commons-je
 
 ### <img src="./docs/icons/pink_potion.svg" width=20 height=20 alt=""> Run a Script
 
-### <img src="./docs/icons/cookie.svg" width=20 height=20 alt=""> Set a Property
+### <img src="./docs/icons/pencil.svg" width=20 height=20 alt=""> Set a Property
 
 ### <img src="./docs/icons/bang.svg" width=20 height=20 alt=""> Catch Thrown Errors
 

@@ -3,7 +3,7 @@ import React, { forwardRef, useContext } from 'react';
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
 
-import { QUERY_TYPE_LABELS, shortDescription, title, Type } from '../../../model/hops/nodeQuery';
+import { QUERY_TYPE_LABELS, shortDescription, title, Type, iconFor } from '../../../model/hops/nodeQuery';
 import { Help } from '../../../widgets/Help';
 import { Pipeline } from '../Pipeline';
 import { Select } from '../../../widgets/Select';
@@ -16,6 +16,7 @@ export const NodeQueryStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop
 
 	return (
 		<StepEditor
+			icon={iconFor(hop)}
 			parentHops={parentHops}
 			hop={hop}
 			title={shortDescription(hop)}

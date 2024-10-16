@@ -18,3 +18,8 @@ export function shortDescription(config: Type) {
 
 	return title;
 }
+
+import icon from 'data-url:../../../../../docs/icons/control_knobs.svg';
+export function iconFor(_config: Type) {
+	return icon;
+}

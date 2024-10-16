@@ -3,7 +3,7 @@ import React, { forwardRef, useContext } from 'react';
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
 
-import { SCRIPT_LANGUAGES, shortDescription, title, Type } from '../../../model/hops/runScript';
+import { SCRIPT_LANGUAGES, shortDescription, title, Type, iconFor } from '../../../model/hops/runScript';
 import { Help } from '../../../widgets/Help';
 import { Select } from '../../../widgets/Select';
 import { CodeEditor } from '../../../widgets/CodeEditor';
@@ -14,7 +14,7 @@ export const RunScriptStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop
 	const scriptContext = useContext(ScriptContext);
 
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} ref={ref}>
+		<StepEditor icon={iconFor(hop)} parentHops={parentHops} hop={hop} title={shortDescription(hop)} ref={ref}>
 			<Select
 				label="Language"
 				list={Object.entries(SCRIPT_LANGUAGES) as [keyof typeof SCRIPT_LANGUAGES, string][]}

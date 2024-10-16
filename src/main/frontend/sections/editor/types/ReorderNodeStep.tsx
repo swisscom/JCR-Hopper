@@ -3,14 +3,14 @@ import React, { forwardRef } from 'react';
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
 
-import { shortDescription, title, Type } from '../../../model/hops/reorderNode';
+import { shortDescription, title, Type, iconFor } from '../../../model/hops/reorderNode';
 import { Help } from '../../../widgets/Help';
 import { Input } from '../../../widgets/Input';
 import { Conflict } from '../../../widgets/Conflict';
 
 export const ReorderNodeStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function ReorderNodeStep({ parentHops, hop }, ref) {
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} ref={ref}>
+		<StepEditor icon={iconFor(hop)} parentHops={parentHops} hop={hop} title={shortDescription(hop)} ref={ref}>
 			<Input label="Name of Sibling" value={hop.before ?? ''} onChange={before => (hop.before = before)} />
 			<Conflict
 				label="If no sibling with the provided name exists"

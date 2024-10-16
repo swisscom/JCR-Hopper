@@ -12,6 +12,7 @@ const Elm = styled('div')`
 	grid-auto-rows: min-content 1fr min-content;
 	overflow: auto;
 	.parameters {
+		margin-top: 6px;
 		display: flex;
 		flex-direction: column;
 		gap: 6px;

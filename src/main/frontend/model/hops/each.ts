@@ -17,3 +17,8 @@ export const title = 'Iterate';
 export function shortDescription(config: Type) {
 	return `${title} Over ${config.assumeNodes ? 'Nodes' : 'Values'}${config.expression ? ` Produced by ${config.expression}` : ''}`;
 }
+
+import icon from 'data-url:../../../../../docs/icons/loop.svg';
+export function iconFor(_config: Type) {
+	return icon;
+}

@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react';
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
 
-import { shortDescription, title, Type } from '../../../model/hops/each';
+import { shortDescription, title, Type, iconFor } from '../../../model/hops/each';
 import { Help } from '../../../widgets/Help';
 import { Input } from '../../../widgets/Input';
 import { Pipeline } from '../Pipeline';
@@ -12,6 +12,7 @@ import { Switch } from '../../../widgets/Switch';
 export const EachStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function EachStep({ parentHops, hop }, ref) {
 	return (
 		<StepEditor
+			icon={iconFor(hop)}
 			parentHops={parentHops}
 			hop={hop}
 			title={shortDescription(hop)}

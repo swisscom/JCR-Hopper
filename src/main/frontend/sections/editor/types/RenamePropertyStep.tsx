@@ -3,14 +3,14 @@ import React, { forwardRef } from 'react';
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
 
-import { shortDescription, title, Type, DEV_NULL } from '../../../model/hops/renameProperty';
+import { shortDescription, title, Type, DEV_NULL, iconFor } from '../../../model/hops/renameProperty';
 import { Help } from '../../../widgets/Help';
 import { Input } from '../../../widgets/Input';
 import { Conflict } from '../../../widgets/Conflict';
 
 export const RenamePropertyStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function RenamePropertyStep({ parentHops, hop }, ref) {
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} ref={ref}>
+		<StepEditor icon={iconFor(hop)} parentHops={parentHops} hop={hop} title={shortDescription(hop)} ref={ref}>
 			<Input label="Property Name" value={hop.propertyName ?? ''} onChange={propertyName => (hop.propertyName = propertyName)} />
 			<Input
 				label={

@@ -5,7 +5,7 @@ import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
 import { ScriptContext } from '../../../App';
 
-import { shortDescription, title, Type } from '../../../model/hops/declare';
+import { shortDescription, title, Type, iconFor } from '../../../model/hops/declare';
 import { Help } from '../../../widgets/Help';
 import { Input } from '../../../widgets/Input';
 
@@ -19,7 +19,7 @@ export const DeclareStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: 
 	const declarations = (hop.declarations ??= {});
 
 	return (
-		<StepEditor parentHops={parentHops} hop={hop} title={shortDescription(hop)} ref={ref}>
+		<StepEditor icon={iconFor(hop)} parentHops={parentHops} hop={hop} title={shortDescription(hop)} ref={ref}>
 			<Elm className="field-container">
 				<legend>Declarations</legend>
 				{Object.entries(declarations)

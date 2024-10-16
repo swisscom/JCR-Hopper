@@ -35,7 +35,7 @@ export const Pipeline: FC<{ hops: Hop[]; addButton?: boolean }> = ({ hops, addBu
 						picked={(type: HopType) => {
 							const hop: Hop = {
 								type,
-								...HOP_DEFINITIONS[type],
+								...HOP_DEFINITIONS[type].defaultConfig,
 							} as Hop;
 							hops.push(hop);
 							scriptContext.commit();

@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react';
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
 
-import { title, shortDescription, Type } from '../../../model/hops/copyNode';
+import { title, shortDescription, Type, iconFor } from '../../../model/hops/copyNode';
 import { Help } from '../../../widgets/Help';
 import { Input } from '../../../widgets/Input';
 import { Pipeline } from '../Pipeline';
@@ -12,6 +12,7 @@ import { Conflict } from '../../../widgets/Conflict';
 export const CopyNodeStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function CopyNodeStep({ parentHops, hop }, ref) {
 	return (
 		<StepEditor
+			icon={iconFor(hop)}
 			parentHops={parentHops}
 			hop={hop}
 			title={shortDescription(hop)}

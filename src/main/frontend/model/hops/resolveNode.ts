@@ -17,3 +17,8 @@ export const title = 'Resolve Specific Node';
 export function shortDescription(config: Type) {
 	return `${title} ${config.name ? config.name : ''}`;
 }
+
+import icon from 'data-url:../../../../../docs/icons/heart_exclamation.svg';
+export function iconFor(_config: Type) {
+	return icon;
+}
