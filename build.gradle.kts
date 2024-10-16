@@ -144,8 +144,12 @@ aem {
             outputs.upToDateWhen { false }
         }
 
+        packageValidate {
+            enabled = true
+        }
+
         check {
-            dependsOn(lint, tsc, format)
+            dependsOn(lint, tsc, format, packageValidate)
         }
 
         val aemContent by registering(Sync::class) {
