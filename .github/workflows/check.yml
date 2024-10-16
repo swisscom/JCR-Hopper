@@ -1,8 +1,11 @@
 name: Code Check with Gradle
 
 on:
-  - push
-  - pull_request
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+  workflow_call:
 
 jobs:
   check:
