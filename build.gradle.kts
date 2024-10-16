@@ -175,3 +175,27 @@ aem {
         }
     }
 }
+
+publishing {
+    repositories {
+        val mavenPublishUser: String? by project
+        val mavenPublishPassword: String? by project
+        if (mavenPublishUser != null && mavenPublishPassword != null) {
+            maven {
+                name = "GitHub"
+                url = uri("https://maven.pkg.github.com/swisscom/JCR-Hopper")
+                credentials {
+                    username = mavenPublishUser
+                    password = mavenPublishPassword
+                }
+            }
+        }
+    }
+
+    publications {
+        create<MavenPublication>("hopper") {
+            artifact(tasks.packageCompose)
+            from(components["java"])
+        }
+    }
+}
