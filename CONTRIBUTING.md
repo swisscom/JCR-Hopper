@@ -10,6 +10,23 @@ Use GitHub’s issues feature to report problems with and request enhancements t
 
 Code contributions are highly appreciated. Bug fixes and small enhancements can be handed in as pull-requests. For larger changes and features, please open a GitHub issue with your proposal first so the solution can be discussed.
 
+### Code Checks
+
+The following checks must succeed before code can be merged:
+
+- Java Compile
+- Java Test
+- Checkstyle
+- PMD
+- CPD
+- Spotbugs
+- OakPAL
+- Prettier
+- TypeScript compile
+- ESLint
+
+The `./gradlew check` command executes them all. To reformat code, use `./gradlew prettierFormat`.
+
 ### Commit Guidelines
 
 All your commits must follow the [conventional commit message format](https://www.conventionalcommits.org/en/v1.0.0/#summary).

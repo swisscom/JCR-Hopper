@@ -1,0 +1,11 @@
+<!DOCTYPE import-control PUBLIC "-//Checkstyle//DTD ImportControl Configuration 1.4//EN" "https://checkstyle.org/dtds/import_control_1_4.dtd">
+<import-control pkg="com.swisscom" strategyOnMismatch="allowed">
+	<!-- Use org.apache.commons.lang3 -->
+	<disallow pkg="org.apache.commons.lang" />
+	<!-- Use Gson -->
+	<disallow pkg="com.fasterxml.jackson" />
+	<!-- Use Gson -->
+	<disallow pkg="org.apache.sling.commons.json" />
+	<!-- Use Gson -->
+	<disallow pkg="org.json" />
+</import-control>

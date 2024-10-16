@@ -1,0 +1,50 @@
+{
+	"name": "@swisscom/jcr-hopper",
+	"private": true,
+	"scripts": {
+		"test": "echo \"Error: use ./gradlew check to test\" && exit 1",
+		"test:lint": "eslint . --max-warnings 0",
+		"test:compile": "tsc --noEmit --project .",
+		"test:format": "prettier --check .",
+		"watch": "concurrently npm:watch:*",
+		"watch:serve": "serve",
+		"watch:parcel": "parcel watch",
+		"build": "parcel build"
+	},
+	"targets": {
+		"editor": {
+			"source": "./src/main/frontend/editor.tsx",
+			"distDir": "./build/frontend/jcr_root/apps/jcr-hopper/script-builder/clientlib/"
+		}
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"@parcel/optimizer-data-url": "^2.12.0",
+		"@parcel/transformer-inline-string": "^2.12.0",
+		"@prettier/plugin-xml": "^3.4.1",
+		"@types/react": "^18.3.11",
+		"@types/react-dom": "^18.3.0",
+		"@typescript-eslint/eslint-plugin": "^8.8.0",
+		"@typescript-eslint/parser": "^8.8.0",
+		"@uidotdev/usehooks": "^2.4.1",
+		"concurrently": "^9.0.1",
+		"eslint": "^8.57.1",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-react": "^7.37.1",
+		"eslint-plugin-react-hooks": "^4.6.2",
+		"immer": "^10.1.1",
+		"parcel": "^2.12.0",
+		"prettier": "^3.3.3",
+		"prettier-plugin-java": "^2.6.4",
+		"process": "^0.11.10",
+		"serve": "^14.2.3",
+		"typescript": "^5.6.2"
+	},
+	"dependencies": {
+		"@monaco-editor/react": "^4.6.0",
+		"goober": "^2.1.14",
+		"monaco-editor": "^0.52.0",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1"
+	}
+}

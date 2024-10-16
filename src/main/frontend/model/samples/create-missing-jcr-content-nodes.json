@@ -1,0 +1,27 @@
+{
+	"logLevel": "info",
+	"hops": [
+		{
+			"type": "nodeQuery",
+			"queryType": "JCR-SQL2",
+			"query": "SELECT * FROM [cq:Page] AS page WHERE ISDESCENDANTNODE('/content')",
+			"selectorName": "page",
+			"hops": [
+				{
+					"type": "filterNode",
+					"expression": "jcr:resolve(node, 'jcr:content') == null",
+					"hops": [
+						{
+							"type": "createChildNode",
+							"conflict": "throw",
+							"name": "jcr:content",
+							"primaryType": "cq:PageContent",
+							"hops": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"parameters": []
+}

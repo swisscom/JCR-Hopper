@@ -1,0 +1,31 @@
+{
+	"hops": [
+		{
+			"type": "nodeQuery",
+			"query": "SELECT * FROM [nt:unstructured] as text WHERE text.[sling:resourceType] = '${args.resourceType}'",
+			"queryType": "JCR-SQL2",
+			"hops": [
+				{
+					"type": "filterNode",
+					"expression": "str:contains(jcr:val(node, \"content\"), \"<h1\")",
+					"hops": [
+						{
+							"type": "setProperty",
+							"conflict": "force",
+							"propertyName": "content",
+							"value": "str:replacePattern(str:replacePattern(jcr:val(node, \"content\"), \"<h1\", \"<h2\"), \"</h1\", \"</h2\")"
+						}
+					]
+				}
+			]
+		}
+	],
+	"logLevel": "warn",
+	"parameters": [
+		{
+			"name": "resourceType",
+			"defaultValue": "core/wcm/components/text/v2/text",
+			"evaluation": "STRING"
+		}
+	]
+}

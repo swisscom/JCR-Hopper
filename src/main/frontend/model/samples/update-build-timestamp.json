@@ -1,0 +1,25 @@
+{
+	"logLevel": "trace",
+	"hops": [
+		{
+			"type": "resolveNode",
+			"conflict": "throw",
+			"name": "${args.timestampFilePath}/jcr:content",
+			"hops": [
+				{
+					"type": "declare",
+					"defaultConfig": {},
+					"title": "Declare Variables",
+					"declarations": { "time": "class:forName(\"java.util.Calendar\").getInstance().time.toString()" }
+				},
+				{
+					"type": "setProperty",
+					"conflict": "force",
+					"propertyName": "jcr:data",
+					"value": "str:replacePattern(time, '[\\\\W]', '-') + '-' + node.session.userID"
+				}
+			]
+		}
+	],
+	"parameters": [{ "name": "timestampFilePath", "defaultValue": "/apps/base/clientlibs/build_timestamp.txt", "evaluation": "STRING" }]
+}

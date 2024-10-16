@@ -1,0 +1,36 @@
+{
+	"hops": [
+		{
+			"type": "nodeQuery",
+			"query": "SELECT * FROM [cq:ClientLibraryFolder]",
+			"queryType": "JCR-SQL2",
+			"hops": [
+				{
+					"type": "resolveNode",
+					"conflict": "ignore",
+					"name": "..",
+					"hops": [
+						{
+							"type": "childNodes",
+							"hops": [
+								{
+									"type": "filterNode",
+									"expression": "str:contains(node.name, '.min.js')",
+									"hops": [
+										{
+											"type": "moveNode",
+											"conflict": "ignore",
+											"newName": "/dev/null"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"logLevel": "warn",
+	"parameters": []
+}
