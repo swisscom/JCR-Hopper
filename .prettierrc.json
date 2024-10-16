@@ -17,5 +17,11 @@
 	"useTabs": true,
 	"semi": true,
 	"printWidth": 150,
-	"requirePragma": false
+	"requirePragma": false,
+	"overrides": [
+		{
+			"files": "*.yml",
+			"options": { "tabWidth": 2 }
+		}
+	]
 }

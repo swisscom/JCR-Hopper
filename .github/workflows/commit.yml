@@ -1,0 +1,16 @@
+name: Check Commits with CommitLint
+
+on:
+  - pull_request
+
+jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v3
+      - uses: wagoid/commitlint-github-action@v6
+        with:
+          configFile: configs/commitlint.config.mjs
