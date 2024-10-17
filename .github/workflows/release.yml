@@ -24,6 +24,7 @@ jobs:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Create Changelog and Tag
+        id: changelog
         uses: TriPSs/conventional-changelog-action@v5
         with:
           github-token: ''
