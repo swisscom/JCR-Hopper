@@ -1,4 +1,6 @@
-## 0.1.0 (2024-10-17)
+## [0.1.1](https://github.com/swisscom/JCR-Hopper/compare/v0.1.0...v0.1.1) (2024-10-17)
+
+## [0.1.0](https://github.com/swisscom/JCR-Hopper/compare/ef144ec37492e90125b5e60d0bb0db35973e9c1c...v0.1.0) (2024-10-17)
 
 
 ### Features
