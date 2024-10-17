@@ -4,7 +4,7 @@
 
 _Migrate AEM with Grace_
 
-JCR Hopper is a migration and reporting tool for AEM’s content repository.
+JCR Hopper is a migration and reporting tool for <abbr title="Adobe Experience Manager">AEM</abbr>’s content repository.
 It has its own script format that is valid JSON and consists of a series of actions,
 each of which “hops” over nodes in the repository.
 

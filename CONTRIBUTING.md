@@ -27,6 +27,13 @@ The following checks must succeed before code can be merged:
 
 The `./gradlew check` command executes them all. To reformat code, use `./gradlew prettierFormat`.
 
+### Working on the GUI editor
+
+To run the editor GUI independently from AEM (and with mocked responses), the watch mode can be used:
+
+1. Install the NPM dependencies using `./gradlew npmInstall` (`npm ci` would also work but the Gradle task is preferred because it will use Gradle’s up-to-date checking mechanism).
+2. Run `npm run watch` to start both the development server and the JS bundler (parcel) in watch + hot reload mode.
+
 ### Commit Guidelines
 
 All your commits must follow the [conventional commit message format](https://www.conventionalcommits.org/en/v1.0.0/#summary).
@@ -41,6 +48,6 @@ Commits that fall into none of these scopes or change aspects in more than one o
 
 Ideally, each commit should should represent a working and buildable state but still only contain an atomic change compared to its parent. Please rewrite history accordingly before opening a PR.
 
-### License
+## License
 
 By contributing code or documentation, you agree to have your contribution licensed under [our MIT-style license](./LICENSE).
