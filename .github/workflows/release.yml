@@ -33,6 +33,14 @@ jobs:
           skip-version-file: true
           skip-on-empty: false
 
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Publish to GitHub Packages
+        run: ./gradlew publish -Prelease.useLastTag=true
+        env:
+          ORG_GRADLE_PROJECT_mavenPublishUser: ${{ github.actor }}
+          ORG_GRADLE_PROJECT_mavenPublishPassword: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
@@ -40,3 +48,6 @@ jobs:
           release_name: ${{ steps.changelog.outputs.tag }}
           body: ${{ steps.changelog.outputs.clean_changelog }}
           make_latest: 'true'
+          files: |
+            build/libs/*.jar
+            build/packageCompose/*.zip
