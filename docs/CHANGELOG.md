@@ -1,3 +1,10 @@
+## [0.1.2](https://github.com/swisscom/JCR-Hopper/compare/v0.1.1...v0.1.2) (2024-10-17)
+
+
+### Bug Fixes
+
+* **meta:** consolidate release and publish into a single workflow ([1ac4754](https://github.com/swisscom/JCR-Hopper/commit/1ac475435ec363365e18c85fcff2b05ebae29486))
+
 ## [0.1.1](https://github.com/swisscom/JCR-Hopper/compare/v0.1.0...v0.1.1) (2024-10-17)
 
 ## [0.1.0](https://github.com/swisscom/JCR-Hopper/compare/ef144ec37492e90125b5e60d0bb0db35973e9c1c...v0.1.0) (2024-10-17)
