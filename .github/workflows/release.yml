@@ -30,13 +30,13 @@ jobs:
           github-token: ''
           preset: 'conventionalcommits'
           output-file: 'docs/CHANGELOG.md'
-          skip-version-file: 'true'
+          skip-version-file: true
+          skip-on-empty: false
 
       - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.github_token }}
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.changelog.outputs.tag }}
           release_name: ${{ steps.changelog.outputs.tag }}
           body: ${{ steps.changelog.outputs.clean_changelog }}
+          make_latest: 'true'
