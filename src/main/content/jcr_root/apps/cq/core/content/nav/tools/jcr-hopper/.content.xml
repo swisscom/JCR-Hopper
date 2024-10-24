@@ -16,7 +16,7 @@
 	xmlns:jcr="http://www.jcp.org/jcr/1.0"
 	jcr:primaryType="sling:OrderedFolder"
 	jcr:title="JCR Hopper"
-	id="com.swisscom.foss.jcr-hopper"
+	id="com.swisscom.aem.tools.jcrhopper"
 >
 	<script-builder />
 </jcr:root>

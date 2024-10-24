@@ -13,14 +13,11 @@
 -->
 <jcr:root
 	xmlns:jcr="http://www.jcp.org/jcr/1.0"
-	xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
-	xmlns:granite="http://www.adobe.com/jcr/granite/1.0"
-	xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
 	jcr:primaryType="nt:unstructured"
 	jcr:title="Script Builder"
 	jcr:description="Migrate AEM with Grace."
 	icon="edit"
 	href="/apps/jcr-hopper/script-builder.html"
-	id="com.swisscom.foss.jcr-hopper.script-builder"
+	id="com.swisscom.aem.tools.jcrhopper.script-builder"
 	target="_blank"
 />
