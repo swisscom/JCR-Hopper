@@ -36,7 +36,14 @@ export const EachStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Typ
 				<h5>JEXL Expression</h5>
 				<p>The sub-pipeline given will be repeated for every element this expression produces.</p>
 				<h5>Iterator</h5>
-				<p>This is the name of the variable used to address the individual item.</p>
+				<p>
+					This is the name of the variable used to address the individual item.
+					<br />
+					The item index will be available as{' '}
+					<code>
+						${'{'}iterator{'}'}_index
+					</code>
+				</p>
 			</Help>
 		</StepEditor>
 	);
