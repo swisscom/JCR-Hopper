@@ -104,8 +104,9 @@ export class Run {
 	private async loadMessages(response: Promise<Response>) {
 		for await (const message of streamingFetch<Message>(await response)) {
 			if (typeof message !== 'string') {
-				if (message.type === 'file' && message.data) {
-					message.blob = new Blob([decodeBase64(message.data)], { type: message.mime });
+				if (message.type === 'file') {
+					const data = message.data ? decodeBase64(message.data) : new Uint8Array(0);
+					message.blob = new Blob([data], { type: message.mime });
 					delete message.data;
 				}
 			}

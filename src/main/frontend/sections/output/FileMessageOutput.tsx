@@ -15,7 +15,7 @@ const Elm = styled('div')`
 	border-radius: 12px;
 	display: grid;
 	gap: 6px;
-	grid-template-areas: 'icon name . download' 'icon type . download';
+	grid-template-areas: 'icon name name download' 'icon type size download';
 	grid-template-columns: max-content max-content 1fr max-content;
 	> coral-icon {
 		grid-area: icon;
@@ -27,6 +27,9 @@ const Elm = styled('div')`
 	}
 	> .type {
 		grid-area: type;
+	}
+	> .size {
+		grid-area: size;
 	}
 	> a {
 		grid-area: download;
@@ -71,13 +74,15 @@ function iconFor(mimeType: MimeType): CoralIcon {
 
 export const FileMessageOutput: FC<{ message: FileMessage }> = ({ message }) => {
 	const icon = iconFor(message.mime);
+	const blob = message.blob!;
 
 	return (
 		<Elm>
 			<coral-icon icon={icon} size="L" />
 			<span className="name">{message.name}</span>
 			<small className="type">{message.mime}</small>
-			<a href={URL.createObjectURL(message.blob!)} download={message.name}>
+			<small className="size">{blob.size} bytes</small>
+			<a href={URL.createObjectURL(blob)} download={message.name}>
 				<button type="button" is="coral-button" icon="download">
 					Download
 				</button>
