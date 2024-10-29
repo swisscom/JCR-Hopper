@@ -1,3 +1,16 @@
+## [0.3.0](https://github.com/swisscom/JCR-Hopper/compare/v0.2.0...v0.3.0) (2024-10-29)
+
+
+### Features
+
+* **editor:** display size in file summary ([57162df](https://github.com/swisscom/JCR-Hopper/commit/57162df1228e72c1f252fb1bc960ab0ba60a1967))
+* **runner:** add index var to `each` hop ([95ce249](https://github.com/swisscom/JCR-Hopper/commit/95ce249a088c29208f32cadab6609bf5cd4a0a51))
+
+
+### Bug Fixes
+
+* ensure frontend doesn’t crash when file is empty ([8e6a8f2](https://github.com/swisscom/JCR-Hopper/commit/8e6a8f209c369335accad8560cfcab1338a36490))
+
 ## [0.2.0](https://github.com/swisscom/JCR-Hopper/compare/v0.1.4...v0.2.0) (2024-10-28)
 
 
@@ -17,6 +30,4 @@
 ### Bug Fixes
 
 * **meta:** consolidate release and publish into a single workflow ([1ac4754](https://github.com/swisscom/JCR-Hopper/commit/1ac475435ec363365e18c85fcff2b05ebae29486))
-
-## [0.1.1](https://github.com/swisscom/JCR-Hopper/compare/v0.1.0...v0.1.1) (2024-10-17)
 
