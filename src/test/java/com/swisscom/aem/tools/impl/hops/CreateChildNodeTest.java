@@ -24,7 +24,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class CreateChildNodeTest {
 
 	public final AemContext context = new JcrOakAemContext();
-
 	private RunnerBuilder builder;
 	private Session session;
 

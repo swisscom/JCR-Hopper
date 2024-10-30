@@ -126,7 +126,8 @@ public class MoveNode implements Hop<MoveNode.Config> {
 			return;
 		}
 
-		final String absolutePath = descriptor.getParent().getPath() + '/' + descriptor.getNewChildName();
+		final Node effectiveParent = descriptor.getParent();
+		final String absolutePath = StringUtils.stripEnd(effectiveParent.getPath(), "/") + '/' + descriptor.getNewChildName();
 		context.info("Moving node from {} to {}", node.getPath(), absolutePath);
 
 		node.getSession().move(node.getPath(), absolutePath);
