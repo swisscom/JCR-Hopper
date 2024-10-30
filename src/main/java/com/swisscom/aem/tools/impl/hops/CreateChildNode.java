@@ -29,8 +29,20 @@ public class CreateChildNode implements Hop<CreateChildNode.Config> {
 		final MoveNode.NewNodeDescriptor descriptor = MoveNode.resolvePathToNewNode(node, name, config.conflict, context);
 
 		final Node childNode;
-		if (descriptor.isNeedsReplacing()) {
+		if (descriptor.isTargetExists()) {
+			if (!config.runOnExistingNode) {
+				return;
+			}
 			childNode = descriptor.getParent().getNode(descriptor.getNewChildName());
+			context.trace("Running the createChild hops on the existing node {}", childNode.getPath());
+			if (!childNode.isNodeType(config.primaryType)) {
+				context.warn(
+					"Existing node {} has type {} but {} was requested",
+					childNode.getPath(),
+					childNode.getPrimaryNodeType().getName(),
+					config.primaryType
+				);
+			}
 		} else {
 			context.info(
 				"Creating new node {} (type {}) under {}",
@@ -71,6 +83,8 @@ public class CreateChildNode implements Hop<CreateChildNode.Config> {
 
 		@Nonnull
 		private ConflictResolution conflict = ConflictResolution.IGNORE;
+
+		private boolean runOnExistingNode;
 
 		@Nonnull
 		private List<HopConfig> hops = Collections.emptyList();

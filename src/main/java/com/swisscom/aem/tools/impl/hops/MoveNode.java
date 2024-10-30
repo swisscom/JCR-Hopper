@@ -62,8 +62,9 @@ public class MoveNode implements Hop<MoveNode.Config> {
 
 		parent = getParentNode(parts, parent, session, target);
 
-		final boolean needsReplacing = parent.hasNode(target);
-		if (needsReplacing) {
+		// FIXME: What about repositories with support for same-name siblings?
+		boolean targetExists = parent.hasNode(target);
+		if (targetExists) {
 			final Node childNode = parent.getNode(target);
 			switch (conflict) {
 				case IGNORE:
@@ -72,6 +73,7 @@ public class MoveNode implements Hop<MoveNode.Config> {
 				case FORCE:
 					context.info("Replacing existing node {}", childNode.getPath());
 					childNode.remove();
+					targetExists = false;
 					break;
 				case THROW:
 					throw new HopperException(String.format("Node %s already exists", childNode.getPath()));
@@ -80,7 +82,7 @@ public class MoveNode implements Hop<MoveNode.Config> {
 			}
 		}
 
-		return new NewNodeDescriptor(parent, target, needsReplacing);
+		return new NewNodeDescriptor(parent, target, targetExists);
 	}
 
 	private static Node getParentNode(List<String> parts, Node startParent, Session session, String target)
@@ -120,7 +122,7 @@ public class MoveNode implements Hop<MoveNode.Config> {
 		}
 
 		final NewNodeDescriptor descriptor = resolvePathToNewNode(parent, newName, config.conflict, context);
-		if (descriptor.getParent().hasNode(descriptor.getNewChildName())) {
+		if (descriptor.targetExists) {
 			return;
 		}
 
@@ -148,7 +150,7 @@ public class MoveNode implements Hop<MoveNode.Config> {
 
 		private final Node parent;
 		private final String newChildName;
-		private final boolean needsReplacing;
+		private final boolean targetExists;
 	}
 
 	@AllArgsConstructor
