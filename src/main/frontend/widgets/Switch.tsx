@@ -7,9 +7,10 @@ export type Options = [value: string, label: string, icon?: CoralIcon][];
 
 export const Switch: FC<{
 	label?: string;
+	disabled?: boolean;
 	value: boolean;
 	onChange(newValue: boolean): void;
-}> = ({ label = 'Conflict Resolution', value, onChange }) => {
+}> = ({ label = 'Conflict Resolution', disabled = false, value, onChange }) => {
 	const scriptContext = useContext(ScriptContext);
 
 	const switchRef = useRef<HTMLInputElement>(null);
@@ -34,7 +35,7 @@ export const Switch: FC<{
 	return (
 		<label>
 			<span>{label}: </span>
-			<coral-switch ref={switchRef} checked={value ? true : undefined} />
+			<coral-switch ref={switchRef} checked={value ? true : undefined} disabled={disabled ? true : undefined} />
 		</label>
 	);
 };

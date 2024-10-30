@@ -41,6 +41,7 @@ export const CreateChildNodeStep = forwardRef<HTMLDivElement, { parentHops: Hop[
 				<Switch
 					label="Run on existing node"
 					value={hop.runOnExistingNode}
+					disabled={!hop.hops?.length}
 					onChange={runOnExistingNode => (hop.runOnExistingNode = runOnExistingNode)}
 				/>
 			) : undefined}
@@ -64,8 +65,8 @@ export const CreateChildNodeStep = forwardRef<HTMLDivElement, { parentHops: Hop[
 				<p>How to handle the case where the target node already exists.</p>
 				<h5>Run on existing node</h5>
 				<p>
-					Whether to run the descendant hops if the target node already existed (only applicable if “If the target node
-					exists” is set to “Ignore conflict”).
+					Whether to run the descendant hops if the target node already existed and no new node could be created (only
+					applicable if “If the target node exists” is set to “Ignore conflict”).
 				</p>
 			</Help>
 		</StepEditor>
