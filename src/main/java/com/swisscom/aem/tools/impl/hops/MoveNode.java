@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import lombok.AllArgsConstructor;
@@ -130,7 +131,27 @@ public class MoveNode implements Hop<MoveNode.Config> {
 		final String absolutePath = StringUtils.stripEnd(effectiveParent.getPath(), "/") + '/' + descriptor.getNewChildName();
 		context.info("Moving node from {} to {}", node.getPath(), absolutePath);
 
+		final String nextSiblingName = getNextSiblingName(node, parent, descriptor.parent);
 		node.getSession().move(node.getPath(), absolutePath);
+
+		if (nextSiblingName != null) {
+			effectiveParent.orderBefore(descriptor.newChildName, nextSiblingName);
+		}
+	}
+
+	private static String getNextSiblingName(Node node, Node oldParent, Node newParent) throws RepositoryException {
+		if (!StringUtils.equals(oldParent.getPath(), newParent.getPath())) {
+			return null;
+		}
+		String nextSibling = null;
+		final NodeIterator siblingIterator = oldParent.getNodes();
+		while (siblingIterator.hasNext()) {
+			if (StringUtils.equals(siblingIterator.nextNode().getPath(), node.getPath()) && siblingIterator.hasNext()) {
+				nextSibling = siblingIterator.nextNode().getName();
+				break;
+			}
+		}
+		return nextSibling;
 	}
 
 	@Nonnull
