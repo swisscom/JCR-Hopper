@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.script.ScriptEngineManager;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.jexl3.JexlBuilder;
@@ -42,6 +43,9 @@ public class RunnerImpl implements Runner {
 	private final Map<String, Object> utils;
 	private final Map<String, Object> variables;
 	private final Map<String, Function<String, File>> fileTypeSuppliers;
+
+	@Getter
+	private final ScriptEngineManager scriptEngineManager;
 
 	@Getter
 	private final RunHandler runHandler;

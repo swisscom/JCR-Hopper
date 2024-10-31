@@ -73,7 +73,7 @@ public class RunScript implements Hop<RunScript.Config> {
 
 	private static void runGenericScript(Config config, HopContext context, Map<String, Object> params, String extension, Writer writer)
 		throws HopperException {
-		final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+		final ScriptEngineManager scriptEngineManager = context.getScriptEngineManager();
 		final ScriptEngine engine = scriptEngineManager.getEngineByExtension(extension);
 		if (engine == null) {
 			throw new IllegalArgumentException("Script type " + extension + " not valid");

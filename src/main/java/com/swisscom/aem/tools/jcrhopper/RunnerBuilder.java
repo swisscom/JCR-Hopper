@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import javax.script.ScriptEngineManager;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -42,6 +43,13 @@ public class RunnerBuilder {
 	private final Map<String, Object> utils = new HashMap<>();
 	private final Map<String, Object> variables = new HashMap<>();
 	private final Map<String, Function<String, File>> fileTypeSuppliers = new HashMap<>();
+
+	/**
+	 * The script engine manager for running script types other than JEXL.
+	 */
+	@Setter
+	@Getter
+	private ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
 
 	private final Gson gson;
 
@@ -237,6 +245,7 @@ public class RunnerBuilder {
 			utils,
 			new HashMap<>(variables),
 			new HashMap<>(fileTypeSuppliers),
+			scriptEngineManager,
 			runHandler,
 			script
 		);
