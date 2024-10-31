@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Map;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
+import javax.script.ScriptEngineManager;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -121,6 +122,11 @@ public class HopContextImpl implements JexlContext, HopContext {
 	@Override
 	public Map<String, Object> getVariables() {
 		return Collections.unmodifiableMap(variables);
+	}
+
+	@Override
+	public ScriptEngineManager getScriptEngineManager() {
+		return runner.getScriptEngineManager();
 	}
 
 	// region Logging functions

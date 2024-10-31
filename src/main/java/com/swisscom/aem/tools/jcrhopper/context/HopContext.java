@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.util.Map;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
+import javax.script.ScriptEngineManager;
 import org.slf4j.Logger;
 
 public interface HopContext extends Logger {
@@ -102,4 +103,9 @@ public interface HopContext extends Logger {
 	 * @return a helper for JCR property manipulation
 	 */
 	JcrFunctions getJcrFunctions();
+
+	/**
+	 * @return the script engine manager for running various script types
+	 */
+	ScriptEngineManager getScriptEngineManager();
 }

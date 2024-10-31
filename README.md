@@ -42,6 +42,7 @@ The builder offers various methods to configure the runner:
 - `#registerFile(String, Function<String, File>)`, `#registerFiles(Map<String, Function<String, File>>)`: Register file creators that allow scripts to aggregate information into output files.
 - `#addDefaultUtils(boolean)`: if set to `true`, The script will know about the `arrays`, `stream`, `class`, and `collections` utility namespaces.
 - `#runHandler(com.swisscom.aem.tools.jcrhopper.config.RunHandler)`: Set a listener that is informed about script output and events. The default run handler does nothing (but log messages are logged using Slf4j in any case).
+- `#scriptEngineManager(javax.script.ScriptEngineManager)`: Set the script engine manager to use when searching for non-JEXL scripting engines.
 
 Once the builder is configured, it can be turned into a runner with either `#build(Script)` or `#build(String)` (for JSON scripts).
 

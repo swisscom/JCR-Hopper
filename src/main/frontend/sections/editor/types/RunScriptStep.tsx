@@ -3,26 +3,28 @@ import React, { forwardRef, useContext } from 'react';
 import { Hop } from '../../../model/hops';
 import { StepEditor } from '../../../widgets/StepEditor';
 
-import { SCRIPT_LANGUAGES, shortDescription, title, Type, iconFor } from '../../../model/hops/runScript';
+import { shortDescription, title, Type, iconFor } from '../../../model/hops/runScript';
 import { Help } from '../../../widgets/Help';
 import { Select } from '../../../widgets/Select';
-import { CodeEditor } from '../../../widgets/CodeEditor';
-import { ScriptContext } from '../../../App';
+import { CodeEditor, EditorLanguage } from '../../../widgets/CodeEditor';
+import { EnvironmentContext, ScriptContext } from '../../../App';
 import { Switch } from '../../../widgets/Switch';
 
 export const RunScriptStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function RunScriptStep({ parentHops, hop }, ref) {
 	const scriptContext = useContext(ScriptContext);
+	const { validScriptingLanguages } = useContext(EnvironmentContext);
+	const languageName = validScriptingLanguages[hop.extension];
 
 	return (
 		<StepEditor icon={iconFor(hop)} parentHops={parentHops} hop={hop} title={shortDescription(hop)} ref={ref}>
 			<Select
 				label="Language"
-				list={Object.entries(SCRIPT_LANGUAGES) as [keyof typeof SCRIPT_LANGUAGES, string][]}
+				list={Object.entries(validScriptingLanguages).map(([extension, name]) => [extension, `${name} (${extension})`])}
 				value={hop.extension}
 				onChange={extension => (hop.extension = extension)}
 			/>
 			<CodeEditor
-				language={hop.extension}
+				language={hop.extension as EditorLanguage}
 				lines={10}
 				value={hop.code}
 				onChange={code => {
@@ -36,9 +38,9 @@ export const RunScriptStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop
 				onChange={putLocalsBackIntoScope => (hop.putLocalsBackIntoScope = putLocalsBackIntoScope)}
 			/>
 			<Help title={title}>
-				<h5>{SCRIPT_LANGUAGES[hop.extension]} Script Code</h5>
+				<h5>{languageName} Script Code</h5>
 				<p>
-					The {SCRIPT_LANGUAGES[hop.extension]} script code to run.
+					The {languageName} script code to run.
 					<br />
 					{hop.extension === 'jexl' ? (
 						<small>
@@ -47,14 +49,14 @@ export const RunScriptStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop
 								Syntax Reference.
 							</a>
 						</small>
-					) : (
+					) : ['js', 'ecma'].includes(hop.extension) ? (
 						<small>
 							See the{' '}
 							<a href="https://www.oracle.com/technical-resources/articles/java/jf14-nashorn.html">
 								Nashorn Guide.
 							</a>
 						</small>
-					)}
+					) : undefined}
 				</p>
 				<p>The standard variables for expressions are available:</p>
 				<ul>
@@ -96,8 +98,9 @@ export const RunScriptStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop
 					If this is set, all local variables your script creates will be available in subsequent hops.
 					<br />
 					<small>
-						Note: For JEXL scripts, that means variables not declared with `var` or `let` but implicitly created
-						by assignment without a previous declaration.
+						Note: For JEXL scripts, that means variables not declared with <code>var</code> or <code>let</code>{' '}
+						but implicitly created by assignment without a previous declaration. In JavaScript, <code>var</code>{' '}
+						creates such a variable while <code>const</code> and <code>let</code> do not.
 					</small>
 				</p>
 			</Help>

@@ -1,6 +1,6 @@
 import { AnyHop } from '.';
 
-export const SCRIPT_LANGUAGES = {
+export const SCRIPT_LANGUAGES: Record<string, string> = {
 	jexl: 'JEXL',
 	js: 'JavaScript',
 };
@@ -8,7 +8,7 @@ export const SCRIPT_LANGUAGES = {
 export interface Type extends AnyHop {
 	type: 'runScript';
 	code: string;
-	extension: keyof typeof SCRIPT_LANGUAGES;
+	extension: string;
 	putLocalsBackIntoScope?: boolean;
 }
 
@@ -22,7 +22,7 @@ export const title = 'Run a Script';
 
 export function shortDescription(config: Type) {
 	const lang = config.extension ?? 'js';
-	const name = SCRIPT_LANGUAGES[lang] ?? lang.toUpperCase();
+	const name = lang in SCRIPT_LANGUAGES ? SCRIPT_LANGUAGES[lang] : lang.toUpperCase();
 
 	const lines = config.code?.split(/\n/).filter(Boolean).length;
 	if (!lines) {
