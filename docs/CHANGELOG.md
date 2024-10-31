@@ -1,3 +1,12 @@
+## [0.4.0](https://github.com/swisscom/JCR-Hopper/compare/v0.3.0...v0.4.0) (2024-10-31)
+
+
+### Features
+
+* **editor:** pass all possible scripting languages to the editor ([7c42719](https://github.com/swisscom/JCR-Hopper/commit/7c427196c8c1c9985a0e14e3e9355eedab07b32c))
+* **runner:** make ScriptEngineManager instance configurable on runner ([7de3009](https://github.com/swisscom/JCR-Hopper/commit/7de3009ecf09d5a3467ac341300056065e1aa85e))
+* **runner:** use script engine from OSGi if available ([38c42dc](https://github.com/swisscom/JCR-Hopper/commit/38c42dcde6752a1b914a6b7888b44e97370dc2c0))
+
 ## [0.3.0](https://github.com/swisscom/JCR-Hopper/compare/v0.2.0...v0.3.0) (2024-10-29)
 
 
@@ -23,11 +32,4 @@
 ## [0.1.4](https://github.com/swisscom/JCR-Hopper/compare/v0.1.3...v0.1.4) (2024-10-17)
 
 ## [0.1.3](https://github.com/swisscom/JCR-Hopper/compare/v0.1.2...v0.1.3) (2024-10-17)
-
-## [0.1.2](https://github.com/swisscom/JCR-Hopper/compare/v0.1.1...v0.1.2) (2024-10-17)
-
-
-### Bug Fixes
-
-* **meta:** consolidate release and publish into a single workflow ([1ac4754](https://github.com/swisscom/JCR-Hopper/commit/1ac475435ec363365e18c85fcff2b05ebae29486))
 
