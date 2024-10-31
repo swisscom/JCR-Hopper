@@ -9,7 +9,10 @@ import { HistoryUpdater, useHistoryImmutable } from './hooks/useHistoryImmutable
 import { useOnce } from './hooks/useOnce';
 import { ScriptEditor } from './sections/ScriptEditor';
 
-export const RunEndpointContext = createContext('');
+export const EnvironmentContext = createContext({
+	runEndpoint: '/',
+	validScriptingLanguages: {} as Record<string, string>,
+});
 export const ScriptContext = createContext<HistoryUpdater<Script>>(null!);
 
 const RootElement = styled('div')`
@@ -78,7 +81,7 @@ const RootElement = styled('div')`
 	}
 `;
 
-export const App: FC<{ runEndpoint: string }> = props => {
+export const App: FC<{ runEndpoint: string; validScriptingLanguages: Record<string, string> }> = props => {
 	const initialScript = useOnce(getInitialScript);
 
 	const scriptContext = useHistoryImmutable(initialScript, current => {
@@ -86,7 +89,7 @@ export const App: FC<{ runEndpoint: string }> = props => {
 	});
 
 	return (
-		<RunEndpointContext.Provider value={props.runEndpoint}>
+		<EnvironmentContext.Provider value={{ ...props }}>
 			<ScriptContext.Provider value={scriptContext}>
 				<RootElement>
 					<Toolbar />
@@ -94,6 +97,6 @@ export const App: FC<{ runEndpoint: string }> = props => {
 					<Runner />
 				</RootElement>
 			</ScriptContext.Provider>
-		</RunEndpointContext.Provider>
+		</EnvironmentContext.Provider>
 	);
 };

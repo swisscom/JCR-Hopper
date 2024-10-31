@@ -1,7 +1,7 @@
 import React, { FC, FormEvent, useContext, useRef } from 'react';
 
 import { styled } from 'goober';
-import { RunEndpointContext, ScriptContext } from '../App';
+import { EnvironmentContext, ScriptContext } from '../App';
 
 const Elm = styled('form', React.forwardRef)`
 	grid-auto-flow: row;
@@ -13,7 +13,7 @@ const Elm = styled('form', React.forwardRef)`
 
 export const RunControls: FC<{ runWith: (data: FormData) => Promise<void> }> = ({ runWith }) => {
 	const { current: script } = useContext(ScriptContext);
-	const endpoint = useContext(RunEndpointContext);
+	const environmentContext = useContext(EnvironmentContext);
 
 	const formRef = useRef<HTMLFormElement>(null);
 
@@ -31,7 +31,14 @@ export const RunControls: FC<{ runWith: (data: FormData) => Promise<void> }> = (
 	}
 
 	return (
-		<Elm className="run-controls" ref={formRef} method="POST" action={endpoint} encType="multipart/form-data" onSubmit={run}>
+		<Elm
+			className="run-controls"
+			ref={formRef}
+			method="POST"
+			action={environmentContext.runEndpoint}
+			encType="multipart/form-data"
+			onSubmit={run}
+		>
 			{script.parameters.length ? (
 				<fieldset>
 					<legend>Arguments</legend>

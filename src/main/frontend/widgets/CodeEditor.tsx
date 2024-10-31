@@ -5,10 +5,12 @@ import { useDebounce } from '@uidotdev/usehooks';
 import { Editor } from '@monaco-editor/react';
 import type * as monaco from 'monaco-editor';
 
+export type EditorLanguage = 'json' | 'groovy' | 'jexl' | 'sql' | 'js';
+
 export const CodeEditor: React.FC<{
 	value: string;
 	onChange(val: string, hasErrors: boolean): void;
-	language: 'json' | 'groovy' | 'jexl' | 'sql' | 'js';
+	language: EditorLanguage;
 	lines?: number;
 }> = ({ value: outsideValue, onChange, language, lines = 13 }) => {
 	const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
