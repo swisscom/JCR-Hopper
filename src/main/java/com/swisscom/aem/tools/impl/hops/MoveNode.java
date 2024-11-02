@@ -55,7 +55,7 @@ public class MoveNode implements Hop<MoveNode.Config> {
 		}
 
 		@SuppressWarnings("PMD.LooseCoupling")
-		final LinkedList<String> parts = Arrays.stream(target.split("\\/"))
+		final LinkedList<String> parts = Arrays.stream(target.split("/"))
 			.filter(StringUtils::isNotEmpty)
 			.collect(Collectors.toCollection(LinkedList::new));
 
@@ -65,6 +65,7 @@ public class MoveNode implements Hop<MoveNode.Config> {
 
 		// FIXME: What about repositories with support for same-name siblings?
 		boolean targetExists = parent.hasNode(target);
+		Node nodeToRemove = null;
 		if (targetExists) {
 			final Node childNode = parent.getNode(target);
 			switch (conflict) {
@@ -73,7 +74,7 @@ public class MoveNode implements Hop<MoveNode.Config> {
 					break;
 				case FORCE:
 					context.info("Replacing existing node {}", childNode.getPath());
-					childNode.remove();
+					nodeToRemove = childNode;
 					targetExists = false;
 					break;
 				case THROW:
@@ -83,7 +84,8 @@ public class MoveNode implements Hop<MoveNode.Config> {
 			}
 		}
 
-		return new NewNodeDescriptor(parent, target, targetExists);
+		final String absolutePath = StringUtils.stripEnd(parent.getPath(), "/") + '/' + target;
+		return new NewNodeDescriptor(parent, target, absolutePath, targetExists, nodeToRemove);
 	}
 
 	private static Node getParentNode(List<String> parts, Node startParent, Session session, String target)
@@ -128,11 +130,10 @@ public class MoveNode implements Hop<MoveNode.Config> {
 		}
 
 		final Node effectiveParent = descriptor.getParent();
-		final String absolutePath = StringUtils.stripEnd(effectiveParent.getPath(), "/") + '/' + descriptor.getNewChildName();
-		context.info("Moving node from {} to {}", node.getPath(), absolutePath);
+		context.info("Moving node from {} to {}", node.getPath(), descriptor.absolutePath);
 
 		final String nextSiblingName = getNextSiblingName(node, parent, descriptor.parent);
-		node.getSession().move(node.getPath(), absolutePath);
+		node.getSession().move(node.getPath(), descriptor.absolutePath);
 
 		if (nextSiblingName != null) {
 			effectiveParent.orderBefore(descriptor.newChildName, nextSiblingName);
@@ -172,7 +173,22 @@ public class MoveNode implements Hop<MoveNode.Config> {
 
 		private final Node parent;
 		private final String newChildName;
+		private final String absolutePath;
 		private final boolean targetExists;
+		private final Node nodeToRemove;
+
+		/**
+		 * Removes the replaced node if conflict was set to FORCE.
+		 * <p>
+		 * Usually required to be called before the action is set to execute
+		 *
+		 * @throws RepositoryException if the removal fails
+		 */
+		public void removeReplacedNode() throws RepositoryException {
+			if (nodeToRemove != null) {
+				nodeToRemove.remove();
+			}
+		}
 	}
 
 	@AllArgsConstructor

@@ -27,6 +27,7 @@ public class CreateChildNode implements Hop<CreateChildNode.Config> {
 		final String primaryType = context.evaluateTemplate(config.primaryType);
 
 		final MoveNode.NewNodeDescriptor descriptor = MoveNode.resolvePathToNewNode(node, name, config.conflict, context);
+		descriptor.removeReplacedNode();
 
 		final Node childNode;
 		if (descriptor.isTargetExists()) {
