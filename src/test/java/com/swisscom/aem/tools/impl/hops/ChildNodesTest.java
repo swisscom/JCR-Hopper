@@ -13,7 +13,6 @@ import com.swisscom.aem.tools.jcrhopper.config.Script;
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
 import io.wcm.testing.mock.aem.junit5.JcrOakAemContext;
-import java.util.Collection;
 import java.util.Collections;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;

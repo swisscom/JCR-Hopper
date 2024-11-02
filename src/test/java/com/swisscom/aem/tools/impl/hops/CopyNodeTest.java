@@ -3,13 +3,11 @@ package com.swisscom.aem.tools.impl.hops;
 import static com.swisscom.aem.tools.testsupport.AemUtil.childNames;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
 
 import com.swisscom.aem.tools.jcrhopper.HopperException;
 import com.swisscom.aem.tools.jcrhopper.Runner;
 import com.swisscom.aem.tools.jcrhopper.RunnerBuilder;
 import com.swisscom.aem.tools.jcrhopper.config.ConflictResolution;
-import com.swisscom.aem.tools.jcrhopper.config.RunHandler;
 import com.swisscom.aem.tools.jcrhopper.config.Script;
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
