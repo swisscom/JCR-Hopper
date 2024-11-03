@@ -71,17 +71,15 @@ class RunnerTest {
 	public void simple() throws RepositoryException, HopperException {
 		final Runner runner = RUNNER_BUILDER.build(
 			new Script(
-				Arrays.asList(
-					new SetProperty.Config().withPropertyName("test").withValue("true"),
-					new CreateChildNode.Config()
-						.withName("cool-item")
-						.withHops(
-							Collections.singletonList(
-								new SetProperty.Config().withPropertyName("TestProp").withValue("'TestValue'")
-							)
+				LogLevel.TRACE,
+				new SetProperty.Config().withPropertyName("test").withValue("true"),
+				new CreateChildNode.Config()
+					.withName("cool-item")
+					.withHops(
+						Collections.singletonList(
+							new SetProperty.Config().withPropertyName("TestProp").withValue("'TestValue'")
 						)
-				),
-				LogLevel.TRACE
+					)
 			)
 		);
 
@@ -260,25 +258,21 @@ class RunnerTest {
 
 		final Runner runner = RUNNER_BUILDER.build(
 			new Script(
-				Arrays.asList(
-					new NodeQuery.Config()
-						.withQuery("SELECT * FROM [nt:unstructured] as n WHERE NAME(n) = 'test-item'")
-						.withCounterName("item")
-						.withHops(
-							Arrays.asList(
-								new SetProperty.Config().withPropertyName("index").withValue("item"),
-								new ChildNodes.Config()
-									.withHops(
-										Collections.singletonList(
-											new SetProperty.Config()
-												.withPropertyName("query")
-												.withValue("query")
-										)
+				LogLevel.TRACE,
+				new NodeQuery.Config()
+					.withQuery("SELECT * FROM [nt:unstructured] as n WHERE NAME(n) = 'test-item'")
+					.withCounterName("item")
+					.withHops(
+						Arrays.asList(
+							new SetProperty.Config().withPropertyName("index").withValue("item"),
+							new ChildNodes.Config()
+								.withHops(
+									Collections.singletonList(
+										new SetProperty.Config().withPropertyName("query").withValue("query")
 									)
-							)
+								)
 						)
-				),
-				LogLevel.TRACE
+					)
 			)
 		);
 

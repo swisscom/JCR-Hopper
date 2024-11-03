@@ -52,10 +52,8 @@ class RunnerServiceTest {
 
 		final Runner runner = runnerBuilder.build(
 			new Script(
-				Collections.singletonList(
-					new ResolveNode.Config().withName("/test").withHops(Collections.singletonList(new ChildNodes.Config()))
-				),
-				LogLevel.DEBUG
+				LogLevel.DEBUG,
+				new ResolveNode.Config().withName("/test").withHops(Collections.singletonList(new ChildNodes.Config()))
 			)
 		);
 

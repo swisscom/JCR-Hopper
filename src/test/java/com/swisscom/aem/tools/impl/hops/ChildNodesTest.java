@@ -13,7 +13,6 @@ import com.swisscom.aem.tools.jcrhopper.config.Script;
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
 import io.wcm.testing.mock.aem.junit5.JcrOakAemContext;
-import java.util.Collections;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +42,7 @@ class ChildNodesTest {
 
 	@Test
 	public void iterate_all() throws RepositoryException, HopperException {
-		builder.build(new Script(Collections.singletonList(new ChildNodes.Config()), LogLevel.DEBUG)).run(session.getNode("/content"), true);
+		builder.build(new Script(LogLevel.DEBUG, new ChildNodes.Config())).run(session.getNode("/content"), true);
 
 		verify(mockRunHandler).log(LogLevel.DEBUG, "Found child node child-1 on /content", null, null);
 		verify(mockRunHandler).log(LogLevel.DEBUG, "Found child node child-2 on /content", null, null);
@@ -53,9 +52,7 @@ class ChildNodesTest {
 
 	@Test
 	public void iterate_wildcard() throws RepositoryException, HopperException {
-		builder
-			.build(new Script(Collections.singletonList(new ChildNodes.Config().withNamePattern("*")), LogLevel.DEBUG))
-			.run(session.getNode("/content"), true);
+		builder.build(new Script(LogLevel.DEBUG, new ChildNodes.Config().withNamePattern("*"))).run(session.getNode("/content"), true);
 
 		verify(mockRunHandler).log(LogLevel.DEBUG, "Found child node child-1 on /content", null, null);
 		verify(mockRunHandler).log(LogLevel.DEBUG, "Found child node child-2 on /content", null, null);
@@ -65,9 +62,7 @@ class ChildNodesTest {
 
 	@Test
 	public void iterate_pattern() throws RepositoryException, HopperException {
-		builder
-			.build(new Script(Collections.singletonList(new ChildNodes.Config().withNamePattern("child-*")), LogLevel.DEBUG))
-			.run(session.getNode("/content"), true);
+		builder.build(new Script(LogLevel.DEBUG, new ChildNodes.Config().withNamePattern("child-*"))).run(session.getNode("/content"), true);
 
 		verify(mockRunHandler).log(LogLevel.DEBUG, "Found child node child-1 on /content", null, null);
 		verify(mockRunHandler).log(LogLevel.DEBUG, "Found child node child-2 on /content", null, null);
@@ -78,12 +73,7 @@ class ChildNodesTest {
 	@Test
 	public void iterate_union() throws RepositoryException, HopperException {
 		builder
-			.build(
-				new Script(
-					Collections.singletonList(new ChildNodes.Config().withNamePattern("child-* | third-child")),
-					LogLevel.DEBUG
-				)
-			)
+			.build(new Script(LogLevel.DEBUG, new ChildNodes.Config().withNamePattern("child-* | third-child")))
 			.run(session.getNode("/content"), true);
 
 		verify(mockRunHandler).log(LogLevel.DEBUG, "Found child node child-1 on /content", null, null);

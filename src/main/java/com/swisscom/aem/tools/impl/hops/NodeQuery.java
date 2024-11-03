@@ -33,7 +33,7 @@ public class NodeQuery implements Hop<NodeQuery.Config> {
 		final Map<String, Object> resultVars = new HashMap<>();
 		final String statement = context.evaluateTemplate(config.query);
 		resultVars.put("query", statement);
-		context.trace("Running JCR query: {}", statement);
+		context.trace("Running {} JCR query: {}", config.queryType, statement);
 		final QueryResult result = getQueryResult(config, node, context, statement);
 		final RowIterator rowIterator = result.getRows();
 		final String[] selectors = result.getSelectorNames();

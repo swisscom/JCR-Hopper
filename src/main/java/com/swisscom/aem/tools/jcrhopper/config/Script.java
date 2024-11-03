@@ -51,6 +51,16 @@ public class Script {
 	/**
 	 * Create a script with the given hops and log level.
 	 *
+	 * @param logLevel the log level verbosity for printed messages
+	 * @param hops     the hops to configure for this script
+	 */
+	public Script(LogLevel logLevel, HopConfig... hops) {
+		this(Arrays.asList(hops), logLevel);
+	}
+
+	/**
+	 * Create a script with the given hops and log level.
+	 *
 	 * @param hops     the hops to configure for this script
 	 * @param logLevel the log level verbosity for printed messages
 	 */
