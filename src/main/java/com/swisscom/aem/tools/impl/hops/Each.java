@@ -58,6 +58,8 @@ public class Each implements Hop<Each.Config> {
 				node = (Node) item;
 			} else if (item instanceof String) {
 				node = context.getJcrFunctions().resolve((String) item);
+			} else {
+				node = null;
 			}
 			if (node == null) {
 				context.error("Iteration item {} could not be resolved as node", item);
