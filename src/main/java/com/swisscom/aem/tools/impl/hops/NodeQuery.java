@@ -71,7 +71,8 @@ public class NodeQuery implements Hop<NodeQuery.Config> {
 		return selectorName;
 	}
 
-	private QueryResult getQueryResult(Config config, Node node, HopContext context, String statement) throws RepositoryException {
+	private QueryResult getQueryResult(Config config, Node node, HopContext context, String statement)
+		throws RepositoryException, HopperException {
 		final QueryManager qm = node.getSession().getWorkspace().getQueryManager();
 		final Query query = qm.createQuery(statement, config.queryType);
 		if (config.limit > 0) {
@@ -86,7 +87,7 @@ public class NodeQuery implements Hop<NodeQuery.Config> {
 			if (value != null) {
 				query.bindValue(bindVar, context.getJcrFunctions().valueFromObject(value));
 			} else {
-				context.error("Could not bind placeholder {} as there is no known variable for it", bindVar);
+				throw new HopperException("Could not bind placeholder " + bindVar + " as there is no known variable for it");
 			}
 		}
 		return query.execute();
