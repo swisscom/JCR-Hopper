@@ -4,6 +4,7 @@ export interface Type extends AnyHop {
 	type: 'createChildNode';
 	name: string;
 	primaryType?: string;
+	runOnExistingNode: boolean;
 	conflict: ConflictResolutionStrategy;
 	hops?: Hop[];
 }
@@ -11,6 +12,7 @@ export interface Type extends AnyHop {
 export const defaultConfig: Partial<Type> = {
 	conflict: 'ignore',
 	name: 'child-name',
+	runOnExistingNode: false,
 };
 
 export const title = 'Create Node';

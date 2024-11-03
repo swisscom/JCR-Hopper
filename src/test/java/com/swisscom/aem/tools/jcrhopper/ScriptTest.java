@@ -41,8 +41,8 @@ class ScriptTest {
 		assertEquals(
 			"Script(hops=[" +
 			"SetProperty.Config(propertyName=sling:resourceType, value='swisscom/sdx/components/containers/tabs', conflict=FORCE), " +
-			"CreateChildNode.Config(name=contents, primaryType=nt:unstructured, conflict=IGNORE, hops=[" +
-			"CreateChildNode.Config(name=shared, primaryType=nt:unstructured, conflict=IGNORE, hops=[" +
+			"CreateChildNode.Config(name=contents, primaryType=nt:unstructured, conflict=IGNORE, runOnExistingNode=false, hops=[" +
+			"CreateChildNode.Config(name=shared, primaryType=nt:unstructured, conflict=IGNORE, runOnExistingNode=false, hops=[" +
 			"SetProperty.Config(propertyName=sling:resourceType, value='swisscom/sdx/components/responsivegrid', conflict=FORCE)" +
 			"])" +
 			"]), " +

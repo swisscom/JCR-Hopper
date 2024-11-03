@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import lombok.AllArgsConstructor;
@@ -54,7 +55,7 @@ public class MoveNode implements Hop<MoveNode.Config> {
 		}
 
 		@SuppressWarnings("PMD.LooseCoupling")
-		final LinkedList<String> parts = Arrays.stream(target.split("\\/"))
+		final LinkedList<String> parts = Arrays.stream(target.split("/"))
 			.filter(StringUtils::isNotEmpty)
 			.collect(Collectors.toCollection(LinkedList::new));
 
@@ -62,8 +63,10 @@ public class MoveNode implements Hop<MoveNode.Config> {
 
 		parent = getParentNode(parts, parent, session, target);
 
-		final boolean needsReplacing = parent.hasNode(target);
-		if (needsReplacing) {
+		// FIXME: What about repositories with support for same-name siblings?
+		boolean targetExists = parent.hasNode(target);
+		Node nodeToRemove = null;
+		if (targetExists) {
 			final Node childNode = parent.getNode(target);
 			switch (conflict) {
 				case IGNORE:
@@ -71,7 +74,8 @@ public class MoveNode implements Hop<MoveNode.Config> {
 					break;
 				case FORCE:
 					context.info("Replacing existing node {}", childNode.getPath());
-					childNode.remove();
+					nodeToRemove = childNode;
+					targetExists = false;
 					break;
 				case THROW:
 					throw new HopperException(String.format("Node %s already exists", childNode.getPath()));
@@ -80,7 +84,8 @@ public class MoveNode implements Hop<MoveNode.Config> {
 			}
 		}
 
-		return new NewNodeDescriptor(parent, target, needsReplacing);
+		final String absolutePath = StringUtils.stripEnd(parent.getPath(), "/") + '/' + target;
+		return new NewNodeDescriptor(parent, target, absolutePath, targetExists, nodeToRemove);
 	}
 
 	private static Node getParentNode(List<String> parts, Node startParent, Session session, String target)
@@ -120,14 +125,34 @@ public class MoveNode implements Hop<MoveNode.Config> {
 		}
 
 		final NewNodeDescriptor descriptor = resolvePathToNewNode(parent, newName, config.conflict, context);
-		if (descriptor.getParent().hasNode(descriptor.getNewChildName())) {
+		if (descriptor.targetExists) {
 			return;
 		}
 
-		final String absolutePath = descriptor.getParent().getPath() + '/' + descriptor.getNewChildName();
-		context.info("Moving node from {} to {}", node.getPath(), absolutePath);
+		final Node effectiveParent = descriptor.getParent();
+		context.info("Moving node from {} to {}", node.getPath(), descriptor.absolutePath);
 
-		node.getSession().move(node.getPath(), absolutePath);
+		final String nextSiblingName = getNextSiblingName(node, parent, descriptor.parent);
+		node.getSession().move(node.getPath(), descriptor.absolutePath);
+
+		if (nextSiblingName != null) {
+			effectiveParent.orderBefore(descriptor.newChildName, nextSiblingName);
+		}
+	}
+
+	private static String getNextSiblingName(Node node, Node oldParent, Node newParent) throws RepositoryException {
+		if (!StringUtils.equals(oldParent.getPath(), newParent.getPath())) {
+			return null;
+		}
+		String nextSibling = null;
+		final NodeIterator siblingIterator = oldParent.getNodes();
+		while (siblingIterator.hasNext()) {
+			if (StringUtils.equals(siblingIterator.nextNode().getPath(), node.getPath()) && siblingIterator.hasNext()) {
+				nextSibling = siblingIterator.nextNode().getName();
+				break;
+			}
+		}
+		return nextSibling;
 	}
 
 	@Nonnull
@@ -148,7 +173,22 @@ public class MoveNode implements Hop<MoveNode.Config> {
 
 		private final Node parent;
 		private final String newChildName;
-		private final boolean needsReplacing;
+		private final String absolutePath;
+		private final boolean targetExists;
+		private final Node nodeToRemove;
+
+		/**
+		 * Removes the replaced node if conflict was set to FORCE.
+		 * <p>
+		 * Usually required to be called before the action is set to execute
+		 *
+		 * @throws RepositoryException if the removal fails
+		 */
+		public void removeReplacedNode() throws RepositoryException {
+			if (nodeToRemove != null) {
+				nodeToRemove.remove();
+			}
+		}
 	}
 
 	@AllArgsConstructor

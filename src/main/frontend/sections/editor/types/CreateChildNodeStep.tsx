@@ -8,6 +8,7 @@ import { Help } from '../../../widgets/Help';
 import { Input } from '../../../widgets/Input';
 import { Pipeline } from '../Pipeline';
 import { Conflict } from '../../../widgets/Conflict';
+import { Switch } from '../../../widgets/Switch';
 
 export const CreateChildNodeStep = forwardRef<HTMLDivElement, { parentHops: Hop[]; hop: Type }>(function CreateChildNodeStep(
 	{ parentHops, hop },
@@ -32,9 +33,18 @@ export const CreateChildNodeStep = forwardRef<HTMLDivElement, { parentHops: Hop[
 			<Conflict
 				label="If the target node exists"
 				forceLabel="Replace the target node"
+				ignoreLabel="Ignore conflict"
 				value={hop.conflict ?? 'ignore'}
 				onChange={conflict => (hop.conflict = conflict)}
 			/>
+			{hop.conflict == 'ignore' ? (
+				<Switch
+					label="Run on existing node"
+					value={hop.runOnExistingNode}
+					disabled={!hop.hops?.length}
+					onChange={runOnExistingNode => (hop.runOnExistingNode = runOnExistingNode)}
+				/>
+			) : undefined}
 			<Help title={title}>
 				<h5>Name of New Child Node</h5>
 				<p>The name of the child node to be created.</p>
@@ -52,10 +62,11 @@ export const CreateChildNodeStep = forwardRef<HTMLDivElement, { parentHops: Hop[
 					The primary type to set on the new node. If left empty, defaults to <code>nt:unstructured</code>
 				</p>
 				<h5>If the target node exists</h5>
+				<p>How to handle the case where the target node already exists.</p>
+				<h5>Run on existing node</h5>
 				<p>
-					How to handle the case where the target node already exists. Note that choosing “Ignore conflict” will use the
-					existing node to run descendent pipeline steps on. To stop the descendent pipeline from running in this case,
-					choose “Throw an exception” and place this step inside a “Catch Pipeline Errors” step.
+					Whether to run the descendant hops if the target node already existed and no new node could be created (only
+					applicable if “If the target node exists” is set to “Ignore conflict”).
 				</p>
 			</Help>
 		</StepEditor>

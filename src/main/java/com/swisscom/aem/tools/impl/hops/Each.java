@@ -5,6 +5,7 @@ import com.swisscom.aem.tools.jcrhopper.config.Hop;
 import com.swisscom.aem.tools.jcrhopper.config.HopConfig;
 import com.swisscom.aem.tools.jcrhopper.context.HopContext;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,8 +38,8 @@ public class Each implements Hop<Each.Config> {
 				runWith(config, ((Iterator<?>) items).next(), index++, node, context);
 			}
 		} else if (items.getClass().isArray()) {
-			for (Object item : (Object[]) items) {
-				runWith(config, item, index++, node, context);
+			for (index = 0; index < Array.getLength(items); index++) {
+				runWith(config, Array.get(items, index), index, node, context);
 			}
 		} else {
 			runWith(config, items, index, node, context);
@@ -57,6 +58,8 @@ public class Each implements Hop<Each.Config> {
 				node = (Node) item;
 			} else if (item instanceof String) {
 				node = context.getJcrFunctions().resolve((String) item);
+			} else {
+				node = null;
 			}
 			if (node == null) {
 				context.error("Iteration item {} could not be resolved as node", item);
