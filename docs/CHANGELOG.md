@@ -1,3 +1,20 @@
+## [0.5.0](https://github.com/swisscom/JCR-Hopper/compare/v0.4.0...v0.5.0) (2024-11-03)
+
+
+### Features
+
+* **editor:** disable the existing node switch if there aren’t any hops to run ([c5728c6](https://github.com/swisscom/JCR-Hopper/commit/c5728c618b2ae8b14933fc4def5db179c9bba02e))
+* **runner:** add option to control running descendant steps on existing nodes ([8bb8aa8](https://github.com/swisscom/JCR-Hopper/commit/8bb8aa8240ee169e7f84f0233ae3131b95f7a9f5))
+
+
+### Bug Fixes
+
+* **runner:** allow each to loop over primitive and nested arrays ([214f936](https://github.com/swisscom/JCR-Hopper/commit/214f936676915937872ac3eb7756f75cb60c3f8e))
+* **runner:** allow moving to the root node ([6f64314](https://github.com/swisscom/JCR-Hopper/commit/6f64314e2a9bfc0d7c5ba5e226336b20ac431547))
+* **runner:** ensure `each` skips iterations on non-nodes when assumeNodes is true ([a47fd3a](https://github.com/swisscom/JCR-Hopper/commit/a47fd3a83a6103878bd0628313befc490856c574))
+* **runner:** refactor copyNode hop ([c08663c](https://github.com/swisscom/JCR-Hopper/commit/c08663c8e96805a5095fac8971f4350dd53a72e9))
+* **runner:** renamed nodes now keep their position ([a944fb7](https://github.com/swisscom/JCR-Hopper/commit/a944fb75ccf978c6abf6277b42c9e79eaf3fbcf1)), closes [#16](https://github.com/swisscom/JCR-Hopper/issues/16)
+
 ## [0.4.0](https://github.com/swisscom/JCR-Hopper/compare/v0.3.0...v0.4.0) (2024-10-31)
 
 
@@ -30,6 +47,4 @@
 * **meta:** swap icon for color logo ([fb68109](https://github.com/swisscom/JCR-Hopper/commit/fb6810976063f9a1c6e8d38ac75a0d6526c2add3))
 
 ## [0.1.4](https://github.com/swisscom/JCR-Hopper/compare/v0.1.3...v0.1.4) (2024-10-17)
-
-## [0.1.3](https://github.com/swisscom/JCR-Hopper/compare/v0.1.2...v0.1.3) (2024-10-17)
 
