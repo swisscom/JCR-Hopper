@@ -8,7 +8,7 @@
 		"test:playwright": "playwright test --config configs/playwright.config.ts",
 		"test:format": "prettier --check .",
 		"watch": "concurrently npm:watch:*",
-		"watch:serve": "serve",
+		"watch:serve": "serve --config=configs/serve.json",
 		"watch:parcel": "parcel watch",
 		"build": "parcel build",
 		"install:playwright": "playwright install --with-deps"

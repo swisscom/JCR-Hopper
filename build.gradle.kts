@@ -188,6 +188,14 @@ aem {
 		withType<Jar> {
 			bundle {
 				javaPackage.set("${project.group}.jcrhopper")
+
+				bnd(
+					"""
+					Import-Package: javax.annotation;version=0.0.0,\
+						org.apache.commons.logging;version=0.0.0,\
+						*;provide:=false
+				""".trimIndent()
+				)
 			}
 		}
 	}
