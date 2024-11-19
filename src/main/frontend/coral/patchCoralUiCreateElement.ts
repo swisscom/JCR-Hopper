@@ -2,7 +2,6 @@
  * Coral UI overrides document.createElement with a version that doesn’t understand when an object is passed as second argument.
  */
 export function patchCoralUiCreateElement() {
-	// eslint-disable-next-line @typescript-eslint/unbound-method
 	const createElement = document.createElement;
 
 	if (createElement === Document.prototype.createElement) {

@@ -119,6 +119,7 @@ aem {
 
 			inputs.dir("src/main/frontend")
 			inputs.file("package-lock.json")
+			outputs.upToDateWhen { false }
 		}
 
 		val tsc by registering(NpmTask::class) {
