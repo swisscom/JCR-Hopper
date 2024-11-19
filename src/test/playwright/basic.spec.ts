@@ -15,7 +15,7 @@ test('add step', async ({ page }) => {
 	await expect(page).toHaveScreenshot();
 	await page.getByRole('option', { name: 'Query JCR' }).click();
 	await page.getByLabel('Log Level: INFO').click();
-  await page.getByRole('option', { name: 'TRACE' }).click();
+	await page.getByRole('option', { name: 'TRACE' }).click();
 	await expect(page).toHaveScreenshot();
 
 	const step = page.locator('.hop-config.nodeQuery');
@@ -61,5 +61,4 @@ test('add step', async ({ page }) => {
     - text: /info JCR Hopper script finished after \\d+[hmsp]+ warn Not saving changes as dry run is enabled error Script execution aborted with exception/
     - button "!!"
 	`);
-
 });
