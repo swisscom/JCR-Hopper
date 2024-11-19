@@ -5,11 +5,13 @@
 		"test": "echo \"Error: use ./gradlew check to test\" && exit 1",
 		"test:lint": "eslint . --max-warnings 0",
 		"test:compile": "tsc --noEmit --project .",
+		"test:playwright": "playwright test --config configs/playwright.config.ts",
 		"test:format": "prettier --check .",
 		"watch": "concurrently npm:watch:*",
 		"watch:serve": "serve",
 		"watch:parcel": "parcel watch",
-		"build": "parcel build"
+		"build": "parcel build",
+		"install:playwright": "playwright install --with-deps"
 	},
 	"targets": {
 		"editor": {
@@ -21,7 +23,9 @@
 	"devDependencies": {
 		"@parcel/optimizer-data-url": "^2.12.0",
 		"@parcel/transformer-inline-string": "^2.12.0",
+		"@playwright/test": "^1.48.2",
 		"@prettier/plugin-xml": "^3.4.1",
+		"@types/node": "^22.9.0",
 		"@types/react": "^18.3.11",
 		"@types/react-dom": "^18.3.0",
 		"@typescript-eslint/eslint-plugin": "^8.8.0",
@@ -32,6 +36,7 @@
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-react": "^7.37.1",
 		"eslint-plugin-react-hooks": "^4.6.2",
+		"get-port-please": "^3.1.2",
 		"immer": "^10.1.1",
 		"parcel": "^2.12.0",
 		"prettier": "^3.3.3",
