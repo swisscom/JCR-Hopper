@@ -23,6 +23,9 @@ jobs:
           distribution: 'zulu'
       - uses: gradle/actions/setup-gradle@v4
 
+      - name: Download Icons
+        run: (cd mock && curl -Lo AdobeSpectrumIcons18.woff2 "https://developer.adobe.com/experience-manager/reference-materials/6-5/coral-ui/coralui3/resources/coralui-component-icon/AdobeSpectrumIcons18.woff2?651453a29a2cf87546cdc6215616731e" && curl -Lo AdobeSpectrumIcons24.woff2 "https://developer.adobe.com/experience-manager/reference-materials/6-5/coral-ui/coralui3/resources/coralui-component-icon/AdobeSpectrumIcons24.woff2?b750bfd862e4ef0daea700228de3e788")
+
       - name: Run checks
         run: ./gradlew playwrightInstall check --continue
 

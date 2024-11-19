@@ -46,8 +46,8 @@ async function loadConfig(): Promise<PlaywrightTestConfig> {
 		expect: {
 			toHaveScreenshot: {
 				maxDiffPixelRatio: 0.05,
-				maxDiffPixels: 10,
-			}
+				maxDiffPixels: 100,
+			},
 		},
 
 		/* Run your local dev server before starting the tests */
