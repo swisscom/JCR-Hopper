@@ -23,4 +23,11 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Run checks
-        run: ./gradlew check --continue
+        run: ./gradlew playwrightInstall check --continue
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: reports
+          path: build/reports/
+          retention-days: 30
