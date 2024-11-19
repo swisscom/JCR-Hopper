@@ -31,3 +31,8 @@ jobs:
           name: reports
           path: build/reports/
           retention-days: 30
+
+      - uses: mikepenz/action-junit-report@v5
+        if: ${{ !cancelled() }}
+        with:
+          report_paths: '**/build/test-results/test/TEST-*.xml'
