@@ -1,3 +1,10 @@
+## [0.5.1](https://github.com/swisscom/JCR-Hopper/compare/v0.5.0...v0.5.1) (2024-11-19)
+
+
+### Bug Fixes
+
+* **meta:** clean up config files in root ([74fe1b2](https://github.com/swisscom/JCR-Hopper/commit/74fe1b2a37a36e59d6eb368d5d23a594fe643c9e))
+
 ## [0.5.0](https://github.com/swisscom/JCR-Hopper/compare/v0.4.0...v0.5.0) (2024-11-03)
 
 
@@ -45,6 +52,4 @@
 * **meta:** add to aem tools panel pr fixes ([e3ff73b](https://github.com/swisscom/JCR-Hopper/commit/e3ff73be83ee2d07817186293d6818dafa983efd))
 * **meta:** adds configuration to include jcr-hopper in aem tools ([ab683ad](https://github.com/swisscom/JCR-Hopper/commit/ab683ad1c3d1a1ac8d1a106c13908dcf10b36804))
 * **meta:** swap icon for color logo ([fb68109](https://github.com/swisscom/JCR-Hopper/commit/fb6810976063f9a1c6e8d38ac75a0d6526c2add3))
-
-## [0.1.4](https://github.com/swisscom/JCR-Hopper/compare/v0.1.3...v0.1.4) (2024-10-17)
 
