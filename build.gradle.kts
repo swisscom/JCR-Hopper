@@ -144,6 +144,7 @@ aem {
 
 			inputs.dir("src/test/playwright")
 			inputs.file("configs/playwright.config.ts")
+			outputs.dir(project.layout.buildDirectory.dir(name))
 			outputs.dir(project.layout.buildDirectory.dir("reports/$name"))
 		}
 

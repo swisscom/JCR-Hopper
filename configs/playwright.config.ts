@@ -1,7 +1,7 @@
 import { devices, PlaywrightTestConfig } from '@playwright/test';
 import { getPort } from 'get-port-please';
 
-const outputDir = '../build/reports/playwright';
+const outputDir = '../build/playwright';
 
 async function loadConfig(): Promise<PlaywrightTestConfig> {
 	const port = await getPort({ random: true });
@@ -21,7 +21,7 @@ async function loadConfig(): Promise<PlaywrightTestConfig> {
 		workers: process.env.CI ? 1 : undefined,
 		/* Reporter to use. See https://playwright.dev/docs/test-reporters */
 		reporter: [
-			['html', { open: 'never', outputFolder: outputDir }],
+			['html', { open: 'never', outputFolder: '../build/reports/playwright' }],
 			['junit', { outputFile: `${outputDir}/TEST-playwright.xml` }],
 		],
 		/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -42,6 +42,13 @@ async function loadConfig(): Promise<PlaywrightTestConfig> {
 				use: { ...devices['Desktop Chrome'] },
 			},
 		],
+
+		expect: {
+			toHaveScreenshot: {
+				maxDiffPixelRatio: 0.05,
+				maxDiffPixels: 10,
+			}
+		},
 
 		/* Run your local dev server before starting the tests */
 		webServer: {
