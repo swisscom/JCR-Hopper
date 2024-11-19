@@ -20,7 +20,10 @@ async function loadConfig(): Promise<PlaywrightTestConfig> {
 		/* Opt out of parallel tests on CI. */
 		workers: process.env.CI ? 1 : undefined,
 		/* Reporter to use. See https://playwright.dev/docs/test-reporters */
-		reporter: [['html', { open: process.env.CI ? 'never' : 'on-failure', outputFolder: outputDir }]],
+		reporter: [
+			['html', { open: process.env.CI ? 'never' : 'on-failure', outputFolder: outputDir }],
+			['junit', { outputFile: `${outputDir}/TEST-playwright.xml` }],
+		],
 		/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 		use: {
 			/* Base URL to use in actions like `await page.goto('/')`. */
