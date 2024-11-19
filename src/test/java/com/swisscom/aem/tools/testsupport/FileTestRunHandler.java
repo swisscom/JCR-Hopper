@@ -14,13 +14,14 @@ public class FileTestRunHandler implements RunHandler {
 
 	@Override
 	public void file(@Nonnull File file) {
-		lastFile = file.getName() +
-		'.' +
-		file.getExtension() +
-		" (" +
-		file.getMimeType() +
-		"):\n" +
-		new String(file.getContents(), StandardCharsets.UTF_8);
+		lastFile =
+			file.getName() +
+			'.' +
+			file.getExtension() +
+			" (" +
+			file.getMimeType() +
+			"):\n" +
+			new String(file.getContents(), StandardCharsets.UTF_8);
 	}
 
 	@Override

@@ -24,8 +24,19 @@ The following checks must succeed before code can be merged:
 - Prettier
 - TypeScript compile
 - ESLint
+- Playwright
 
 The `./gradlew check` command executes them all. To reformat code, use `./gradlew prettierFormat`.
+
+The playwright tests also include visual regression tests. The reference images only exist for chromium on linux. All other variations have been deemed too flaky. If you are not on linux (or WSL), you can use docker to run the tests (check the current version of playwright in `package.json` and adjust `PLAYWRIGHT_VERSION` accordingly):
+
+```bash
+PLAYWRIGHT_VERSION=v1.49.0
+./gradlew frontendBuild
+docker run -v .:/app --workdir /app -it --rm mcr.microsoft.com/playwright:$PLAYWRIGHT_VERSION-noble npm run test:playwright
+```
+
+Exclude the playwright task from `./gradlew check` by passing `-x playwright`.
 
 ### Working on the GUI editor
 
