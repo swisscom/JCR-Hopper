@@ -1,0 +1,46 @@
+{
+	"logLevel": "info",
+	"hops": [
+		{
+			"type": "declare",
+			"declarations": {
+				"sourceResourceType": "\"swisscom/components/content/accordion\"",
+				"destinationResourceType": "\"swisscom/components/content/accordion-new\""
+			}
+		},
+		{
+			"type": "nodeQuery",
+			"query": "SELECT * FROM [nt:unstructured] as component WHERE component.[sling:resourceType] = \"${sourceResourceType}\"",
+			"queryType": "JCR-SQL2",
+			"hops": [
+				{
+					"type": "setProperty",
+					"conflict": "force",
+					"propertyName": "sling:resourceType",
+					"value": "destinationResourceType"
+				}
+			]
+		},
+		{
+			"type": "declare",
+			"declarations": {
+				"sourceTemplate": "\"/conf/swisscom/settings/wcm/templates/swisscom-content-page\"",
+				"destinationTemplate": "\"/conf/swisscom/settings/wcm/templates/swisscom-content-page-new\""
+			}
+		},
+		{
+			"type": "nodeQuery",
+			"query": "SELECT * FROM [nt:unstructured] AS page WHERE [cq:template] = \"${sourceTemplate}\"",
+			"queryType": "JCR-SQL2",
+			"hops": [
+				{
+					"type": "setProperty",
+					"conflict": "force",
+					"propertyName": "cq:template",
+					"value": "destinationTemplate"
+				}
+			]
+		}
+	],
+	"parameters": []
+}

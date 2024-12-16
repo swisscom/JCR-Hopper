@@ -1,0 +1,32 @@
+{
+	"logLevel": "info",
+	"hops": [
+		{
+			"type": "declare",
+			"declarations": {
+				"path": "\"/content/swisscom/de\"",
+				"sourcePropertyName": "\"navTitle\"",
+				"destinationPropertyName": "\"navTitle-new\""
+			}
+		},
+		{
+			"type": "runScript",
+			"code": "xPathQuery = str:join([\"/jcr:root\", path, \"//*[@\", sourcePropertyName, \"]\"]);",
+			"extension": "jexl",
+			"putLocalsBackIntoScope": true
+		},
+		{
+			"type": "nodeQuery",
+			"query": "${xPathQuery}",
+			"queryType": "xpath",
+			"hops": [
+				{
+					"type": "renameProperty",
+					"newName": "${destinationPropertyName}",
+					"propertyName": "${sourcePropertyName}"
+				}
+			]
+		}
+	],
+	"parameters": []
+}

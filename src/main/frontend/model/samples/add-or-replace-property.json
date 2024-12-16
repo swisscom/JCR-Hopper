@@ -1,0 +1,33 @@
+{
+	"logLevel": "info",
+	"hops": [
+		{
+			"type": "declare",
+			"declarations": {
+				"propertyName": "\"pName\"",
+				"propertyValue": "\"pValue\""
+			}
+		},
+		{
+			"type": "each",
+			"expression": "['de', 'fr', 'it', 'en']",
+			"hops": [
+				{
+					"type": "nodeQuery",
+					"query": "SELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([/content/swisscom/${lang}])",
+					"queryType": "JCR-SQL2",
+					"hops": [
+						{
+							"type": "setProperty",
+							"conflict": "force",
+							"propertyName": "${propertyName}",
+							"value": "propertyValue"
+						}
+					]
+				}
+			],
+			"iterator": "lang"
+		}
+	],
+	"parameters": []
+}

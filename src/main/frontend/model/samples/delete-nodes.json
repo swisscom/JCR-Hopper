@@ -1,0 +1,26 @@
+{
+	"logLevel": "info",
+	"hops": [
+		{
+			"type": "each",
+			"expression": "['de', 'fr', 'it', 'en']",
+			"hops": [
+				{
+					"type": "nodeQuery",
+					"query": "SELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([/content/swisscom/${lang}]) AND [cq:template] = '/conf/swisscom/settings/wcm/templates/swisscom-content-page'",
+					"queryType": "JCR-SQL2",
+					"hops": [
+						{
+							"type": "moveNode",
+							"conflict": "ignore",
+							"newName": "/dev/null"
+						}
+					]
+				}
+			],
+			"iterator": "lang",
+			"assumeNodes": false
+		}
+	],
+	"parameters": []
+}

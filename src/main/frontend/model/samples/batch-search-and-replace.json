@@ -1,0 +1,77 @@
+{
+	"logLevel": "info",
+	"hops": [
+		{
+			"type": "nodeQuery",
+			"query": "SELECT * FROM [nt:unstructured] WHERE ISDESCENDANTNODE([/content/example]) AND [sling:resourceType] = 'granite/ui/components/coral/foundation/form/textfield'",
+			"queryType": "JCR-SQL2",
+			"hops": [
+				{
+					"type": "each",
+					"expression": "args.inputPropertyValues",
+					"hops": [
+						{
+							"type": "runScript",
+							"code": "/*\n    The inputPropertyValues file should be in the format <propertyName>,<oldValue>,<newValue> ex.:\n        propertyName,oldVal,newVal\n        propertyName1,oldVal1,newVal1\n*/\n\nsplitted = str:split(vals, ',');\n\nif(arr:getLength(splitted) == 3) {\n    propertyName = splitted[0];\n    oldValue = splitted[1];\n    newValue = splitted[2];\n} else {\n    propertyName = \"\";\n    oldValue = \"\";\n    newValue = \"\";\n}\n",
+							"extension": "jexl",
+							"putLocalsBackIntoScope": true
+						},
+						{
+							"type": "filterNode",
+							"expression": "jcr:val(node, propertyName) == oldValue",
+							"hops": [
+								{
+									"type": "setProperty",
+									"conflict": "force",
+									"propertyName": "${propertyName}",
+									"value": "newValue"
+								}
+							]
+						}
+					],
+					"iterator": "vals"
+				}
+			]
+		},
+		{
+			"type": "each",
+			"expression": "args.inputXPath",
+			"hops": [
+				{
+					"type": "runScript",
+					"code": "/*\n    The inputXPath file should be in the form <propertyName>;<xPathQuery>;<propertyValue> ex.:\n        propertyName;/jcr:root/content/swisscom/de//*[@sling:resourceType='foundation/components/parsys']/*[not(@sling:resourceType)];newVal\n        propertyName1;/jcr:root/content/swisscom/de//*[(jcr:like(@sling:resourceType, 'swisscom/components/content/text'))];newVal1\n*/\n\nsplitted = str:split(vals, ';');\n\nif(arr:getLength(splitted) == 3) {\n    propertyName = splitted[0];\n    xPathQuery = splitted[1];\n    newValue = splitted[2];\n} else {\n    propertyName = \"\";\n    xPathQuery = \"\";\n    newValue = \"\";\n}\n",
+					"extension": "jexl",
+					"putLocalsBackIntoScope": true
+				},
+				{
+					"type": "nodeQuery",
+					"query": "${xPathQuery}",
+					"queryType": "xpath",
+					"hops": [
+						{
+							"type": "setProperty",
+							"conflict": "force",
+							"propertyName": "${propertyName}",
+							"value": "newValue"
+						}
+					]
+				}
+			],
+			"iterator": "vals"
+		}
+	],
+	"parameters": [
+		{
+			"name": "inputPropertyValues",
+			"defaultValue": "",
+			"type": "file",
+			"evaluation": "LINES"
+		},
+		{
+			"name": "inputXPath",
+			"defaultValue": "",
+			"type": "file",
+			"evaluation": "LINES"
+		}
+	]
+}
