@@ -12,7 +12,7 @@
 					"hops": [
 						{
 							"type": "runScript",
-							"code": "/*\n    The inputPropertyValues file should be in the format <propertyName>,<oldValue>,<newValue> ex.:\n        propertyName,oldVal,newVal\n        propertyName1,oldVal1,newVal1\n*/\n\nsplitted = str:split(vals, ',');\n\nif(arr:getLength(splitted) == 3) {\n    propertyName = splitted[0];\n    oldValue = splitted[1];\n    newValue = splitted[2];\n} else {\n    propertyName = \"\";\n    oldValue = \"\";\n    newValue = \"\";\n}\n",
+							"code": "/*\n    The inputPropertyValues file should be in the format <propertyName>,<oldValue>,<newValue> ex.:\n        propertyName,oldVal,newVal\n        propertyName1,oldVal1,newVal1\n*/\n\nsplit = str:split(vals, ',');\n\nif(arr:getLength(split) == 3) {\n    propertyName = split[0];\n    oldValue = split[1];\n    newValue = split[2];\n} else {\n    propertyName = \"\";\n    oldValue = \"\";\n    newValue = \"\";\n}\n",
 							"extension": "jexl",
 							"putLocalsBackIntoScope": true
 						},
@@ -39,7 +39,7 @@
 			"hops": [
 				{
 					"type": "runScript",
-					"code": "/*\n    The inputXPath file should be in the form <propertyName>;<xPathQuery>;<propertyValue> ex.:\n        propertyName;/jcr:root/content/swisscom/de//*[@sling:resourceType='foundation/components/parsys']/*[not(@sling:resourceType)];newVal\n        propertyName1;/jcr:root/content/swisscom/de//*[(jcr:like(@sling:resourceType, 'swisscom/components/content/text'))];newVal1\n*/\n\nsplitted = str:split(vals, ';');\n\nif(arr:getLength(splitted) == 3) {\n    propertyName = splitted[0];\n    xPathQuery = splitted[1];\n    newValue = splitted[2];\n} else {\n    propertyName = \"\";\n    xPathQuery = \"\";\n    newValue = \"\";\n}\n",
+					"code": "/*\n    The inputXPath file should be in the form <propertyName>;<xPathQuery>;<propertyValue> ex.:\n        propertyName;/jcr:root/content/swisscom/de//*[@sling:resourceType='foundation/components/parsys']/*[not(@sling:resourceType)];newVal\n        propertyName1;/jcr:root/content/swisscom/de//*[(jcr:like(@sling:resourceType, 'swisscom/components/content/text'))];newVal1\n*/\n\nsplit = str:split(vals, ';');\n\nif(arr:getLength(split) == 3) {\n    propertyName = split[0];\n    xPathQuery = split[1];\n    newValue = split[2];\n} else {\n    propertyName = \"\";\n    xPathQuery = \"\";\n    newValue = \"\";\n}\n",
 					"extension": "jexl",
 					"putLocalsBackIntoScope": true
 				},
