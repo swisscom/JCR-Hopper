@@ -2,16 +2,8 @@
 	"logLevel": "info",
 	"hops": [
 		{
-			"type": "declare",
-			"declarations": {
-				"path": "\"/content/swisscom/de\"",
-				"phrase": "\"https://www.swisscom.ch/content/de\"",
-				"extension": "\".html\""
-			}
-		},
-		{
 			"type": "runScript",
-			"code": "xPathQuery = str:join([\"/jcr:root\", path, \"//*[jcr:contains(., '\", phrase, \"') and jcr:contains(., '\", extension, \"') ]\"]);\n\n",
+			"code": "xPathQuery = str:join([\"/jcr:root\", args.path, \"//*[jcr:contains(., '\", args.phrase, \"') and jcr:contains(., '\", args.extension, \"') ]\"]);\n\n",
 			"extension": "jexl",
 			"putLocalsBackIntoScope": true
 		},
@@ -26,7 +18,7 @@
 					"hops": [
 						{
 							"type": "filterNode",
-							"expression": "property.type == 1 && !property.multiple && str:contains(jcr:val(node, property.name), phrase ) && str:contains(jcr:val(node, property.name), extension) ",
+							"expression": "property.type == 1 && !property.multiple && str:contains(jcr:val(node, property.name), args.phrase ) && str:contains(jcr:val(node, property.name), args.extension) ",
 							"hops": [
 								{
 									"type": "runScript",
@@ -48,7 +40,7 @@
 								},
 								{
 									"type": "filterNode",
-									"expression": "str:contains(joinedProperty, phrase) && str:contains(joinedProperty, extension)",
+									"expression": "str:contains(joinedProperty, args.phrase) && str:contains(joinedProperty, args.extension)",
 									"hops": [
 										{
 											"type": "runScript",
@@ -66,5 +58,24 @@
 			]
 		}
 	],
-	"parameters": []
+	"parameters": [
+		{
+			"name": "phrase",
+			"defaultValue": "https://www.project.ch/content/de",
+			"type": "text",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "extension",
+			"defaultValue": ".html",
+			"type": "text",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "path",
+			"defaultValue": "/content/project/de",
+			"type": "text",
+			"evaluation": "STRING"
+		}
+	]
 }
