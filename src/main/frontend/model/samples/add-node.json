@@ -2,42 +2,44 @@
 	"logLevel": "info",
 	"hops": [
 		{
-			"type": "declare",
-			"declarations": {
-				"nodeName": "\"nName\"",
-				"jcrPrimaryType": "\"cq:PageContent\"",
-				"slingResourceType": "\"swisscom/components/structure/page\""
-			}
-		},
-		{
-			"type": "each",
-			"expression": "['de', 'fr', 'it', 'en']",
+			"type": "nodeQuery",
+			"query": "/* The search query has to return the parent nodes we want to act on */\nSELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([/content/project])",
+			"queryType": "JCR-SQL2",
 			"hops": [
 				{
-					"type": "nodeQuery",
-					"query": "/* The search query has to return the parent nodes we want to act on */\nSELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([/content/swisscom/${lang}])",
-					"queryType": "JCR-SQL2",
+					"type": "createChildNode",
+					"conflict": "force",
+					"name": "${args.nName}",
+					"runOnExistingNode": false,
 					"hops": [
 						{
-							"type": "createChildNode",
+							"type": "setProperty",
 							"conflict": "force",
-							"name": "${nodeName}",
-							"runOnExistingNode": false,
-							"hops": [
-								{
-									"type": "setProperty",
-									"conflict": "force",
-									"propertyName": "sling:resourceType",
-									"value": "slingResourceType"
-								}
-							],
-							"primaryType": "${jcrPrimaryType}"
+							"propertyName": "sling:resourceType",
+							"value": "args.slingResourceType"
 						}
-					]
+					],
+					"primaryType": "${args.jcrPrimaryType}"
 				}
-			],
-			"iterator": "lang"
+			]
 		}
 	],
-	"parameters": []
+	"parameters": [
+		{
+			"name": "nName",
+			"defaultValue": "nName",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "jcrPrimaryType",
+			"defaultValue": "cq:PageContent",
+			"evaluation": "STRING",
+			"type": "text"
+		},
+		{
+			"name": "slingResourceType",
+			"defaultValue": "project/components/page",
+			"evaluation": "STRING"
+		}
+	]
 }
