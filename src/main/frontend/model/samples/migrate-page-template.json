@@ -1,0 +1,32 @@
+{
+	"logLevel": "info",
+	"hops": [
+		{
+			"type": "nodeQuery",
+			"query": "SELECT * FROM [cq:PageContent] AS page WHERE [cq:template] = \"${args.sourceTemplate}\"",
+			"queryType": "JCR-SQL2",
+			"hops": [
+				{
+					"type": "setProperty",
+					"conflict": "force",
+					"propertyName": "cq:template",
+					"value": "args.destinationTemplate"
+				}
+			]
+		}
+	],
+	"parameters": [
+		{
+			"name": "sourceTemplate",
+			"defaultValue": "/conf/project/settings/wcm/templates/page",
+			"type": "text",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "destinationTemplate",
+			"defaultValue": "/conf/project/settings/wcm/templates/page-new",
+			"type": "text",
+			"evaluation": "STRING"
+		}
+	]
+}

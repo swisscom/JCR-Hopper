@@ -5,6 +5,7 @@ import updateBuildTimestamp from './update-build-timestamp.json';
 import findComponentAndPage from './find-component-and-page.json';
 import createMissingJcrContentNodes from './create-missing-jcr-content-nodes.json';
 import migrateResourceType from './migrate-resource-type.json';
+import migratePageTemplate from './migrate-page-template.json';
 import batchSearchAndReplace from './batch-search-and-replace.json';
 import checkHardcodedUrls from './check-hardcoded-urls.json';
 import removeDeprecatedLegacyUrls from './remove-deprecated-legacy-urls.json';
@@ -59,6 +60,10 @@ export const SAMPLES: Sample[] = [
 	{
 		config: migrateResourceType as Script,
 		label: 'Sample: Migrate Resource Type',
+	},
+	{
+		config: migratePageTemplate as Script,
+		label: 'Sample: Migrate Page Template',
 	},
 	{
 		config: batchSearchAndReplace as Script,
