@@ -1,0 +1,38 @@
+{
+	"logLevel": "info",
+	"hops": [
+		{
+			"type": "declare",
+			"declarations": {
+				"nodeOldName": "\"oldName\"",
+				"nodeNewName": "\"newName\""
+			}
+		},
+		{
+			"type": "each",
+			"expression": "['de', 'fr', 'it', 'en']",
+			"hops": [
+				{
+					"type": "nodeQuery",
+					"query": "/* The search query has to return the parent nodes we want to act on. */\nSELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([/content/swisscom/${lang}/res/_/aaaaaaaaaaaaaaaaaaaaaaaa])",
+					"queryType": "JCR-SQL2",
+					"hops": [
+						{
+							"type": "childNodes",
+							"namePattern": "${nodeOldName}",
+							"hops": [
+								{
+									"type": "moveNode",
+									"conflict": "force",
+									"newName": "${nodeNewName}"
+								}
+							]
+						}
+					]
+				}
+			],
+			"iterator": "lang"
+		}
+	],
+	"parameters": []
+}
