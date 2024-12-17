@@ -30,7 +30,7 @@
 		},
 		{
 			"type": "nodeQuery",
-			"query": "SELECT * FROM [nt:unstructured] AS page WHERE [cq:template] = \"${sourceTemplate}\"",
+			"query": "SELECT * FROM [cq:PageContent] AS page WHERE [cq:template] = \"${sourceTemplate}\"",
 			"queryType": "JCR-SQL2",
 			"hops": [
 				{
