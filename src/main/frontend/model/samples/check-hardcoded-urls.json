@@ -17,38 +17,20 @@
 					"expression": "node.properties",
 					"hops": [
 						{
+							"type": "declare",
+							"declarations": {
+								"joinedProperty": "str:join(jcr:vals(node, property.name))"
+							}
+						},
+						{
 							"type": "filterNode",
-							"expression": "property.type == 1 && !property.multiple && str:contains(jcr:val(node, property.name), args.phrase ) && str:contains(jcr:val(node, property.name), args.extension) ",
+							"expression": "str:contains(joinedProperty, args.phrase) && str:contains(joinedProperty, args.extension)",
 							"hops": [
 								{
 									"type": "runScript",
 									"code": "log.info(property.path)",
 									"extension": "js",
 									"putLocalsBackIntoScope": true
-								}
-							]
-						},
-						{
-							"type": "filterNode",
-							"expression": "property.type == 1 && property.multiple",
-							"hops": [
-								{
-									"type": "declare",
-									"declarations": {
-										"joinedProperty": "str:join(jcr:vals(node, property.name))"
-									}
-								},
-								{
-									"type": "filterNode",
-									"expression": "str:contains(joinedProperty, args.phrase) && str:contains(joinedProperty, args.extension)",
-									"hops": [
-										{
-											"type": "runScript",
-											"code": "log.info(property.path)",
-											"extension": "js",
-											"putLocalsBackIntoScope": true
-										}
-									]
 								}
 							]
 						}
