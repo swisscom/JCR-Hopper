@@ -3,7 +3,7 @@
 	"hops": [
 		{
 			"type": "runScript",
-			"code": "xPathQuery = str:join([\"/jcr:root\", args.path, \"//*[jcr:contains(., '\", args.phrase, \"') and jcr:contains(., '\", args.extension, \"') ]\"]);\n\n",
+			"code": "xPathQuery = str:join([\"/jcr:root\", args.path, \"//*[jcr:contains(., '\", args.phrase, \"') and jcr:contains(., '\", args.extension, \"') ]\"]);\noutput = utils.file.txt(\"hardcoded_urls\");\n\n",
 			"extension": "jexl",
 			"putLocalsBackIntoScope": true
 		},
@@ -28,8 +28,8 @@
 							"hops": [
 								{
 									"type": "runScript",
-									"code": "log.info(property.path)",
-									"extension": "js",
+									"code": "output.append(property.path);\noutput.append(\"\\n\");",
+									"extension": "jexl",
 									"putLocalsBackIntoScope": true
 								}
 							]
