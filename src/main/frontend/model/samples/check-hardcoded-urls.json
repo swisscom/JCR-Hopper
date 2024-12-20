@@ -1,0 +1,63 @@
+{
+	"logLevel": "info",
+	"hops": [
+		{
+			"type": "runScript",
+			"code": "xPathQuery = str:join([\"/jcr:root\", args.path, \"//*[jcr:contains(., '\", args.phrase, \"') and jcr:contains(., '\", args.extension, \"') ]\"]);\noutput = utils.file.txt(\"properties_containing_hardcoded_urls\");\n\n",
+			"extension": "jexl",
+			"putLocalsBackIntoScope": true
+		},
+		{
+			"type": "nodeQuery",
+			"query": "${xPathQuery}",
+			"queryType": "xpath",
+			"hops": [
+				{
+					"type": "each",
+					"expression": "node.properties",
+					"hops": [
+						{
+							"type": "declare",
+							"declarations": {
+								"joinedProperty": "str:join(jcr:vals(node, property.name))"
+							}
+						},
+						{
+							"type": "filterNode",
+							"expression": "str:contains(joinedProperty, args.phrase) && str:contains(joinedProperty, args.extension)",
+							"hops": [
+								{
+									"type": "runScript",
+									"code": "output.append(property.path);\noutput.append(\"\\n\");",
+									"extension": "jexl",
+									"putLocalsBackIntoScope": true
+								}
+							]
+						}
+					],
+					"iterator": "property"
+				}
+			]
+		}
+	],
+	"parameters": [
+		{
+			"name": "phrase",
+			"defaultValue": "https://www.project.ch/content/de",
+			"type": "text",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "extension",
+			"defaultValue": ".html",
+			"type": "text",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "path",
+			"defaultValue": "/content/project/de",
+			"type": "text",
+			"evaluation": "STRING"
+		}
+	]
+}

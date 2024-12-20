@@ -1,0 +1,51 @@
+{
+	"logLevel": "info",
+	"hops": [
+		{
+			"type": "declare",
+			"declarations": {
+				"patterns": "[\"%.php%\",\"%.jsp%\"]"
+			}
+		},
+		{
+			"type": "each",
+			"expression": "patterns",
+			"hops": [
+				{
+					"type": "nodeQuery",
+					"query": "/jcr:root/content//jcr:content[jcr:like(@legacyURL,'${pattern}')]",
+					"queryType": "xpath",
+					"hops": [
+						{
+							"type": "runScript",
+							"code": "legacyURLArray = jcr:vals(node, \"legacyURL\");\nfilteredLegacyURLArray = [...];",
+							"extension": "jexl",
+							"putLocalsBackIntoScope": true
+						},
+						{
+							"type": "each",
+							"expression": "legacyURLArray",
+							"hops": [
+								{
+									"type": "runScript",
+									"code": "extension = str:remove(pattern, \"%\");\nif(!str:endsWith(url, extension)) {\n    filteredLegacyURLArray.add(url);\n}\n\n",
+									"extension": "jexl",
+									"putLocalsBackIntoScope": true
+								}
+							],
+							"iterator": "url"
+						},
+						{
+							"type": "setProperty",
+							"conflict": "force",
+							"propertyName": "legacyURL",
+							"value": "filteredLegacyURLArray"
+						}
+					]
+				}
+			],
+			"iterator": "pattern"
+		}
+	],
+	"parameters": []
+}

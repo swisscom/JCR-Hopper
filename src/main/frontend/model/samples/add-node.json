@@ -1,0 +1,45 @@
+{
+	"logLevel": "info",
+	"hops": [
+		{
+			"type": "nodeQuery",
+			"query": "/* The search query has to return the parent nodes we want to act on */\nSELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([/content/project])",
+			"queryType": "JCR-SQL2",
+			"hops": [
+				{
+					"type": "createChildNode",
+					"conflict": "force",
+					"name": "${args.nName}",
+					"runOnExistingNode": false,
+					"hops": [
+						{
+							"type": "setProperty",
+							"conflict": "force",
+							"propertyName": "sling:resourceType",
+							"value": "args.slingResourceType"
+						}
+					],
+					"primaryType": "${args.jcrPrimaryType}"
+				}
+			]
+		}
+	],
+	"parameters": [
+		{
+			"name": "nName",
+			"defaultValue": "nName",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "jcrPrimaryType",
+			"defaultValue": "cq:PageContent",
+			"evaluation": "STRING",
+			"type": "text"
+		},
+		{
+			"name": "slingResourceType",
+			"defaultValue": "project/components/page",
+			"evaluation": "STRING"
+		}
+	]
+}
