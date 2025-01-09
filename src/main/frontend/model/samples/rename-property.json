@@ -2,16 +2,8 @@
 	"logLevel": "info",
 	"hops": [
 		{
-			"type": "declare",
-			"declarations": {
-				"path": "\"/content/swisscom/de\"",
-				"sourcePropertyName": "\"navTitle\"",
-				"destinationPropertyName": "\"navTitle-new\""
-			}
-		},
-		{
 			"type": "runScript",
-			"code": "xPathQuery = str:join([\"/jcr:root\", path, \"//*[@\", sourcePropertyName, \"]\"]);",
+			"code": "xPathQuery = str:join([\"/jcr:root\", args.path, \"//*[@\", args.sourcePropertyName, \"]\"]);",
 			"extension": "jexl",
 			"putLocalsBackIntoScope": true
 		},
@@ -22,11 +14,30 @@
 			"hops": [
 				{
 					"type": "renameProperty",
-					"newName": "${destinationPropertyName}",
-					"propertyName": "${sourcePropertyName}"
+					"newName": "${args.destinationPropertyName}",
+					"propertyName": "${args.sourcePropertyName}"
 				}
 			]
 		}
 	],
-	"parameters": []
+	"parameters": [
+		{
+			"name": "sourcePropertyName",
+			"defaultValue": "navTitle",
+			"type": "text",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "destinationPropertyName",
+			"defaultValue": "navTitle-new",
+			"type": "text",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "path",
+			"defaultValue": "/content/project/de",
+			"type": "text",
+			"evaluation": "STRING"
+		}
+	]
 }
