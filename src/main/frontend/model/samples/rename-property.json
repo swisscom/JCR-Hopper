@@ -1,0 +1,43 @@
+{
+	"logLevel": "info",
+	"hops": [
+		{
+			"type": "runScript",
+			"code": "xPathQuery = str:join([\"/jcr:root\", args.path, \"//*[@\", args.sourcePropertyName, \"]\"]);",
+			"extension": "jexl",
+			"putLocalsBackIntoScope": true
+		},
+		{
+			"type": "nodeQuery",
+			"query": "${xPathQuery}",
+			"queryType": "xpath",
+			"hops": [
+				{
+					"type": "renameProperty",
+					"newName": "${args.destinationPropertyName}",
+					"propertyName": "${args.sourcePropertyName}"
+				}
+			]
+		}
+	],
+	"parameters": [
+		{
+			"name": "sourcePropertyName",
+			"defaultValue": "navTitle",
+			"type": "text",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "destinationPropertyName",
+			"defaultValue": "navTitle-new",
+			"type": "text",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "path",
+			"defaultValue": "/content/project/de",
+			"type": "text",
+			"evaluation": "STRING"
+		}
+	]
+}

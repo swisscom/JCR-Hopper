@@ -1,0 +1,44 @@
+{
+	"logLevel": "info",
+	"hops": [
+		{
+			"type": "each",
+			"expression": "['de', 'fr', 'it', 'en']",
+			"hops": [
+				{
+					"type": "nodeQuery",
+					"query": "/* The search query has to return the parent nodes we want to act on. */\nSELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([/content/project/${lang}])",
+					"queryType": "JCR-SQL2",
+					"hops": [
+						{
+							"type": "childNodes",
+							"namePattern": "${args.nodeOldName}",
+							"hops": [
+								{
+									"type": "moveNode",
+									"conflict": "force",
+									"newName": "${args.nodeNewName}"
+								}
+							]
+						}
+					]
+				}
+			],
+			"iterator": "lang"
+		}
+	],
+	"parameters": [
+		{
+			"name": "nodeOldName",
+			"defaultValue": "oldName",
+			"type": "text",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "nodeNewName",
+			"defaultValue": "newName",
+			"type": "text",
+			"evaluation": "STRING"
+		}
+	]
+}
