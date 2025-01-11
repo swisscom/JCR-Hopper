@@ -1,3 +1,21 @@
+## [0.6.0](https://github.com/swisscom/JCR-Hopper/compare/v0.5.1...v0.6.0) (2025-01-11)
+
+
+### Features
+
+* **editor:** add additional sample scripts ([5516e12](https://github.com/swisscom/JCR-Hopper/commit/5516e12ea61052cf72e695f5866467070186bc44))
+* **editor:** apply suggestion change type ([3700132](https://github.com/swisscom/JCR-Hopper/commit/3700132324da341cced4ef9b74075b780e8fc494))
+* **editor:** file rename ([5be490e](https://github.com/swisscom/JCR-Hopper/commit/5be490ef2caba81bf1abaeb7181b9e5a868ac209))
+* **editor:** move declaration to parameters ([2f8c411](https://github.com/swisscom/JCR-Hopper/commit/2f8c4117464c5115d8de18ab4c85f0fcbe0a9ee3))
+* **editor:** remove iteration, move declarations to parameters ([36f8219](https://github.com/swisscom/JCR-Hopper/commit/36f8219502bc86e71c8d8cef4096107bb5cda028))
+* **editor:** remove iteration, move declarations to parameters, change content path ([bb19828](https://github.com/swisscom/JCR-Hopper/commit/bb1982853f975221b2e88e88e5a7f7577a3a878b))
+* **editor:** rename variable ([9b78e6b](https://github.com/swisscom/JCR-Hopper/commit/9b78e6b81dd12db8be0e39a7e474dea0306e5099))
+* **editor:** replace declarations with parameters, changed query path ([bf8cb13](https://github.com/swisscom/JCR-Hopper/commit/bf8cb13049b827e8d906ac142211368296e26c68))
+* **editor:** replace logging with file output ([41fccfb](https://github.com/swisscom/JCR-Hopper/commit/41fccfb3506e8eddb797255bb737b3f87d8bcd93))
+* **editor:** replace variables with parameters ([a2e36c6](https://github.com/swisscom/JCR-Hopper/commit/a2e36c68b3a27bcccd9874481ff218bd493f1ffc))
+* **editor:** simplified script by merging single/multiple value property type ([105e90d](https://github.com/swisscom/JCR-Hopper/commit/105e90d6ac0f582cbc7a7a459e8c756f03711bb2))
+* **editor:** split script, move declaration to parameters ([09f14ac](https://github.com/swisscom/JCR-Hopper/commit/09f14acf8ff43475365a8fa7be4ada472ed32a2d))
+
 ## [0.5.1](https://github.com/swisscom/JCR-Hopper/compare/v0.5.0...v0.5.1) (2024-11-19)
 
 
@@ -43,13 +61,4 @@
 ### Bug Fixes
 
 * ensure frontend doesn’t crash when file is empty ([8e6a8f2](https://github.com/swisscom/JCR-Hopper/commit/8e6a8f209c369335accad8560cfcab1338a36490))
-
-## [0.2.0](https://github.com/swisscom/JCR-Hopper/compare/v0.1.4...v0.2.0) (2024-10-28)
-
-
-### Features
-
-* **meta:** add to aem tools panel pr fixes ([e3ff73b](https://github.com/swisscom/JCR-Hopper/commit/e3ff73be83ee2d07817186293d6818dafa983efd))
-* **meta:** adds configuration to include jcr-hopper in aem tools ([ab683ad](https://github.com/swisscom/JCR-Hopper/commit/ab683ad1c3d1a1ac8d1a106c13908dcf10b36804))
-* **meta:** swap icon for color logo ([fb68109](https://github.com/swisscom/JCR-Hopper/commit/fb6810976063f9a1c6e8d38ac75a0d6526c2add3))
 
