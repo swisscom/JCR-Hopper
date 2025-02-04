@@ -57,6 +57,12 @@ tasks {
 	javadoc {
 		options.encoding = "UTF-8"
 	}
+
+	clean {
+		doLast {
+			layout.projectDirectory.dir(".parcel-cache").asFile.deleteRecursively()
+		}
+	}
 }
 
 java {
