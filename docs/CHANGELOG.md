@@ -1,3 +1,11 @@
+## [0.6.1](https://github.com/swisscom/JCR-Hopper/compare/v0.6.0...v0.6.1) (2025-02-04)
+
+
+### Bug Fixes
+
+* **editor:** ensure empty args don’t get submitted ([4be1ed2](https://github.com/swisscom/JCR-Hopper/commit/4be1ed2204a08fbea8322c283db29ec364247050)), closes [#31](https://github.com/swisscom/JCR-Hopper/issues/31)
+* make sure .parcel-cache also gets cleaned ([ebb2eea](https://github.com/swisscom/JCR-Hopper/commit/ebb2eea28ffa5c98974ddab0b4d5aed8182a018c))
+
 ## [0.6.0](https://github.com/swisscom/JCR-Hopper/compare/v0.5.1...v0.6.0) (2025-01-11)
 
 
@@ -48,17 +56,4 @@
 * **editor:** pass all possible scripting languages to the editor ([7c42719](https://github.com/swisscom/JCR-Hopper/commit/7c427196c8c1c9985a0e14e3e9355eedab07b32c))
 * **runner:** make ScriptEngineManager instance configurable on runner ([7de3009](https://github.com/swisscom/JCR-Hopper/commit/7de3009ecf09d5a3467ac341300056065e1aa85e))
 * **runner:** use script engine from OSGi if available ([38c42dc](https://github.com/swisscom/JCR-Hopper/commit/38c42dcde6752a1b914a6b7888b44e97370dc2c0))
-
-## [0.3.0](https://github.com/swisscom/JCR-Hopper/compare/v0.2.0...v0.3.0) (2024-10-29)
-
-
-### Features
-
-* **editor:** display size in file summary ([57162df](https://github.com/swisscom/JCR-Hopper/commit/57162df1228e72c1f252fb1bc960ab0ba60a1967))
-* **runner:** add index var to `each` hop ([95ce249](https://github.com/swisscom/JCR-Hopper/commit/95ce249a088c29208f32cadab6609bf5cd4a0a51))
-
-
-### Bug Fixes
-
-* ensure frontend doesn’t crash when file is empty ([8e6a8f2](https://github.com/swisscom/JCR-Hopper/commit/8e6a8f209c369335accad8560cfcab1338a36490))
 
