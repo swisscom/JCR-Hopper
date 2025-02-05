@@ -1,0 +1,54 @@
+{
+	"logLevel": "info",
+	"hops": [
+		{
+			"type": "each",
+			"expression": "args.transformRulesFile",
+			"hops": [
+				{
+					"type": "runScript",
+					"code": "/*\n    The transformRulesFile file should be in the form <oldValue>;<newValue> ex.:\n    oldtext1;newtext1\n    oldtext2;newtext2\n*/\n\nsplit = str:split(vals, ';');\n\nif(arr:getLength(split) == 2) {\n    oldValue = split[0];\n    newValue = split[1];\n} else {\n    oldValue = \"\";\n    newValue = \"\";\n}\n",
+					"extension": "jexl",
+					"putLocalsBackIntoScope": true
+				},
+				{
+					"type": "nodeQuery",
+					"query": "SELECT * FROM [nt:base] AS node\nWHERE ISDESCENDANTNODE([${args.path}]) AND node.* LIKE '%${oldValue}%'",
+					"queryType": "JCR-SQL2",
+					"hops": [
+						{
+							"type": "each",
+							"expression": "node.properties",
+							"hops": [
+								{
+									"type": "runScript",
+									"code": "propertyValue = jcr:vals(node,property.name);\nnewPropertyValue = propertyValue;\nflag = false;\nif (propertyValue != null) {\n    if (arr:getLength(propertyValue) == 1) {\n         // Handle case when propertyValue is a single string\n        if (propertyValue[0].class.name == 'java.lang.String' && propertyValue[0].contains(oldValue)) {\n            newPropertyValue = propertyValue[0].replaceAll(oldValue, newValue);\n            flag = true;\n        }\n    } else {\n                // Handle case when propertyValue is an array (or iterable)\n        newPropertyValue = [...];\n        for (item : propertyValue){\n            if (item.class.name == 'java.lang.String' && item.contains(oldValue)) {\n            newItem = item.replaceAll(oldValue, newValue);\n            newPropertyValue.add(newItem);\n            flag = true;\n        }else{\n            newPropertyValue.add(item);\n        }\n        }\n    }\n}\n",
+									"extension": "jexl",
+									"putLocalsBackIntoScope": true
+								},
+								{
+									"type": "filterNode",
+									"expression": "flag == true",
+									"hops": [
+										{
+											"type": "setProperty",
+											"conflict": "force",
+											"propertyName": "${property.name}",
+											"value": "newPropertyValue"
+										}
+									]
+								}
+							],
+							"iterator": "property"
+						}
+					]
+				}
+			],
+			"iterator": "vals"
+		}
+	],
+	"parameters": [
+		{ "name": "path", "defaultValue": "/content/project/de", "type": "text", "evaluation": "STRING" },
+		{ "name": "transformRulesFile", "defaultValue": "", "type": "file", "evaluation": "LINES" }
+	]
+}
