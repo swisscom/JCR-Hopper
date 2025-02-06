@@ -1,15 +1,10 @@
 {
 	"logLevel": "info",
 	"hops": [
-		{
-			"type": "runScript",
-			"code": "output = utils.file.txt(\"properties_containing_hardcoded_urls\");\nSQL2Query = str:join([\"SELECT * FROM [nt:base] AS node WHERE ISDESCENDANTNODE([\",args.path,\"])\"])\nif (args.resourceTypeInclude != null && args.resourceTypeInclude.trim() != ''){\n    SQL2Query = str:join ([SQL2Query,\" AND node.[sling:resourceType] LIKE \\\"\",args.resourceTypeInclude,\"\\\"\"])\n}\nif (args.resourceTypeExclude != null && args.resourceTypeExclude.trim() != ''){\n    SQL2Query = str:join ([SQL2Query,\" AND node.[sling:resourceType] NOT LIKE \\\"\",args.resourceTypeExclude,\"\\\"\"])\n}",
-			"extension": "jexl",
-			"putLocalsBackIntoScope": true
-		},
+		{ "type": "declare", "declarations": { "output": "utils.file.txt(\"properties_containing_hardcoded_urls\")" } },
 		{
 			"type": "nodeQuery",
-			"query": "${SQL2Query}",
+			"query": "SELECT * FROM [nt:base] AS node WHERE ISDESCENDANTNODE([${args.path}])\n${(args.resourceTypeInclude != null && args.resourceTypeInclude.trim() != '') ? ` AND node.[sling:resourceType] LIKE \"${args.resourceTypeInclude}\"` : ''}\n${(args.resourceTypeExclude != null && args.resourceTypeExclude.trim() != '') ? ` AND node.[sling:resourceType] LIKE \"${args.resourceTypeExclude}\"` : ''}",
 			"queryType": "JCR-SQL2",
 			"hops": [
 				{
