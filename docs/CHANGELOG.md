@@ -1,3 +1,19 @@
+## [0.7.0](https://github.com/swisscom/JCR-Hopper/compare/v0.6.1...v0.7.0) (2025-02-10)
+
+
+### Features
+
+* **editor:** added sample for change property value ([29c6f16](https://github.com/swisscom/JCR-Hopper/commit/29c6f161f1702e715d3614c79489ec0d4d7d16ad))
+* **editor:** added script for value finder ([4cbab25](https://github.com/swisscom/JCR-Hopper/commit/4cbab258632bd0c8cb66801d2df9217892022367))
+* **editor:** finished csv output ([783e462](https://github.com/swisscom/JCR-Hopper/commit/783e462eb7a8a42b16e5848789eaa374e7bf57b7))
+
+
+### Bug Fixes
+
+* **editor:** fix review comments ([14377df](https://github.com/swisscom/JCR-Hopper/commit/14377df0ffc0e838ad529665ff584bc83ddf307e))
+* **editor:** formatting issues ([41261e2](https://github.com/swisscom/JCR-Hopper/commit/41261e2d2f22f4260012233c108b28837afa64e9))
+* **editor:** prettier format changes ([fcde4bc](https://github.com/swisscom/JCR-Hopper/commit/fcde4bc3ca85f05d56222d1198eefd4d66a6543d))
+
 ## [0.6.1](https://github.com/swisscom/JCR-Hopper/compare/v0.6.0...v0.6.1) (2025-02-04)
 
 
@@ -47,13 +63,4 @@
 * **runner:** ensure `each` skips iterations on non-nodes when assumeNodes is true ([a47fd3a](https://github.com/swisscom/JCR-Hopper/commit/a47fd3a83a6103878bd0628313befc490856c574))
 * **runner:** refactor copyNode hop ([c08663c](https://github.com/swisscom/JCR-Hopper/commit/c08663c8e96805a5095fac8971f4350dd53a72e9))
 * **runner:** renamed nodes now keep their position ([a944fb7](https://github.com/swisscom/JCR-Hopper/commit/a944fb75ccf978c6abf6277b42c9e79eaf3fbcf1)), closes [#16](https://github.com/swisscom/JCR-Hopper/issues/16)
-
-## [0.4.0](https://github.com/swisscom/JCR-Hopper/compare/v0.3.0...v0.4.0) (2024-10-31)
-
-
-### Features
-
-* **editor:** pass all possible scripting languages to the editor ([7c42719](https://github.com/swisscom/JCR-Hopper/commit/7c427196c8c1c9985a0e14e3e9355eedab07b32c))
-* **runner:** make ScriptEngineManager instance configurable on runner ([7de3009](https://github.com/swisscom/JCR-Hopper/commit/7de3009ecf09d5a3467ac341300056065e1aa85e))
-* **runner:** use script engine from OSGi if available ([38c42dc](https://github.com/swisscom/JCR-Hopper/commit/38c42dcde6752a1b914a6b7888b44e97370dc2c0))
 
