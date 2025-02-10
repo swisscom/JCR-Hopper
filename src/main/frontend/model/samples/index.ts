@@ -14,7 +14,8 @@ import renameProperty from './rename-property.json';
 import addOrReplaceProperty from './add-or-replace-property.json';
 import addNode from './add-node.json';
 import renameNode from './rename-node.json';
-
+import valueFinder from './value-finder.json';
+import changePropertyValue from './change-value.json';
 import { Hop, HOP_DEFINITIONS } from '../hops';
 import { Script } from '../Script';
 
@@ -84,6 +85,14 @@ export const SAMPLES: Sample[] = [
 	{
 		config: renameProperty as Script,
 		label: 'Sample: Rename property',
+	},
+	{
+		config: valueFinder as Script,
+		label: 'Sample: Value Finder',
+	},
+	{
+		config: changePropertyValue as Script,
+		label: 'Sample: Change Property Value',
 	},
 	{
 		config: addNode as Script,
