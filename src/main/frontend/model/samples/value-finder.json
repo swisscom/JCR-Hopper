@@ -1,7 +1,18 @@
 {
 	"logLevel": "info",
 	"hops": [
-		{ "type": "declare", "declarations": { "output": "utils.file.txt(\"properties_containing_hardcoded_urls\")" } },
+		{
+			"type": "declare",
+			"declarations": {
+				"output": "file:csv(\"value_finder_results\")"
+			}
+		},
+		{
+			"type": "runScript",
+			"code": "output.line(\"path\", \"property\", \"value\");",
+			"extension": "jexl",
+			"putLocalsBackIntoScope": true
+		},
 		{
 			"type": "nodeQuery",
 			"query": "SELECT * FROM [nt:base] AS node WHERE ISDESCENDANTNODE([${args.path}])\n${(args.resourceTypeInclude != null && args.resourceTypeInclude.trim() != '') ? ` AND node.[sling:resourceType] LIKE \"${args.resourceTypeInclude}\"` : ''}\n${(args.resourceTypeExclude != null && args.resourceTypeExclude.trim() != '') ? ` AND node.[sling:resourceType] LIKE \"${args.resourceTypeExclude}\"` : ''}",
@@ -27,7 +38,7 @@
 									"hops": [
 										{
 											"type": "runScript",
-											"code": "output.append(node.path);\noutput.append(\"-\");\noutput.append(property.name);\noutput.append(\":\");\noutput.append(joinedPropertyValue);\noutput.append(\"\\n\");",
+											"code": "output.line(node.path, property.name, joinedPropertyValue);",
 											"extension": "jexl",
 											"putLocalsBackIntoScope": true
 										}
