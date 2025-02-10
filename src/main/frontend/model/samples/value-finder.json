@@ -1,0 +1,76 @@
+{
+	"logLevel": "info",
+	"hops": [
+		{ "type": "declare", "declarations": { "output": "utils.file.txt(\"properties_containing_hardcoded_urls\")" } },
+		{
+			"type": "nodeQuery",
+			"query": "SELECT * FROM [nt:base] AS node WHERE ISDESCENDANTNODE([${args.path}])\n${(args.resourceTypeInclude != null && args.resourceTypeInclude.trim() != '') ? ` AND node.[sling:resourceType] LIKE \"${args.resourceTypeInclude}\"` : ''}\n${(args.resourceTypeExclude != null && args.resourceTypeExclude.trim() != '') ? ` AND node.[sling:resourceType] LIKE \"${args.resourceTypeExclude}\"` : ''}",
+			"queryType": "JCR-SQL2",
+			"hops": [
+				{
+					"type": "each",
+					"expression": "node.properties",
+					"hops": [
+						{
+							"type": "filterNode",
+							"expression": "str:contains(property.name, args.propertyName)",
+							"hops": [
+								{
+									"type": "declare",
+									"declarations": {
+										"joinedPropertyValue": "str:join(jcr:vals(node, property.name))"
+									}
+								},
+								{
+									"type": "filterNode",
+									"expression": "str:contains(joinedPropertyValue, args.propertyValue)",
+									"hops": [
+										{
+											"type": "runScript",
+											"code": "output.append(node.path);\noutput.append(\"-\");\noutput.append(property.name);\noutput.append(\":\");\noutput.append(joinedPropertyValue);\noutput.append(\"\\n\");",
+											"extension": "jexl",
+											"putLocalsBackIntoScope": true
+										}
+									]
+								}
+							]
+						}
+					],
+					"iterator": "property"
+				}
+			]
+		}
+	],
+	"parameters": [
+		{
+			"name": "path",
+			"defaultValue": "/content/project/de",
+			"type": "text",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "resourceTypeInclude",
+			"defaultValue": "",
+			"type": "text",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "resourceTypeExclude",
+			"defaultValue": "",
+			"type": "text",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "propertyName",
+			"defaultValue": "textIsTrue",
+			"type": "text",
+			"evaluation": "STRING"
+		},
+		{
+			"name": "propertyValue",
+			"defaultValue": "false",
+			"type": "text",
+			"evaluation": "STRING"
+		}
+	]
+}
