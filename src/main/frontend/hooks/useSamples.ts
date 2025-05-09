@@ -11,7 +11,10 @@ export const useSamples = (): [Sample[], boolean] => {
 			setLoading(true);
 			try {
 				const response = await fetch('/apps/jcr-hopper/script-builder/samples/additional-samples.json');
-				if (!response.ok) throw new Error(`Failed to fetch samples: ${response.statusText}`);
+				if (!response.ok) {
+					setSamples(SAMPLES);
+					throw new Error(`Failed to fetch samples: ${response.statusText}`);
+				}
 
 				const fetchedData = await response.json();
 				if (Array.isArray(fetchedData)) {

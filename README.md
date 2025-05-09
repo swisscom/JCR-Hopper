@@ -25,6 +25,7 @@ Running a script requires a script (either as a JSON-encoded string or as an ins
 #### Creating a sample script
 
 JCR hopper sample scripts comprise the following:
+
 - A `label` that is displayed in the dropdown for Scripts.
 - A `log level` that determines which log messages are sent to the run handler.
 - A `list of hop configs` that are run against a given node. Hops can also have their own descendant pipelines of hop configs.
@@ -33,35 +34,39 @@ JCR hopper sample scripts comprise the following:
 ##### Inside JCR Hopper repo
 
 Common reusable scripts could be added to JCR Hopper repo itself.
-- Create a json file with  `log level` , `list of hop configs` & `list of parameters` under `/frontend/model/samples/` folder.
+
+- Create a json file with `log level` , `list of hop configs` & `list of parameters` under `/frontend/model/samples/` folder.
 - Add an Entry in `SAMPLES` object by defining user-friendly label for Sample script.
 
 ##### Inside application project repo
 
 If the Sample script is quite specific to your project needs then you can keep the script in your project repo with specific folder structure as defined below.
+
 - Please add a file `additional-samnples.json` under `/apps/jcr-hopper/script-builder/samples/`
 - Add an array of your project specific sample scripts which includes label and config
 
 <img src="./docs/additional-samples.png">
 
 Content structure of additional-samples.json would look like below
+
 ```json
-[{
-  "label": "Sample Script",
-  "config": {
-    "logLevel": "info",
-    "hops": [],
-    "parameters": []
-  }
-},
-  {
-    "label": "Sample Script 2",
-    "config": {
-      "logLevel": "info",
-      "hops": [],
-      "parameters": []
-    }
-  }
+[
+	{
+		"label": "Sample Script",
+		"config": {
+			"logLevel": "info",
+			"hops": [],
+			"parameters": []
+		}
+	},
+	{
+		"label": "Sample Script 2",
+		"config": {
+			"logLevel": "info",
+			"hops": [],
+			"parameters": []
+		}
+	}
 ]
 ```
 
