@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <workspaceFilter version="1.0">
 	<filter root="/apps/cq/core/content/nav/tools/jcr-hopper" />
-	<filter root="/apps/jcr-hopper" />
+	<filter root="/apps/jcr-hopper">
+		<exclude pattern="/apps/jcr-hopper/script-builder/samples(/.*)?" />
+	</filter>
 	<filter root="/etc/jcr-hopper" />
 </workspaceFilter>

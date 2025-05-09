@@ -18,7 +18,7 @@ import renameNode from './rename-node.json';
 import { Hop, HOP_DEFINITIONS } from '../hops';
 import { Script } from '../Script';
 
-type Sample = { label: string; config: Script };
+export type Sample = { label: string; config: Script };
 
 function suggestionFromDefinition(key: keyof typeof HOP_DEFINITIONS): Sample {
 	return {
