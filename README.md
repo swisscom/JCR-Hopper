@@ -22,13 +22,48 @@ Alternatively, if you don’t want the script builder GUI, you can also only dep
 
 Running a script requires a script (either as a JSON-encoded string or as an instance of `com.swisscom.aem.tools.jcrhopper.config.Script`) and a runner (`com.swisscom.aem.tools.jcrhopper.Runner`).
 
-#### Creating a script
+#### Creating a sample script
 
-JCR hopper scripts comprise the following:
+JCR hopper sample scripts comprise the following:
+- A `label` that is displayed in the dropdown for Scripts.
+- A `log level` that determines which log messages are sent to the run handler.
+- A `list of hop configs` that are run against a given node. Hops can also have their own descendant pipelines of hop configs.
+- A `list of parameters` that the script supports. Parameters always have a default value, thus passing arguments to the script runner is always optional. Each parameter also has a name, a script builder input type hint and an evaluation type that determines how the default values／arguments are to be interpreted.
 
-- A log level that determines which log messages are sent to the run handler.
-- A list of hop configs that are run against a given node. Hops can also have their own descendant pipelines of hop configs.
-- A list of parameters that the script supports. Parameters always have a default value, thus passing arguments to the script runner is always optional. Each parameter also has a name, a script builder input type hint and an evaluation type that determines how the default values／arguments are to be interpreted.
+##### Inside JCR Hopper repo
+
+Common reusable scripts could be added to JCR Hopper repo itself.
+- Create a json file with  `log level` , `list of hop configs` & `list of parameters` under `/frontend/model/samples/` folder.
+- Add an Entry in `SAMPLES` object by defining user-friendly label for Sample script.
+
+##### Inside application project repo
+
+If the Sample script is quite specific to your project needs then you can keep the script in your project repo with specific folder structure as defined below.
+- Please add a file `additional-samnples.json` under `/apps/jcr-hopper/script-builder/samples/`
+- Add an array of your project specific sample scripts which includes label and config
+
+<img src="./docs/additional-samples.png">
+
+Content structure of additional-samples.json would look like below
+```json
+[{
+  "label": "Sample Script",
+  "config": {
+    "logLevel": "info",
+    "hops": [],
+    "parameters": []
+  }
+},
+  {
+    "label": "Sample Script 2",
+    "config": {
+      "logLevel": "info",
+      "hops": [],
+      "parameters": []
+    }
+  }
+]
+```
 
 #### Configuring a builder
 
