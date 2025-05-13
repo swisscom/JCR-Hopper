@@ -177,6 +177,14 @@ aem {
 			dependsOn(lint, tsc, format, packageValidate, playwright)
 		}
 
+		val cleanParcelCache by registering(Delete::class) {
+			delete(layout.projectDirectory.dir(".parcel-cache"))
+		}
+
+		clean {
+			dependsOn(cleanParcelCache)
+		}
+
 		val aemContent by registering(Sync::class) {
 			from("$projectDir/src/main/content")
 			from(frontendBuild)
