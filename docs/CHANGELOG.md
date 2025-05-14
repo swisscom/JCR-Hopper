@@ -1,3 +1,29 @@
+## [0.7.1](https://github.com/swisscom/JCR-Hopper/compare/v0.7.0...v0.7.1) (2025-05-13)
+
+## [0.7.0](https://github.com/swisscom/JCR-Hopper/compare/v0.6.1...v0.7.0) (2025-02-10)
+
+
+### Features
+
+* **editor:** added sample for change property value ([29c6f16](https://github.com/swisscom/JCR-Hopper/commit/29c6f161f1702e715d3614c79489ec0d4d7d16ad))
+* **editor:** added script for value finder ([4cbab25](https://github.com/swisscom/JCR-Hopper/commit/4cbab258632bd0c8cb66801d2df9217892022367))
+* **editor:** finished csv output ([783e462](https://github.com/swisscom/JCR-Hopper/commit/783e462eb7a8a42b16e5848789eaa374e7bf57b7))
+
+
+### Bug Fixes
+
+* **editor:** fix review comments ([14377df](https://github.com/swisscom/JCR-Hopper/commit/14377df0ffc0e838ad529665ff584bc83ddf307e))
+* **editor:** formatting issues ([41261e2](https://github.com/swisscom/JCR-Hopper/commit/41261e2d2f22f4260012233c108b28837afa64e9))
+* **editor:** prettier format changes ([fcde4bc](https://github.com/swisscom/JCR-Hopper/commit/fcde4bc3ca85f05d56222d1198eefd4d66a6543d))
+
+## [0.6.1](https://github.com/swisscom/JCR-Hopper/compare/v0.6.0...v0.6.1) (2025-02-04)
+
+
+### Bug Fixes
+
+* **editor:** ensure empty args don’t get submitted ([4be1ed2](https://github.com/swisscom/JCR-Hopper/commit/4be1ed2204a08fbea8322c283db29ec364247050)), closes [#31](https://github.com/swisscom/JCR-Hopper/issues/31)
+* make sure .parcel-cache also gets cleaned ([ebb2eea](https://github.com/swisscom/JCR-Hopper/commit/ebb2eea28ffa5c98974ddab0b4d5aed8182a018c))
+
 ## [0.6.0](https://github.com/swisscom/JCR-Hopper/compare/v0.5.1...v0.6.0) (2025-01-11)
 
 
@@ -22,43 +48,4 @@
 ### Bug Fixes
 
 * **meta:** clean up config files in root ([74fe1b2](https://github.com/swisscom/JCR-Hopper/commit/74fe1b2a37a36e59d6eb368d5d23a594fe643c9e))
-
-## [0.5.0](https://github.com/swisscom/JCR-Hopper/compare/v0.4.0...v0.5.0) (2024-11-03)
-
-
-### Features
-
-* **editor:** disable the existing node switch if there aren’t any hops to run ([c5728c6](https://github.com/swisscom/JCR-Hopper/commit/c5728c618b2ae8b14933fc4def5db179c9bba02e))
-* **runner:** add option to control running descendant steps on existing nodes ([8bb8aa8](https://github.com/swisscom/JCR-Hopper/commit/8bb8aa8240ee169e7f84f0233ae3131b95f7a9f5))
-
-
-### Bug Fixes
-
-* **runner:** allow each to loop over primitive and nested arrays ([214f936](https://github.com/swisscom/JCR-Hopper/commit/214f936676915937872ac3eb7756f75cb60c3f8e))
-* **runner:** allow moving to the root node ([6f64314](https://github.com/swisscom/JCR-Hopper/commit/6f64314e2a9bfc0d7c5ba5e226336b20ac431547))
-* **runner:** ensure `each` skips iterations on non-nodes when assumeNodes is true ([a47fd3a](https://github.com/swisscom/JCR-Hopper/commit/a47fd3a83a6103878bd0628313befc490856c574))
-* **runner:** refactor copyNode hop ([c08663c](https://github.com/swisscom/JCR-Hopper/commit/c08663c8e96805a5095fac8971f4350dd53a72e9))
-* **runner:** renamed nodes now keep their position ([a944fb7](https://github.com/swisscom/JCR-Hopper/commit/a944fb75ccf978c6abf6277b42c9e79eaf3fbcf1)), closes [#16](https://github.com/swisscom/JCR-Hopper/issues/16)
-
-## [0.4.0](https://github.com/swisscom/JCR-Hopper/compare/v0.3.0...v0.4.0) (2024-10-31)
-
-
-### Features
-
-* **editor:** pass all possible scripting languages to the editor ([7c42719](https://github.com/swisscom/JCR-Hopper/commit/7c427196c8c1c9985a0e14e3e9355eedab07b32c))
-* **runner:** make ScriptEngineManager instance configurable on runner ([7de3009](https://github.com/swisscom/JCR-Hopper/commit/7de3009ecf09d5a3467ac341300056065e1aa85e))
-* **runner:** use script engine from OSGi if available ([38c42dc](https://github.com/swisscom/JCR-Hopper/commit/38c42dcde6752a1b914a6b7888b44e97370dc2c0))
-
-## [0.3.0](https://github.com/swisscom/JCR-Hopper/compare/v0.2.0...v0.3.0) (2024-10-29)
-
-
-### Features
-
-* **editor:** display size in file summary ([57162df](https://github.com/swisscom/JCR-Hopper/commit/57162df1228e72c1f252fb1bc960ab0ba60a1967))
-* **runner:** add index var to `each` hop ([95ce249](https://github.com/swisscom/JCR-Hopper/commit/95ce249a088c29208f32cadab6609bf5cd4a0a51))
-
-
-### Bug Fixes
-
-* ensure frontend doesn’t crash when file is empty ([8e6a8f2](https://github.com/swisscom/JCR-Hopper/commit/8e6a8f209c369335accad8560cfcab1338a36490))
 

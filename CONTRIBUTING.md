@@ -40,7 +40,7 @@ Exclude the playwright task from `./gradlew check` by passing `-x playwright`.
 
 ### Working on the GUI editor
 
-To run the editor GUI independently from AEM (and with mocked responses), the watch mode can be used:
+To run the editor GUI independently of AEM (and with mocked responses), the watch mode can be used:
 
 1. Install the NPM dependencies using `./gradlew npmInstall` (`npm ci` would also work but the Gradle task is preferred because it will use Gradle’s up-to-date checking mechanism).
 2. Run `npm run watch` to start both the development server and the JS bundler (parcel) in watch + hot reload mode.
@@ -57,7 +57,7 @@ Valid scopes for this project are:
 
 Commits that fall into none of these scopes or change aspects in more than one of them should not specify a scope.
 
-Ideally, each commit should should represent a working and buildable state but still only contain an atomic change compared to its parent. Please rewrite history accordingly before opening a PR.
+Ideally, each commit should represent a working and buildable state but still only contain an atomic change compared to its parent. Please rewrite history accordingly before opening a PR.
 
 ## License
 
