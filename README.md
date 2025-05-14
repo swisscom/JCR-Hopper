@@ -22,13 +22,38 @@ Alternatively, if you don’t want the script builder GUI, you can also only dep
 
 Running a script requires a script (either as a JSON-encoded string or as an instance of `com.swisscom.aem.tools.jcrhopper.config.Script`) and a runner (`com.swisscom.aem.tools.jcrhopper.Runner`).
 
-#### Creating a script
+#### Creating a sample script
 
-JCR hopper scripts comprise the following:
+JCR hopper sample scripts comprise the following:
 
-- A log level that determines which log messages are sent to the run handler.
-- A list of hop configs that are run against a given node. Hops can also have their own descendant pipelines of hop configs.
-- A list of parameters that the script supports. Parameters always have a default value, thus passing arguments to the script runner is always optional. Each parameter also has a name, a script builder input type hint and an evaluation type that determines how the default values／arguments are to be interpreted.
+- A `label` that is displayed in the dropdown for Scripts.
+- A `log level` that determines which log messages are sent to the run handler.
+- A `list of hop configs` that are run against a given node. Hops can also have their own descendant pipelines of hop configs.
+- A `list of parameters` that the script supports. Parameters always have a default value, thus passing arguments to the script runner is always optional. Each parameter also has a name, a script builder input type hint and an evaluation type that determines how the default values／arguments are to be interpreted.
+
+##### Inside JCR Hopper repo
+
+Common reusable scripts could be added to JCR Hopper repo directly.
+
+- Create a new json file with `log level` , `list of hop configs` & `list of parameters` under `/apps/jcr-hopper/script-builder/scripts/samples/` folder.
+- Add an tag Entry in `/apps/jcr-hopper/script-builder/scripts/.content.xml` file for your new json and by defining user-friendly label for Sample script as `jcr:title`. Check this file on how it is added for previous sample script jsons.
+
+##### Inside application project repo
+
+If the Sample script is quite specific to your project needs then you can keep the script in your project repo with specific folder structure as defined below.
+
+- Create a new json file `your-samnple-script.json` under `/apps/jcr-hopper/script-builder/scripts/{your-project-folder}` or any sub folder under it. json should contain `log level` , `list of hop configs` & `list of parameters`. Check the existing sample scripts for examples.
+- Add an tag Entry in `/apps/jcr-hopper/script-builder/scripts/.content.xml` file for your new json and by defining user-friendly label for Sample script as `jcr:title`. Check this file on how it is added for previous sample script jsons.
+
+High level structure of Script json content
+
+```json
+{
+	"logLevel": "info",
+	"hops": [],
+	"parameters": []
+}
+```
 
 #### Configuring a builder
 
