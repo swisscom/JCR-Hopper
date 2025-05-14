@@ -33,41 +33,26 @@ JCR hopper sample scripts comprise the following:
 
 ##### Inside JCR Hopper repo
 
-Common reusable scripts could be added to JCR Hopper repo itself.
+Common reusable scripts could be added to JCR Hopper repo directly.
 
-- Create a json file with `log level` , `list of hop configs` & `list of parameters` under `/frontend/model/samples/` folder.
-- Add an Entry in `SAMPLES` object by defining user-friendly label for Sample script.
+- Create a new json file with `log level` , `list of hop configs` & `list of parameters` under `/apps/jcr-hopper/script-builder/scripts/samples/` folder.
+- Add an tag Entry in `/apps/jcr-hopper/script-builder/scripts/.content.xml` file for your new json and by defining user-friendly label for Sample script as `jcr:title`. Check this file on how it is added for previous sample script jsons.
 
 ##### Inside application project repo
 
 If the Sample script is quite specific to your project needs then you can keep the script in your project repo with specific folder structure as defined below.
 
-- Please add a file `additional-samnples.json` under `/apps/jcr-hopper/script-builder/samples/`
-- Add an array of your project specific sample scripts which includes label and config
+- Create a new json file `your-samnple-script.json` under `/apps/jcr-hopper/script-builder/scripts/{your-project-folder}` or any sub folder under it. json should contain `log level` , `list of hop configs` & `list of parameters`. Check the existing sample scripts for examples.
+- Add an tag Entry in `/apps/jcr-hopper/script-builder/scripts/.content.xml` file for your new json and by defining user-friendly label for Sample script as `jcr:title`. Check this file on how it is added for previous sample script jsons.
 
-<img src="./docs/additional-samples.png">
-
-Content structure of additional-samples.json would look like below
+High level structure of Script json content
 
 ```json
-[
-	{
-		"label": "Sample Script",
-		"config": {
-			"logLevel": "info",
-			"hops": [],
-			"parameters": []
-		}
-	},
-	{
-		"label": "Sample Script 2",
-		"config": {
-			"logLevel": "info",
-			"hops": [],
-			"parameters": []
-		}
-	}
-]
+{
+	"logLevel": "info",
+	"hops": [],
+	"parameters": []
+}
 ```
 
 #### Configuring a builder

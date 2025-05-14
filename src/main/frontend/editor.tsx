@@ -11,11 +11,15 @@ patchCoralUiCreateElement();
 
 function init() {
 	const target = document.querySelector<HTMLElement>('.jcr-hopper-builder')!;
-	const { runEndpoint, validScriptingLanguages } = target.dataset;
+	const { runEndpoint, validScriptingLanguages, sampleScripts } = target.dataset;
 	const root = createRoot(target.parentElement!.parentElement!);
 	root.render(
 		<React.StrictMode>
-			<App runEndpoint={runEndpoint!} validScriptingLanguages={JSON.parse(validScriptingLanguages || '{}')}></App>
+			<App
+				runEndpoint={runEndpoint!}
+				validScriptingLanguages={JSON.parse(validScriptingLanguages || '{}')}
+				sampleScripts={JSON.parse(sampleScripts || '[]')}
+			></App>
 		</React.StrictMode>,
 	);
 }

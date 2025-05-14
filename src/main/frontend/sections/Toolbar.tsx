@@ -3,10 +3,10 @@ import React, { FC, useContext } from 'react';
 import { styled } from 'goober';
 import { useCopyToClipboard } from '@uidotdev/usehooks';
 
-import { ScriptContext } from '../App';
-import { INITIAL_SCRIPT } from '../model/Script';
+import { EnvironmentContext, ScriptContext } from '../App';
+import { INITIAL_SCRIPT, Script } from '../model/Script';
 import { Picker } from '../widgets/Picker';
-import { useSamples } from '../hooks/useSamples';
+import { Sample, SAMPLES } from '../model/samples';
 
 const Elm = styled('div')`
 	display: flex;
@@ -16,8 +16,27 @@ export const Toolbar: FC = () => {
 	const scriptContext = useContext(ScriptContext);
 	const script = scriptContext.draft;
 
+	const samples: Sample[] = fetchSamples();
 	const [, copy] = useCopyToClipboard();
-	const [samples] = useSamples();
+
+	function fetchSamples() {
+		try {
+			const environmentContext = useContext(EnvironmentContext);
+			const dataSampleScripts = environmentContext.sampleScripts;
+			if (Array.isArray(dataSampleScripts)) {
+				const additionalSamples = dataSampleScripts.map(item => ({
+					label: item['label'] ?? 'Sample',
+					config: JSON.parse(item['configJson'] ?? '{}') as Script,
+				}));
+				return [...SAMPLES, ...additionalSamples];
+			} else {
+				return SAMPLES;
+			}
+		} catch (error) {
+			console.error('Error fetching additional samples:', error);
+			return SAMPLES;
+		}
+	}
 
 	const handlePaste = async () => {
 		try {
