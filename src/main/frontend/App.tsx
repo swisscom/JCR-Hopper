@@ -12,7 +12,7 @@ import { ScriptEditor } from './sections/ScriptEditor';
 export const EnvironmentContext = createContext({
 	runEndpoint: '/',
 	validScriptingLanguages: {} as Record<string, string>,
-	sampleScripts: [] as { label: string; configJson: string }[],
+	sampleScripts: [] as Array<Record<string, string>>,
 });
 export const ScriptContext = createContext<HistoryUpdater<Script>>(null!);
 
@@ -85,7 +85,7 @@ const RootElement = styled('div')`
 export const App: FC<{
 	runEndpoint: string;
 	validScriptingLanguages: Record<string, string>;
-	sampleScripts: { label: string; configJson: string }[];
+	sampleScripts: Array<Record<string, string>>;
 }> = props => {
 	const initialScript = useOnce(getInitialScript);
 
