@@ -22,6 +22,14 @@ Alternatively, if you don’t want the script builder GUI, you can also only dep
 
 Running a script requires a script (either as a JSON-encoded string or as an instance of `com.swisscom.aem.tools.jcrhopper.config.Script`) and a runner (`com.swisscom.aem.tools.jcrhopper.Runner`).
 
+#### Creating a script
+
+JCR hopper scripts comprise the following:
+
+- A log level that determines which log messages are sent to the run handler.
+- A list of hop configs that are run against a given node. Hops can also have their own descendant pipelines of hop configs.
+- A list of parameters that the script supports. Parameters always have a default value, thus passing arguments to the script runner is always optional. Each parameter also has a name, a script builder input type hint and an evaluation type that determines how the default values／arguments are to be interpreted.
+
 #### Creating a sample script
 
 JCR hopper sample scripts comprise the following:
