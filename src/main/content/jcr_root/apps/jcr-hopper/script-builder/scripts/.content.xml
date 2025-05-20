@@ -9,73 +9,67 @@
 	jcr:primaryType="nt:folder"
 >
 	<samples jcr:primaryType="nt:folder">
-		<add-node.json jcr:mixinTypes="[mix:title]" jcr:title="Sample: Add Node" jcr:primaryType="nt:file">
+		<add-node.json jcr:mixinTypes="[mix:title]" jcr:title="Add Node" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</add-node.json>
-		<add-or-replace-property.json jcr:mixinTypes="[mix:title]" jcr:title="Sample: Add or replace property" jcr:primaryType="nt:file">
+		<add-or-replace-property.json jcr:mixinTypes="[mix:title]" jcr:title="Add or replace property" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</add-or-replace-property.json>
-		<batch-search-and-replace.json jcr:mixinTypes="[mix:title]" jcr:title="Sample: Batch search and replace" jcr:primaryType="nt:file">
+		<batch-search-and-replace.json jcr:mixinTypes="[mix:title]" jcr:title="Batch search and replace" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</batch-search-and-replace.json>
-		<check-hardcoded-urls.json jcr:mixinTypes="[mix:title]" jcr:title="Sample: Check hardcoded URLs" jcr:primaryType="nt:file">
+		<change-value.json jcr:mixinTypes="[mix:title]" jcr:title="Batch search and replace" jcr:primaryType="nt:file">
+			<jcr:content jcr:primaryType="nt:resource" />
+		</change-value.json>
+		<check-hardcoded-urls.json jcr:mixinTypes="[mix:title]" jcr:title="Check hardcoded URLs" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</check-hardcoded-urls.json>
 		<create-missing-jcr-content-nodes.json
 			jcr:mixinTypes="[mix:title]"
-			jcr:title="Sample: Create missing jcr:content nodes for pages"
+			jcr:title="Create missing jcr:content nodes for pages"
 			jcr:primaryType="nt:file"
 		>
 			<jcr:content jcr:primaryType="nt:resource" />
 		</create-missing-jcr-content-nodes.json>
-		<delete-nodes.json jcr:mixinTypes="[mix:title]" jcr:title="Sample: Delete nodes" jcr:primaryType="nt:file">
+		<delete-nodes.json jcr:mixinTypes="[mix:title]" jcr:title="Delete nodes" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</delete-nodes.json>
-		<find-component-and-page.json
-			jcr:mixinTypes="[mix:title]"
-			jcr:title="Sample: Find component and page using JOIN"
-			jcr:primaryType="nt:file"
-		>
+		<find-component-and-page.json jcr:mixinTypes="[mix:title]" jcr:title="Find component and page using JOIN" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</find-component-and-page.json>
-		<migrate-page-template.json jcr:mixinTypes="[mix:title]" jcr:title="Sample: Migrate page template" jcr:primaryType="nt:file">
+		<migrate-page-template.json jcr:mixinTypes="[mix:title]" jcr:title="Migrate page template" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</migrate-page-template.json>
-		<migrate-resource-type.json jcr:mixinTypes="[mix:title]" jcr:title="Sample: Migrate resource type" jcr:primaryType="nt:file">
+		<migrate-resource-type.json jcr:mixinTypes="[mix:title]" jcr:title="Migrate resource type" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</migrate-resource-type.json>
-		<remove-deprecated-legacy-urls.json
-			jcr:mixinTypes="[mix:title]"
-			jcr:title="Sample: Remove deprecated legacy URLs"
-			jcr:primaryType="nt:file"
-		>
+		<remove-deprecated-legacy-urls.json jcr:mixinTypes="[mix:title]" jcr:title="Remove deprecated legacy URLs" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</remove-deprecated-legacy-urls.json>
 		<remove-gulp-packages.json
 			jcr:mixinTypes="[mix:title]"
-			jcr:title="Sample: Remove temporary packages created by gulp"
+			jcr:title="Remove temporary packages created by gulp"
 			jcr:primaryType="nt:file"
 		>
 			<jcr:content jcr:primaryType="nt:resource" />
 		</remove-gulp-packages.json>
-		<remove-min-js.json jcr:mixinTypes="[mix:title]" jcr:title="Sample: Remove all minified JavaScript files" jcr:primaryType="nt:file">
+		<remove-min-js.json jcr:mixinTypes="[mix:title]" jcr:title="Remove all minified JavaScript files" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</remove-min-js.json>
-		<rename-node.json jcr:mixinTypes="[mix:title]" jcr:title="Sample: Rename node" jcr:primaryType="nt:file">
+		<rename-node.json jcr:mixinTypes="[mix:title]" jcr:title="Rename node" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</rename-node.json>
-		<rename-property.json jcr:mixinTypes="[mix:title]" jcr:title="Sample: Rename property" jcr:primaryType="nt:file">
+		<rename-property.json jcr:mixinTypes="[mix:title]" jcr:title="Rename property" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</rename-property.json>
-		<replace-h1-with-h2.json
-			jcr:mixinTypes="[mix:title]"
-			jcr:title="Sample: Replace H1 with H2 in text components"
-			jcr:primaryType="nt:file"
-		>
+		<replace-h1-with-h2.json jcr:mixinTypes="[mix:title]" jcr:title="Replace H1 with H2 in text components" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</replace-h1-with-h2.json>
-		<update-build-timestamp.json jcr:mixinTypes="[mix:title]" jcr:title="Sample: Update build timestamp" jcr:primaryType="nt:file">
+		<update-build-timestamp.json jcr:mixinTypes="[mix:title]" jcr:title="Update build timestamp" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</update-build-timestamp.json>
+		<value-finder.json jcr:mixinTypes="[mix:title]" jcr:title="Batch search and replace" jcr:primaryType="nt:file">
+			<jcr:content jcr:primaryType="nt:resource" />
+		</value-finder.json>
 	</samples>
 </jcr:root>
