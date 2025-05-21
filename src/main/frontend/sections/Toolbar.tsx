@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useMemo } from 'react';
 
 import { styled } from 'goober';
 import { useCopyToClipboard } from '@uidotdev/usehooks';
@@ -15,28 +15,24 @@ const Elm = styled('div')`
 export const Toolbar: FC = () => {
 	const scriptContext = useContext(ScriptContext);
 	const script = scriptContext.draft;
-
-	const samples: Sample[] = fetchSamples();
-	const [, copy] = useCopyToClipboard();
+	const environmentContext = useContext(EnvironmentContext);
 
 	function fetchSamples() {
 		try {
-			const environmentContext = useContext(EnvironmentContext);
 			const dataSampleScripts = environmentContext.sampleScripts;
-			if (Array.isArray(dataSampleScripts)) {
-				const additionalSamples = dataSampleScripts.map(item => ({
-					label: item['label'] ?? 'Sample',
-					config: JSON.parse(item['configJson'] ?? '{}') as Script,
-				}));
-				return [...SAMPLES, ...additionalSamples];
-			} else {
-				return SAMPLES;
-			}
+			const additionalSamples = dataSampleScripts.map(item => ({
+				label: item['label'] ?? 'Sample',
+				config: JSON.parse(item['configJson'] ?? '{}') as Script,
+			}));
+			return [...SAMPLES, ...additionalSamples];
 		} catch (error) {
 			console.error('Error fetching additional samples:', error);
 			return SAMPLES;
 		}
 	}
+
+	const samples: Sample[] = useMemo(fetchSamples, [environmentContext.sampleScripts]);
+	const [, copy] = useCopyToClipboard();
 
 	const handlePaste = async () => {
 		try {
@@ -81,7 +77,7 @@ export const Toolbar: FC = () => {
 				title="Add Hop to Script"
 				buttonAttributes={{ icon: 'addChildPanel', is: 'coral-button' }}
 				picked={handleAddHop}
-				items={samples.map(({ label }, i) => [String(i), label])}
+				items={samples.map(({ label }, i) => [String(i), 'Sample : ' + label])}
 			/>
 			<span className="flex-spacer"></span>
 			<button is="coral-button" icon="undo" disabled={scriptContext.canUndo ? undefined : true} onClick={scriptContext.undo}>

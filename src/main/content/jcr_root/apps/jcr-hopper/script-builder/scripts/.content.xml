@@ -18,7 +18,7 @@
 		<batch-search-and-replace.json jcr:mixinTypes="[mix:title]" jcr:title="Batch search and replace" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</batch-search-and-replace.json>
-		<change-value.json jcr:mixinTypes="[mix:title]" jcr:title="Batch search and replace" jcr:primaryType="nt:file">
+		<change-value.json jcr:mixinTypes="[mix:title]" jcr:title="Change Property Value" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</change-value.json>
 		<check-hardcoded-urls.json jcr:mixinTypes="[mix:title]" jcr:title="Check hardcoded URLs" jcr:primaryType="nt:file">
@@ -68,7 +68,7 @@
 		<update-build-timestamp.json jcr:mixinTypes="[mix:title]" jcr:title="Update build timestamp" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</update-build-timestamp.json>
-		<value-finder.json jcr:mixinTypes="[mix:title]" jcr:title="Batch search and replace" jcr:primaryType="nt:file">
+		<value-finder.json jcr:mixinTypes="[mix:title]" jcr:title="Value Finder" jcr:primaryType="nt:file">
 			<jcr:content jcr:primaryType="nt:resource" />
 		</value-finder.json>
 	</samples>
