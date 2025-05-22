@@ -26,9 +26,19 @@ Running a script requires a script (either as a JSON-encoded string or as an ins
 
 JCR hopper scripts comprise the following:
 
-- A log level that determines which log messages are sent to the run handler.
-- A list of hop configs that are run against a given node. Hops can also have their own descendant pipelines of hop configs.
-- A list of parameters that the script supports. Parameters always have a default value, thus passing arguments to the script runner is always optional. Each parameter also has a name, a script builder input type hint and an evaluation type that determines how the default values／arguments are to be interpreted.
+- A `log level` that determines which log messages are sent to the run handler.
+- A `list of hop configs` that are run against a given node. Hops can also have their own descendant pipelines of hop configs.
+- A `list of parameters` that the script supports. Parameters always have a default value, thus passing arguments to the script runner is always optional. Each parameter also has a name, a script builder input type hint and an evaluation type that determines how the default values／arguments are to be interpreted.
+
+High level structure of Script json content
+
+```json
+{
+	"logLevel": "info",
+	"hops": [],
+	"parameters": []
+}
+```
 
 #### Configuring a builder
 
@@ -91,6 +101,13 @@ curl -X POST -F "_script=@/path/to/script.json" -F "_commit=$DO_COMMIT" "$AEM_IN
 Additional arguments can also be passed with `-F`.
 
 <small>Note: Usually, POST requests are subject to the CSRF filter, thus a `:cq_csrf_token` would need to be added. However, the default configuration allowlists the cURL user agent to not require that.</small>
+
+#### Add a new sample script
+
+You can add a new Sample script for your project as well. Follow below steps to add a new sample.
+
+- Add your script (see [Creating a script](#Creating a script) above) as a JSON file under `/apps/jcr-hopper/script-builder/scripts/<your project folder>/`.
+- If you need a custom title then set a `jcr:title` & add `mix:title" mixin` to your json file node.
 
 ## Expression Syntax
 

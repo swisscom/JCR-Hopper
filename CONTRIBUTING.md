@@ -45,11 +45,18 @@ To run the editor GUI independently of AEM (and with mocked responses), the watc
 1. Install the NPM dependencies using `./gradlew npmInstall` (`npm ci` would also work but the Gradle task is preferred because it will use Gradle’s up-to-date checking mechanism).
 2. Run `npm run watch` to start both the development server and the JS bundler (parcel) in watch + hot reload mode.
 
+#### Adding a new Sample script
+
+Common reusable scripts could be contributed to JCR Hopper repo.
+
+- Add your script (see [Creating a script](./README.md#Creating a script)) as a JSON file under `/apps/jcr-hopper/script-builder/scripts/samples/`.
+- Add a custom title by setting a `jcr:title` & adding `mix:title" mixin` to json file node.
+
 ### Commit Guidelines
 
 All your commits must follow the [conventional commit message format](https://www.conventionalcommits.org/en/v1.0.0/#summary).
 
-Valid scopes for this project are:
+Valid scopes for this project ae:
 
 - `editor`: changes to the script editor GUI
 - `runner`: changes to the script execution logic

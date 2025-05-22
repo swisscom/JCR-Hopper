@@ -1,12 +1,12 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useMemo } from 'react';
 
 import { styled } from 'goober';
 import { useCopyToClipboard } from '@uidotdev/usehooks';
 
-import { ScriptContext } from '../App';
-import { INITIAL_SCRIPT } from '../model/Script';
+import { EnvironmentContext, ScriptContext } from '../App';
+import { INITIAL_SCRIPT, Script } from '../model/Script';
 import { Picker } from '../widgets/Picker';
-import { SAMPLES } from '../model/samples';
+import { Sample, SAMPLES } from '../model/samples';
 
 const Elm = styled('div')`
 	display: flex;
@@ -15,8 +15,48 @@ const Elm = styled('div')`
 export const Toolbar: FC = () => {
 	const scriptContext = useContext(ScriptContext);
 	const script = scriptContext.draft;
+	const environmentContext = useContext(EnvironmentContext);
 
+	function fetchSamples() {
+		try {
+			const dataSampleScripts = environmentContext.sampleScripts;
+			const additionalSamples = dataSampleScripts.map(item => ({
+				label: item['label'] ?? 'Sample',
+				config: JSON.parse(item['configJson'] ?? '{}') as Script,
+			}));
+			return [...SAMPLES, ...additionalSamples];
+		} catch (error) {
+			console.error('Error fetching additional samples:', error);
+			return SAMPLES;
+		}
+	}
+
+	const samples: Sample[] = useMemo(fetchSamples, [environmentContext.sampleScripts]);
 	const [, copy] = useCopyToClipboard();
+
+	const handlePaste = async () => {
+		try {
+			const json = await navigator.clipboard.readText();
+			const state = JSON.parse(json);
+			if (typeof state !== 'object') throw new Error(`Pasted JSON is not an object: ${json}`);
+
+			if (Array.isArray(state)) {
+				script.hops.push(...state);
+				scriptContext.commit();
+			} else {
+				scriptContext.replace({ ...INITIAL_SCRIPT, ...state });
+			}
+		} catch (e) {
+			console.error('Could not paste script', e);
+		}
+	};
+
+	const handleAddHop = (value: string) => {
+		const sampleScript = samples[Number(value)]!.config;
+		script.hops.push(...sampleScript.hops);
+		script.parameters.push(...sampleScript.parameters);
+		scriptContext.commit();
+	};
 
 	return (
 		<Elm className="toolbar">
@@ -29,43 +69,15 @@ export const Toolbar: FC = () => {
 			>
 				Copy
 			</button>
-			<button
-				is="coral-button"
-				icon="paste"
-				onClick={async () => {
-					try {
-						const json = await navigator.clipboard.readText();
-						const state = JSON.parse(json);
-						// Sanity check
-						if (typeof state !== 'object') {
-							throw new Error(`Pasted JSON is not an object: ${json}`);
-						}
-						if (Array.isArray(state)) {
-							// Assume steps were pasted in
-							script.hops.push(...state);
-							scriptContext.commit();
-						} else {
-							// Otherwise, it’s likely a complete script
-							scriptContext.replace({ ...INITIAL_SCRIPT, ...state });
-						}
-					} catch (e) {
-						console.error('Could not paste script', e);
-					}
-				}}
-			>
+			<button is="coral-button" icon="paste" onClick={handlePaste}>
 				Paste
 			</button>
 			<Picker
 				buttonLabel="Add"
 				title="Add Hop to Script"
 				buttonAttributes={{ icon: 'addChildPanel', is: 'coral-button' }}
-				picked={value => {
-					const sampleScript = SAMPLES[Number(value)]!.config;
-					script.hops.push(...sampleScript.hops);
-					script.parameters.push(...sampleScript.parameters);
-					scriptContext.commit();
-				}}
-				items={SAMPLES.map(({ label }, i) => [String(i), label])}
+				picked={handleAddHop}
+				items={samples.map(({ label }, i) => [String(i), 'Sample : ' + label])}
 			/>
 			<span className="flex-spacer"></span>
 			<button is="coral-button" icon="undo" disabled={scriptContext.canUndo ? undefined : true} onClick={scriptContext.undo}>

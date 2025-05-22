@@ -12,6 +12,7 @@ import { ScriptEditor } from './sections/ScriptEditor';
 export const EnvironmentContext = createContext({
 	runEndpoint: '/',
 	validScriptingLanguages: {} as Record<string, string>,
+	sampleScripts: [] as { label: string; configJson: string }[],
 });
 export const ScriptContext = createContext<HistoryUpdater<Script>>(null!);
 
@@ -81,7 +82,11 @@ const RootElement = styled('div')`
 	}
 `;
 
-export const App: FC<{ runEndpoint: string; validScriptingLanguages: Record<string, string> }> = props => {
+export const App: FC<{
+	runEndpoint: string;
+	validScriptingLanguages: Record<string, string>;
+	sampleScripts: { label: string; configJson: string }[];
+}> = props => {
 	const initialScript = useOnce(getInitialScript);
 
 	const scriptContext = useHistoryImmutable(initialScript, current => {

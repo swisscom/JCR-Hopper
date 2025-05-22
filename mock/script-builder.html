@@ -43,6 +43,7 @@
 											class="jcr-hopper-builder"
 											data-run-endpoint="/mock/mock-response.jsonl"
 											data-valid-scripting-languages='{"js": "JavaScript", "jexl": "JEXL", "groovy": "Groovy"}'
+											data-sample-scripts='[{"label":"Remove all minified JavaScript files","configJson":"{\n\t\"hops\": [\n\t\t{\n\t\t\t\"type\": \"nodeQuery\",\n\t\t\t\"query\": \"SELECT * FROM [cq:ClientLibraryFolder]\",\n\t\t\t\"queryType\": \"JCR-SQL2\",\n\t\t\t\"hops\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"resolveNode\",\n\t\t\t\t\t\"conflict\": \"ignore\",\n\t\t\t\t\t\"name\": \"..\",\n\t\t\t\t\t\"hops\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"type\": \"childNodes\",\n\t\t\t\t\t\t\t\"hops\": [\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"type\": \"filterNode\",\n\t\t\t\t\t\t\t\t\t\"expression\": \"str:contains(node.name, \u0027.min.js\u0027)\",\n\t\t\t\t\t\t\t\t\t\"hops\": [\n\t\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\t\t\"type\": \"moveNode\",\n\t\t\t\t\t\t\t\t\t\t\t\"conflict\": \"ignore\",\n\t\t\t\t\t\t\t\t\t\t\t\"newName\": \"/dev/null\"\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t],\n\t\"logLevel\": \"warn\",\n\t\"parameters\": []\n}"}]'
 										></div>
 									</div>
 								</div>
