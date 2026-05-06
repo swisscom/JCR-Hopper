@@ -1,6 +1,5 @@
 import React, { ButtonHTMLAttributes, FC, ReactNode, useEffect, useId, useRef, JSX } from 'react';
 import { Options } from './Select';
-import type { CoralIcon } from '../coral/custom-elements';
 
 export const Picker: FC<{
 	items: Options;
@@ -22,7 +21,8 @@ export const Picker: FC<{
 		}
 
 		function selectlistChanged(e: Event) {
-			const item = e.target as HTMLOptionElement;
+			const item = (e.target as HTMLElement).closest<HTMLElement & { value: string; selected: boolean }>('coral-selectlist-item');
+			if (!item) return;
 			popover!.open = false;
 			picked(item.value);
 			item.selected = false;
